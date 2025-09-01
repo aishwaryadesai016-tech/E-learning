@@ -1,7 +1,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Home, LogOut, Menu, Bell } from "lucide-react";
+import { Home, LogOut, Menu, Bell, LayoutDashboard } from "lucide-react";
 import Link from "next/link";
 import { Logo } from "@/components/logo";
 
@@ -18,7 +18,14 @@ export default function CoursesLayout({
             <Logo />
           </div>
           <div className="flex-1">
-            <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
+            <nav className="grid items-start px-2 text-sm font-medium lg:px-4 gap-2">
+              <Link
+                href="/dashboard"
+                className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
+              >
+                <LayoutDashboard className="h-4 w-4" />
+                Dashboard
+              </Link>
               <Link
                 href="/courses"
                 className="flex items-center gap-3 rounded-lg bg-muted px-3 py-2 text-primary transition-all hover:text-primary"
@@ -62,7 +69,14 @@ export default function CoursesLayout({
               <div className="mb-6">
                 <Logo />
               </div>
-              <nav className="grid gap-2 text-lg font-medium">
+              <nav className="grid gap-4 text-lg font-medium">
+                <Link
+                  href="/dashboard"
+                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-foreground hover:text-foreground"
+                >
+                  <LayoutDashboard className="h-5 w-5" />
+                  Dashboard
+                </Link>
                 <Link
                   href="/courses"
                   className="mx-[-0.65rem] flex items-center gap-4 rounded-xl bg-muted px-3 py-2 text-foreground hover:text-foreground"

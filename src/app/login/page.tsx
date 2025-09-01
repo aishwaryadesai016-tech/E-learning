@@ -48,7 +48,7 @@ export default function LoginPage() {
         </CardContent>
         <CardFooter className="flex flex-col gap-4">
           <Button className="w-full" asChild>
-            <Link href="/courses">Log In</Link>
+            <Link href="/dashboard">Log In</Link>
           </Button>
           <div className="text-center text-sm">
             Don&apos;t have an account?{" "}

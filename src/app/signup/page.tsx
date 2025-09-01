@@ -52,7 +52,7 @@ export default function SignupPage() {
         </CardContent>
         <CardFooter className="flex flex-col gap-4">
           <Button className="w-full" asChild>
-            <Link href="/courses">Sign Up</Link>
+            <Link href="/dashboard">Sign Up</Link>
           </Button>
           <div className="text-center text-sm">
             Already have an account?{" "}
