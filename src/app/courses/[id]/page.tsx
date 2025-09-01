@@ -4,7 +4,7 @@ import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { RelatedCourses } from "@/components/related-courses";
 import { Button } from "@/components/ui/button";
-import { Star } from "lucide-react";
+import { Star, BookOpen } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -12,6 +12,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion"
 import { Suspense } from "react";
 import CourseDetailLoading from "./loading";
 
@@ -62,6 +68,27 @@ export default async function CourseDetailPage({
                 </Badge>
               ))}
             </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+             <div className="flex items-center gap-2">
+                <BookOpen className="h-6 w-6" />
+                <CardTitle className="font-headline text-xl">Chapters</CardTitle>
+            </div>
+          </CardHeader>
+          <CardContent>
+             <Accordion type="single" collapsible className="w-full">
+              {course.chapters.map((chapter, index) => (
+                <AccordionItem key={index} value={`item-${index}`}>
+                  <AccordionTrigger>{chapter.title}</AccordionTrigger>
+                  <AccordionContent>
+                    {chapter.content}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
           </CardContent>
         </Card>
 
