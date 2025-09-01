@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { RelatedCourses } from "@/components/related-courses";
-import { BookOpen, Info, Star } from "lucide-react";
+import { BookOpen, Info, Star, BrainCircuit } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -20,6 +20,7 @@ import { Suspense } from "react";
 import CourseDetailLoading from "./loading";
 import { CourseRating } from "@/components/course-rating";
 import { Separator } from "@/components/ui/separator";
+import { CourseQuiz } from "@/components/course-quiz";
 
 export default async function CourseDetailPage({
   params,
@@ -98,7 +99,7 @@ export default async function CourseDetailPage({
                     <span className="text-left">Chapter {index + 1}: {chapter.title}</span>
                 </AccordionTrigger>
                 <AccordionContent className="text-base text-muted-foreground prose prose-sm max-w-none">
-                   <div dangerouslySetInnerHTML={{ __html: chapter.content.replace(/\n/g, '&lt;br /&gt;') }} />
+                   <div dangerouslySetInnerHTML={{ __html: chapter.content.replace(/\n/g, '<br />') }} />
                 </AccordionContent>
                 </AccordionItem>
             ))}
@@ -115,6 +116,19 @@ export default async function CourseDetailPage({
             </div>
             <CourseRating />
         </section>
+        
+        <Separator />
+
+        {/* Quiz Section */}
+        <section>
+            <div className="flex items-center gap-3 mb-4">
+                <BrainCircuit className="h-6 w-6 text-primary" />
+                <h2 className="font-headline text-2xl font-semibold">Test Your Knowledge</h2>
+            </div>
+            <Suspense fallback={<QuizSkeleton />}>
+                <CourseQuiz courseTitle={course.title} courseContent={fullCourseContent} />
+            </Suspense>
+        </section>
       </div>
       
       <Separator />
@@ -124,6 +138,23 @@ export default async function CourseDetailPage({
       </Suspense>
     </div>
   );
+}
+
+function QuizSkeleton() {
+    return (
+        <Card>
+          <CardHeader>
+            <Skeleton className="h-6 w-1/2" />
+            <Skeleton className="h-4 w-full" />
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <Skeleton className="h-10 w-full" />
+            <Skeleton className="h-10 w-full" />
+            <Skeleton className="h-10 w-full" />
+            <Skeleton className="h-10 w-full" />
+          </CardContent>
+        </Card>
+    )
 }
 
 function RelatedCoursesSkeleton() {
