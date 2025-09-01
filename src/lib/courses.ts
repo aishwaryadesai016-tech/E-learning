@@ -21,19 +21,19 @@ export const courses: Course[] = [
     chapters: [
       { 
         title: "Getting Started", 
-        content: "Welcome to the world of Python! First, you'll need to set up your environment. Download the latest version of Python from python.org. The installer includes IDLE, a basic development environment, and 'pip', Python's package installer. It's best practice to work within a virtual environment to manage project dependencies. Create one using `python -m venv myenv` and activate it. To write your first program, open a text file, save it as 'hello.py', and type: `print('Hello, World!')`. Run it from your terminal using `python hello.py`. Congratulations, you're a Python programmer!" 
+        content: "Welcome to the world of Python! First, you'll need to set up your environment. Download the latest version of Python from python.org.\n\nThe installer includes IDLE, a basic development environment, and 'pip', Python's package installer. It's best practice to work within a virtual environment to manage project dependencies. Create one using `python -m venv myenv` and activate it.\n\nTo write your first program, open a text file, save it as 'hello.py', and type:\n\n```python\nprint('Hello, World!')\n```\n\nRun it from your terminal using `python hello.py`. Congratulations, you're a Python programmer!"
       },
       { 
         title: "Variables and Data Types", 
-        content: "Variables are containers for storing data values. Python has various built-in data types. Numbers can be integers (e.g., `5`), floats (e.g., `3.14`), and complex numbers. Strings are sequences of characters, enclosed in single or double quotes (e.g., `'hello'`). Booleans represent truth values: `True` or `False`. Python also has powerful collection types like lists (mutable, ordered, e.g., `[1, 'apple', True]`), tuples (immutable, ordered, e.g., `(1, 'apple')`), and dictionaries (key-value pairs, e.g., `{'key': 'value'}`)." 
+        content: "Variables are containers for storing data values. Python has various built-in data types. Numbers can be integers (e.g., `5`), floats (e.g., `3.14`), and complex numbers.\n\nStrings are sequences of characters, enclosed in single or double quotes (e.g., `'hello'`). Booleans represent truth values: `True` or `False`.\n\nPython also has powerful collection types like lists (mutable, ordered), tuples (immutable, ordered), and dictionaries (key-value pairs):\n\n```python\nmy_list = [1, 'apple', True]\nmy_tuple = (1, 'apple')\nmy_dict = {'key': 'value'}\n```"
       },
       { 
         title: "Control Flow", 
-        content: "Control flow statements allow you to execute code based on conditions. The `if` statement runs a block of code only if a condition is true. Use `elif` for additional conditions and `else` for an alternative block. For repetition, `for` loops iterate over a sequence (like a list), and `while` loops continue as long as a condition is true. You can nest loops and conditional statements for more complex logic. Example: `for i in range(5): if i % 2 == 0: print(f'{i} is even')`."
+        content: "Control flow statements allow you to execute code based on conditions. The `if` statement runs a block of code only if a condition is true. Use `elif` for additional conditions and `else` for an alternative block.\n\nFor repetition, `for` loops iterate over a sequence (like a list), and `while` loops continue as long as a condition is true.\n\n```python\nfor i in range(5):\n  if i % 2 == 0:\n    print(f'{i} is even')\n  else:\n    print(f'{i} is odd')\n```"
       },
       { 
         title: "Functions", 
-        content: "Functions are reusable blocks of code that perform a specific action. You define a function using the `def` keyword, followed by a name and parentheses. You can pass data, known as parameters, into a function, and they can have default values (e.g., `def greet(name='Guest')`). A function can return data using the `return` keyword. Variables defined inside a function have local scope, meaning they only exist within that function." 
+        content: "Functions are reusable blocks of code that perform a specific action. You define a function using the `def` keyword, followed by a name and parentheses. You can pass data, known as parameters, into a function, and they can have default values.\n\nA function can return data using the `return` keyword. Variables defined inside a function have local scope, meaning they only exist within that function.\n\n```python\ndef greet(name='Guest'):\n  return f'Hello, {name}!'\n\nmessage = greet('Alice')\nprint(message) # Output: Hello, Alice!\n```"
       },
     ],
   },
@@ -48,15 +48,15 @@ export const courses: Course[] = [
     chapters: [
       { 
         title: "Introduction to Data Structures", 
-        content: "This chapter reviews fundamental data structures like Arrays, LinkedLists, Stacks, and Queues. We'll introduce Asymptotic Analysis (Big O, Big Omega, Big Theta) to measure the efficiency of algorithms in terms of time and space complexity. For example, accessing an element in an array is O(1), while in a linked list it's O(n). This is crucial for selecting the right data structure." 
+        content: "This chapter reviews fundamental data structures like Arrays, LinkedLists, Stacks, and Queues. We'll introduce Asymptotic Analysis (Big O, Big Omega, Big Theta) to measure the efficiency of algorithms in terms of time and space complexity.\n\nFor example, accessing an element in an array is O(1), while in a linked list it's O(n). This is crucial for selecting the right data structure."
       },
       { 
         title: "Trees and Tries", 
-        content: "Trees are hierarchical data structures. We'll focus on Binary Search Trees (BSTs), covering insertion, deletion, and traversal (in-order, pre-order, post-order). To ensure O(log n) performance, we will cover self-balancing trees like AVL trees, which maintain balance using rotations. We'll also implement Tries (prefix trees), specialized for efficient string retrieval and auto-completion tasks." 
+        content: "Trees are hierarchical data structures. We'll focus on Binary Search Trees (BSTs), covering insertion, deletion, and traversal (in-order, pre-order, post-order). To ensure O(log n) performance, we will cover self-balancing trees like AVL trees, which maintain balance using rotations.\n\nWe'll also implement Tries (prefix trees), specialized for efficient string retrieval and auto-completion tasks." 
       },
       { 
         title: "Heaps and Priority Queues", 
-        content: "A Heap is a tree-based data structure that satisfies the heap property. We will implement binary heaps (min-heaps and max-heaps) using arrays. Key operations include `insert` (heapify-up) and `extract-min/max` (heapify-down). Heaps are the perfect underlying structure for Priority Queues, an abstract data type essential for algorithms like Dijkstra's." 
+        content: "A Heap is a tree-based data structure that satisfies the heap property. We will implement binary heaps (min-heaps and max-heaps) using arrays. Key operations include `insert` (heapify-up) and `extract-min/max` (heapify-down).\n\n```java\nPriorityQueue<Integer> minHeap = new PriorityQueue<>();\nminHeap.add(10);\nminHeap.add(5);\nSystem.out.println(minHeap.peek()); // 5\n```\n\nHeaps are the perfect underlying structure for Priority Queues, an abstract data type essential for algorithms like Dijkstra's."
       },
       { 
         title: "Graphs", 
@@ -75,19 +75,19 @@ export const courses: Course[] = [
     chapters: [
       { 
         title: "Foundations of Machine Learning", 
-        content: "Machine learning involves training models on data to make predictions. We'll cover the full workflow: data collection, cleaning (handling missing values, feature scaling), and splitting data into training and testing sets. Supervised learning uses labeled data for tasks like classification and regression. Unsupervised learning finds patterns in unlabeled data, for tasks like clustering. We'll also discuss the bias-variance tradeoff."
+        content: "Machine learning involves training models on data to make predictions. We'll cover the full workflow: data collection, cleaning (handling missing values, feature scaling), and splitting data into training and testing sets.\n\nSupervised learning uses labeled data for tasks like classification and regression. Unsupervised learning finds patterns in unlabeled data, for tasks like clustering. We'll also discuss the bias-variance tradeoff."
       },
       { 
         title: "Regression Models", 
-        content: "Regression predicts a continuous output. We'll implement Linear Regression from scratch to understand its mechanics, then use Scikit-Learn's implementation. We'll explore regularization techniques like Ridge and Lasso to prevent overfitting. You'll learn to evaluate models using metrics like Mean Squared Error (MSE), Root Mean Squared Error (RMSE), and R-squared."
+        content: "Regression predicts a continuous output. We'll implement Linear Regression from scratch to understand its mechanics, then use Scikit-Learn's implementation.\n\n```python\nfrom sklearn.linear_model import LinearRegression\nfrom sklearn.model_selection import train_test_split\n\nX_train, X_test, y_train, y_test = train_test_split(X, y)\nmodel = LinearRegression()\nmodel.fit(X_train, y_train)\npredictions = model.predict(X_test)\n```\n\nWe'll explore regularization techniques like Ridge and Lasso to prevent overfitting and evaluate models using metrics like Mean Squared Error (MSE)."
       },
       { 
         title: "Classification Models", 
-        content: "Classification predicts a categorical label. This chapter covers: Logistic Regression, Support Vector Machines (SVMs) with different kernels, and ensemble methods like Random Forests, which combine multiple decision trees to improve accuracy and control overfitting. We will evaluate models using accuracy, precision, recall, F1-score, and ROC curves."
+        content: "Classification predicts a categorical label. This chapter covers: Logistic Regression, Support Vector Machines (SVMs) with different kernels, and ensemble methods like Random Forests, which combine multiple decision trees to improve accuracy and control overfitting.\n\nWe will evaluate models using accuracy, precision, recall, F1-score, and ROC curves."
       },
       { 
         title: "Clustering Algorithms", 
-        content: "Clustering is an unsupervised task that groups similar data points. We'll implement K-Means, discussing how to choose the optimal number of clusters (K) using the elbow method. We'll also cover DBSCAN, a density-based algorithm that can find arbitrarily shaped clusters and is robust to outliers, a key advantage over K-Means."
+        content: "Clustering is an unsupervised task that groups similar data points. We'll implement K-Means, discussing how to choose the optimal number of clusters (K) using the elbow method.\n\nWe'll also cover DBSCAN, a density-based algorithm that can find arbitrarily shaped clusters and is robust to outliers, a key advantage over K-Means."
       },
     ],
   },
@@ -102,19 +102,19 @@ export const courses: Course[] = [
     chapters: [
         { 
           title: "Building a REST API with Node.js and Express", 
-          content: "The backend is the engine of your application. We'll use Node.js and Express.js to create a RESTful API. You'll learn to define routes, handle HTTP requests (GET, POST, PUT, DELETE), and implement middleware for tasks like logging and error handling. We'll use tools like Postman to test our API endpoints and ensure they behave as expected."
+          content: "The backend is the engine of your application. We'll use Node.js and Express.js to create a RESTful API. You'll learn to define routes, handle HTTP requests, and implement middleware.\n\n```javascript\nconst express = require('express');\nconst app = express();\n\napp.get('/api/hello', (req, res) => {\n  res.json({ message: 'Hello from the server!' });\n});\n\napp.listen(3001, () => console.log('Server is running'));\n```\n\nWe'll use tools like Postman to test our API endpoints."
         },
         { 
           title: "Creating a Dynamic Frontend with React", 
-          content: "React is a library for building user interfaces with components. We'll cover JSX, props, and state. You'll learn the component lifecycle and use hooks like `useState` for state management, `useEffect` for side effects (like API calls), and `useContext` for passing data through the component tree without prop drilling. We'll use the `axios` library to communicate with our backend."
+          content: "React is a library for building user interfaces with components. We'll cover JSX, props, and state. You'll learn hooks like `useState`, `useEffect`, and `useContext`.\n\n```jsx\nimport React, { useState, useEffect } from 'react';\n\nfunction MyComponent() {\n  const [data, setData] = useState(null);\n\n  useEffect(() => {\n    fetch('/api/hello')\n      .then(res => res.json())\n      .then(setData);\n  }, []);\n\n  return <div>{data ? data.message : 'Loading...'}</div>;\n}\n```\nWe'll use `axios` or `fetch` to communicate with our backend."
         },
         { 
           title: "State Management with Redux", 
-          content: "As applications grow, managing state with `useState` can become cumbersome. Redux provides a predictable state container for the entire app. We will use Redux Toolkit, the recommended approach, to create 'slices' of state, write reducers with Immer to handle immutable updates easily, and dispatch actions to modify the state from our React components."
+          content: "As applications grow, managing state with `useState` can become cumbersome. Redux provides a predictable state container. We will use Redux Toolkit, the recommended approach, to create 'slices' of state, write reducers with Immer to handle immutable updates easily, and dispatch actions to modify the state."
         },
         { 
           title: "Connecting to MongoDB", 
-          content: "MongoDB is a NoSQL database that stores data in flexible, JSON-like documents. We'll use Mongoose, an Object Data Modeling (ODM) library, to define schemas and models for our data, which provides structure and validation. You will learn to perform CRUD (Create, Read, Update, Delete) operations and build more complex queries to interact with the database."
+          content: "MongoDB is a NoSQL database that stores data in flexible, JSON-like documents. We'll use Mongoose, an Object Data Modeling (ODM) library, to define schemas and models for our data, which provides structure and validation. You will learn to perform CRUD (Create, Read, Update, Delete) operations and build more complex queries."
         },
     ],
   },
@@ -129,15 +129,15 @@ export const courses: Course[] = [
     chapters: [
         { 
           title: "Basic SQL Queries", 
-          content: "SQL (Structured Query Language) is the standard for relational databases. This chapter introduces `SELECT`, `FROM`, and `WHERE` for data retrieval. You'll learn to filter with comparison operators (`=`, `>`, `<`), logical operators (`AND`, `OR`), and pattern matching with `LIKE`. We'll also cover sorting results with `ORDER BY` and limiting results with `LIMIT`."
+          content: "SQL (Structured Query Language) is the standard for relational databases. This chapter introduces `SELECT`, `FROM`, and `WHERE`.\n\n```sql\nSELECT FirstName, LastName, City\nFROM Customers\nWHERE Country = 'Canada'\nORDER BY LastName;\n```\n\nYou'll learn to filter with comparison operators, logical operators (`AND`, `OR`), and pattern matching with `LIKE`."
         },
         { 
           title: "Joins and Aggregate Functions", 
-          content: "Data is often split across tables. `JOIN` clauses combine rows from two or more tables. We will cover `INNER JOIN`, `LEFT JOIN`, `RIGHT JOIN`, and `FULL OUTER JOIN`. We'll also learn aggregate functions like `COUNT()`, `SUM()`, `AVG()`, `MIN()`, and `MAX()`, and how to use them with the `GROUP BY` clause to perform calculations on subsets of data."
+          content: "Data is often split across tables. `JOIN` clauses combine rows from two or more tables. We will cover `INNER JOIN`, `LEFT JOIN`, and `RIGHT JOIN`.\n\nWe'll also learn aggregate functions like `COUNT()`, `SUM()`, `AVG()` and use them with `GROUP BY`.\n\n```sql\nSELECT c.CategoryName, COUNT(p.ProductID) AS NumberOfProducts\nFROM Categories c\nJOIN Products p ON c.CategoryID = p.CategoryID\nGROUP BY c.CategoryName;\n```"
         },
         { 
           title: "Data Definition Language (DDL) and Constraints", 
-          content: "DDL statements define the database structure. You will learn `CREATE TABLE`, specifying column names, data types, and constraints like `PRIMARY KEY` (for unique identification), `FOREIGN KEY` (to link tables), `NOT NULL`, `UNIQUE`, and `CHECK`. We'll also cover `ALTER TABLE` (to modify) and `DROP TABLE` (to delete)."
+          content: "DDL statements define the database structure. You will learn `CREATE TABLE`, specifying column names, data types, and constraints like `PRIMARY KEY`, `FOREIGN KEY`, `NOT NULL`, `UNIQUE`, and `CHECK`.\n\n```sql\nCREATE TABLE Products (\n    ProductID int NOT NULL PRIMARY KEY,\n    ProductName varchar(255) NOT NULL,\n    SupplierID int,\n    FOREIGN KEY (SupplierID) REFERENCES Suppliers(SupplierID)\n);\n```"
         },
         { 
           title: "Normalization", 
@@ -222,7 +222,7 @@ export const courses: Course[] = [
         },
         { 
           title: "Serverless with Lambda and API Gateway", 
-          content: "AWS Lambda lets you run code without managing servers. You will write a Lambda function and configure it to run in response to events. We'll then use API Gateway to create an HTTP endpoint for our Lambda function, turning it into a fully-managed, scalable, serverless API. This is a powerful pattern for building modern applications."
+          content: "AWS Lambda lets you run code without managing servers. You will write a Lambda function and configure it to run in response to events.\n\nWe'll then use API Gateway to create an HTTP endpoint for our Lambda function, turning it into a fully-managed, scalable, serverless API. This is a powerful pattern for building modern applications."
         },
     ],
   },
@@ -296,7 +296,7 @@ export const courses: Course[] = [
       },
       {
         title: "Continuous Integration (CI) with GitHub Actions",
-        content: "CI is the practice of automatically building and testing code with every change. We will use GitHub Actions to create a CI pipeline from scratch. This pipeline will be triggered on every push, install dependencies, run linters to check code style, and execute automated unit tests, providing rapid feedback to developers."
+        content: "CI is the practice of automatically building and testing code with every change. We will use GitHub Actions to create a CI pipeline from scratch.\n\n```yaml\nname: CI Pipeline\non: [push]\njobs:\n  build:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v2\n      - name: Install dependencies\n        run: npm install\n      - name: Run tests\n        run: npm test\n```\n\nThis pipeline will be triggered on every push, providing rapid feedback to developers."
       },
       {
         title: "Continuous Delivery/Deployment (CD)",
@@ -326,7 +326,7 @@ export const courses: Course[] = [
       },
       {
         title: "Introduction to WebGL with Three.js",
-        content: "WebGL is a JavaScript API for rendering graphics in a browser. We will use Three.js, a library that simplifies WebGL, to create a basic 3D scene. You'll learn how to set up a scene, camera, and renderer, create geometries and materials to form a mesh (object), add lights, and render the result in an animation loop."
+        content: "WebGL is a JavaScript API for rendering graphics in a browser. We will use Three.js, a library that simplifies WebGL, to create a basic 3D scene.\n\n```javascript\nconst scene = new THREE.Scene();\nconst camera = new THREE.PerspectiveCamera(75, w / h, 0.1, 1000);\nconst renderer = new THREE.WebGLRenderer();\nconst geometry = new THREE.BoxGeometry();\nconst material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });\nconst cube = new THREE.Mesh(geometry, material);\nscene.add(cube);\n```"
       }
     ]
   },
@@ -340,19 +340,19 @@ export const courses: Course[] = [
     chapters: [
       {
         title: "Arrow Functions and Lexical `this`",
-        content: "ES6 introduced arrow functions, providing a more concise syntax. A key difference is that they do not have their own `this` context; they inherit `this` from the parent scope (lexical `this`). This solves common problems and simplifies code, especially in object methods, event handlers, and callbacks that rely on a specific `this` context."
+        content: "ES6 introduced arrow functions, providing a more concise syntax. A key difference is that they do not have their own `this` context; they inherit `this` from the parent scope (lexical `this`).\n\n```javascript\n// Traditional function\nconst traditional = function() { console.log(this) };\n\n// Arrow function\nconst arrow = () => { console.log(this) };\n```\nThis solves common problems and simplifies code, especially in object methods and callbacks."
       },
       {
         title: "Promises and Asynchronous Operations",
-        content: "Promises provide a cleaner way to handle async operations, avoiding 'callback hell'. A Promise is an object representing the eventual completion (fulfillment) or failure of an async operation. We'll cover creating promises with the `new Promise` constructor, chaining with `.then()`, and handling errors with `.catch()` and `.finally()`."
+        content: "Promises provide a cleaner way to handle async operations, avoiding 'callback hell'. A Promise is an object representing the eventual completion (fulfillment) or failure of an async operation. We'll cover creating promises, chaining with `.then()`, and handling errors with `.catch()` and `.finally()`."
       },
       {
         title: "Async/Await",
-        content: "Async/await is syntactic sugar built on top of promises, making async code look and behave more like synchronous code, which is easier to read. An `async` function implicitly returns a promise. The `await` keyword pauses execution and waits for a Promise to resolve, returning its result. We'll cover error handling in async functions using `try...catch` blocks."
+        content: "Async/await is syntactic sugar built on top of promises, making async code look and behave more like synchronous code.\n\n```javascript\nasync function fetchData() {\n  try {\n    const response = await fetch('...');\n    const data = await response.json();\n    console.log(data);\n  } catch (error) {\n    console.error('Error fetching data:', error);\n  }\n}\n```\nAn `async` function implicitly returns a promise. The `await` keyword pauses execution and waits for a Promise to resolve."
       },
       {
         title: "ES Modules and Destructuring",
-        content: "ES Modules provide a standardized module system. You'll learn `export` and `import` for code organization. We'll also cover destructuring assignment, a powerful feature that makes it possible to unpack values from arrays, or properties from objects, into distinct variables. This leads to more concise and readable code when working with complex data structures."
+        content: "ES Modules provide a standardized module system. You'll learn `export` and `import` for code organization. We'll also cover destructuring assignment, a powerful feature that makes it possible to unpack values from arrays, or properties from objects, into distinct variables."
       }
     ]
   },
@@ -370,7 +370,7 @@ export const courses: Course[] = [
       },
       {
         title: "Fibonacci and Staircase Problems",
-        content: "The Fibonacci sequence is the classic introductory problem for DP. We'll analyze the naive recursive solution's O(2^n) complexity and optimize it to O(n) with memoization and tabulation. We'll see how this same pattern can be applied to similar problems, like counting the number of ways to climb a staircase."
+        content: "The Fibonacci sequence is the classic introductory problem for DP. We'll analyze the naive recursive solution's O(2^n) complexity and optimize it to O(n) with memoization and tabulation.\n\n```python\n# Memoization\nmemo = {}\ndef fib(n):\n    if n in memo: return memo[n]\n    if n <= 1: return n\n    memo[n] = fib(n - 1) + fib(n - 2)\n    return memo[n]\n```\nWe'll see how this same pattern can be applied to similar problems, like counting the number of ways to climb a staircase."
       },
       {
         title: "0/1 Knapsack Problem",
@@ -430,7 +430,7 @@ export const courses: Course[] = [
       },
       {
         title: "Containerization with Docker",
-        content: "Docker makes it easy to package and deploy microservices consistently. You'll learn to write a Dockerfile to create an image for a service, and use Docker Compose to define and run a multi-container application locally. This creates a consistent development environment that mirrors production, which is a core tenet of DevOps."
+        content: "Docker makes it easy to package and deploy microservices consistently. You'll learn to write a Dockerfile to create an image for a service, and use Docker Compose to define and run a multi-container application locally.\n\n```dockerfile\nFROM node:18-alpine\nWORKDIR /app\nCOPY package.json .\nRUN npm install\nCOPY . .\nCMD [\"node\", \"server.js\"]\n```\nThis creates a consistent development environment that mirrors production."
       }
     ]
   },

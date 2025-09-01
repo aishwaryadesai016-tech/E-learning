@@ -21,6 +21,7 @@ import { CourseRating } from "@/components/course-rating";
 import { Separator } from "@/components/ui/separator";
 import { CourseQuiz } from "@/components/course-quiz";
 import { Skeleton } from "@/components/ui/skeleton";
+import { ChapterContent } from "@/components/chapter-content";
 
 export default async function CourseDetailPage({
   params,
@@ -99,7 +100,7 @@ export default async function CourseDetailPage({
                     <span className="text-left">Chapter {index + 1}: {chapter.title}</span>
                 </AccordionTrigger>
                 <AccordionContent className="text-base text-muted-foreground prose prose-sm max-w-none">
-                   <div dangerouslySetInnerHTML={{ __html: chapter.content.replace(/\n/g, '<br />') }} />
+                   <ChapterContent content={chapter.content} />
                 </AccordionContent>
                 </AccordionItem>
             ))}
