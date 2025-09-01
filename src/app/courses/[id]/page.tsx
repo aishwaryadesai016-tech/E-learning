@@ -17,10 +17,10 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion"
 import { Suspense } from "react";
-import CourseDetailLoading from "./loading";
 import { CourseRating } from "@/components/course-rating";
 import { Separator } from "@/components/ui/separator";
 import { CourseQuiz } from "@/components/course-quiz";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default async function CourseDetailPage({
   params,
