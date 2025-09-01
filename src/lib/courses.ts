@@ -226,6 +226,110 @@ export const courses: Course[] = [
         },
     ],
   },
+  {
+    id: 9,
+    title: "Software Engineering Principles",
+    description: "Learn the methodologies and practices for designing, developing, and maintaining high-quality software systems.",
+    image: "https://picsum.photos/seed/swe/600/400",
+    tags: ["software engineering", "agile", "sdlc", "design patterns"],
+    topic: "Programming",
+    chapters: [
+      {
+        title: "The Software Development Life Cycle (SDLC)",
+        content: "The SDLC provides a structured process for building software. We'll explore classic models like the Waterfall model, which is sequential and linear, and contrast it with iterative models like the Spiral model. Understanding these frameworks is key to managing complexity and ensuring project success from requirements gathering to deployment and maintenance."
+      },
+      {
+        title: "Agile Methodologies",
+        content: "Agile is a modern approach to software development that emphasizes flexibility and collaboration. We will focus on Scrum, a popular Agile framework. You'll learn about its core components: Sprints (short development cycles), daily stand-up meetings, sprint planning, and retrospectives. We'll also touch upon Kanban, another visual and flexible Agile method."
+      },
+      {
+        title: "Software Design Patterns",
+        content: "Design patterns are reusable solutions to commonly occurring problems within a given context in software design. We will cover several foundational patterns, such as the Singleton pattern for ensuring a single instance of a class, the Factory pattern for creating objects without specifying the exact class, and the Observer pattern for managing dependencies between objects."
+      },
+      {
+        title: "Testing and Quality Assurance",
+        content: "Ensuring software quality is paramount. This chapter covers different levels of testing: Unit Testing (testing individual components), Integration Testing (testing how components work together), and System Testing (testing the complete system). We'll also discuss the importance of automated testing and continuous integration to catch bugs early."
+      }
+    ]
+  },
+  {
+    id: 10,
+    title: "Operating Systems Concepts",
+    description: "A deep dive into the core concepts of operating systems, including process management, memory management, and file systems.",
+    image: "https://picsum.photos/seed/os/600/400",
+    tags: ["operating systems", "systems programming", "concurrency"],
+    topic: "Systems",
+    chapters: [
+      {
+        title: "Process Management",
+        content: "A process is a program in execution. The OS is responsible for managing multiple processes. We'll cover process states (new, running, waiting), the Process Control Block (PCB), and CPU scheduling algorithms like First-Come, First-Served (FCFS), Shortest Job First (SJF), and Round Robin, which determine how processes share CPU time."
+      },
+      {
+        title: "Memory Management",
+        content: "Memory management is the function responsible for managing primary memory. We'll explore techniques like paging, which divides memory into fixed-size blocks, and segmentation, which divides it into logical units. We will also discuss virtual memory, a technique that allows the execution of processes that are not completely in memory."
+      },
+      {
+        title: "Concurrency and Synchronization",
+        content: "Concurrency is the ability of different parts of a program to be executed out-of-order or in partial order, without affecting the final outcome. This leads to challenges like race conditions. We'll study synchronization primitives like mutexes and semaphores, which are used to control access to shared resources and prevent these issues."
+      },
+      {
+        title: "File Systems",
+        content: "A file system controls how data is stored and retrieved. This chapter covers file concepts, access methods (sequential, direct), and directory structures (single-level, tree-structured). We'll also look at file system implementation, including how disk space is allocated using methods like contiguous, linked, and indexed allocation."
+      }
+    ]
+  },
+  {
+    id: 11,
+    title: "Introduction to DevOps and CI/CD",
+    description: "Learn the culture and practices of DevOps, and implement a continuous integration and continuous delivery (CI/CD) pipeline.",
+    image: "https://picsum.photos/seed/devops/600/400",
+    tags: ["devops", "ci/cd", "automation", "cloud"],
+    topic: "Systems",
+    chapters: [
+      {
+        title: "What is DevOps?",
+        content: "DevOps is a set of practices that combines software development (Dev) and IT operations (Ops). It aims to shorten the systems development life cycle and provide continuous delivery with high software quality. This chapter explores the core principles of culture, automation, measurement, and sharing (CAMS)."
+      },
+      {
+        title: "Version Control with Git",
+        content: "Version control is the foundation of DevOps. We'll do a deep dive into Git, the distributed version control system. You'll learn about branching strategies like GitFlow, how to collaborate with pull requests, and the importance of a centralized repository on platforms like GitHub or GitLab for effective team collaboration."
+      },
+      {
+        title: "Continuous Integration (CI)",
+        content: "Continuous Integration is the practice of automatically building and testing your code every time a change is pushed to the version control repository. We will use tools like Jenkins or GitHub Actions to create a CI pipeline that compiles code, runs unit and integration tests, and provides rapid feedback to developers."
+      },
+      {
+        title: "Continuous Delivery/Deployment (CD)",
+        content: "Continuous Delivery extends CI by automatically deploying all code changes to a testing and/or production environment after the build stage. We will differentiate between Continuous Delivery (manual deployment to production) and Continuous Deployment (automated deployment to production) and discuss strategies like blue-green and canary deployments."
+      }
+    ]
+  },
+  {
+    id: 12,
+    title: "Introduction to Computer Graphics",
+    description: "Explore the fundamentals of rendering 2D and 3D graphics, including topics like geometric transformations, lighting, and shading.",
+    image: "https://picsum.photos/seed/graphics/600/400",
+    tags: ["computer graphics", "rendering", "opengl", "3d"],
+    topic: "Algorithms",
+    chapters: [
+      {
+        title: "The Graphics Pipeline",
+        content: "The rendering pipeline is the sequence of steps used to create a 2D image from a 3D scene. We will walk through the main stages: vertex processing, rasterization (converting vectors to pixels), fragment processing (coloring pixels), and output merging. Understanding this pipeline is fundamental to real-time graphics programming."
+      },
+      {
+        title: "2D and 3D Transformations",
+        content: "Geometric transformations are used to manipulate the position, orientation, and size of objects in a scene. We will cover the essential transformations: translation (moving), rotation, and scaling. You'll learn how to represent these transformations using matrices and how to combine them using matrix multiplication."
+      },
+      {
+        title: "Lighting and Shading",
+        content: "Lighting and shading bring realism to a 3D scene. We'll explore different light sources (ambient, diffuse, specular) and how they interact with material properties. We'll implement basic shading models like the Phong reflection model, which calculates the color of a pixel based on these interactions to create the illusion of depth and texture."
+      },
+      {
+        title: "Introduction to WebGL",
+        content: "WebGL (Web Graphics Library) is a JavaScript API for rendering interactive 2D and 3D graphics within any compatible web browser without the use of plug-ins. We will use a library like Three.js, which simplifies WebGL, to create a basic 3D scene, add objects, set up a camera, and render the result in a web page."
+      }
+    ]
+  }
 ];
 
 export const courseTopics = [...new Set(courses.map((course) => course.topic))];
