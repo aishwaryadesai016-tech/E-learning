@@ -36,11 +36,11 @@ export function CourseRating() {
   };
 
   return (
-    <Card className="sticky top-6">
+    <Card>
       <CardHeader>
-        <CardTitle className="font-headline">Rate this course</CardTitle>
+        <CardTitle>Rate this course</CardTitle>
         <CardDescription>
-          Your feedback helps us improve recommendations.
+          Your feedback helps us improve our course offerings and recommendations.
         </CardDescription>
       </CardHeader>
       <CardContent>
