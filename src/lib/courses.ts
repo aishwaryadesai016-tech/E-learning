@@ -329,6 +329,188 @@ export const courses: Course[] = [
         content: "WebGL (Web Graphics Library) is a JavaScript API for rendering interactive 2D and 3D graphics within any compatible web browser without the use of plug-ins. We will use a library like Three.js, which simplifies WebGL, to create a basic 3D scene, add objects, set up a camera, and render the result in a web page."
       }
     ]
+  },
+  {
+    id: 13,
+    title: "Advanced JavaScript: ES6 and Beyond",
+    description: "Master modern JavaScript features including arrow functions, promises, async/await, modules, and more to write cleaner and more efficient code.",
+    image: "https://picsum.photos/seed/js-advanced/600/400",
+    tags: ["javascript", "es6", "asynchronous", "advanced", "programming"],
+    topic: "Programming",
+    chapters: [
+      {
+        title: "Arrow Functions and `this`",
+        content: "ES6 introduced arrow functions, providing a more concise syntax for writing function expressions. Unlike traditional functions, they do not have their own `this` context; instead, they inherit `this` from the parent scope. This lexical scoping of `this` solves common problems and simplifies code, especially in event handlers and callbacks."
+      },
+      {
+        title: "Promises and Asynchronous Operations",
+        content: "Promises provide a cleaner way to handle asynchronous operations, avoiding 'callback hell'. A Promise is an object representing the eventual completion or failure of an async operation. We'll cover creating promises, chaining them with `.then()`, and handling errors with `.catch()`. This is fundamental for working with APIs."
+      },
+      {
+        title: "Async/Await",
+        content: "Async/await is syntactic sugar built on top of promises, making asynchronous code look and behave more like synchronous code. This makes it easier to read and reason about. An `async` function implicitly returns a promise, and the `await` keyword pauses execution until a promise is settled, returning its result."
+      },
+      {
+        title: "ES Modules",
+        content: "ES Modules provide a standardized module system for JavaScript. You'll learn how to use the `export` keyword to expose functions, objects, or values from a module, and the `import` keyword to use them in other files. This enables better code organization, reusability, and dependency management in large applications."
+      }
+    ]
+  },
+  {
+    id: 14,
+    title: "Dynamic Programming Patterns",
+    description: "Learn to recognize and solve problems using dynamic programming, a powerful technique for optimizing algorithms with overlapping subproblems.",
+    image: "https://picsum.photos/seed/dp/600/400",
+    tags: ["dynamic programming", "algorithms", "optimization", "advanced"],
+    topic: "Algorithms",
+    chapters: [
+      {
+        title: "Introduction to DP: Memoization and Tabulation",
+        content: "Dynamic Programming solves complex problems by breaking them down into simpler subproblems. We'll cover the two main approaches: Memoization (top-down), where you store the results of expensive function calls and return the cached result when the same inputs occur again, and Tabulation (bottom-up), where you build up a table of results from the smallest subproblem."
+      },
+      {
+        title: "Fibonacci Sequence",
+        content: "The Fibonacci sequence is the classic introductory problem for DP. We'll first analyze the naive recursive solution and its exponential time complexity. Then, we'll apply both memoization and tabulation to optimize it to linear time complexity, clearly illustrating the power and core concepts of dynamic programming."
+      },
+      {
+        title: "0/1 Knapsack Problem",
+        content: "The Knapsack Problem is a classic optimization problem. Given a set of items, each with a weight and a value, determine the number of each item to include in a collection so that the total weight is less than or equal to a given limit and the total value is as large as possible. We will solve this using a 2D DP table."
+      },
+      {
+        title: "Longest Common Subsequence",
+        content: "This chapter tackles the Longest Common Subsequence (LCS) problem, which aims to find the longest subsequence common to two sequences. This pattern is widely used in bioinformatics (like DNA sequence comparison) and version control systems (like diff utilities). We'll use a 2D DP table to find the length of the LCS and reconstruct the subsequence itself."
+      }
+    ]
+  },
+  {
+    id: 15,
+    title: "Deep Learning with PyTorch",
+    description: "Build and train neural networks for tasks like image classification and natural language processing using the popular PyTorch framework.",
+    image: "https://picsum.photos/seed/pytorch/600/400",
+    tags: ["deep learning", "pytorch", "neural networks", "ai/ml"],
+    topic: "AI/ML",
+    chapters: [
+      {
+        title: "Tensors and Autograd",
+        content: "PyTorch's fundamental data structure is the tensor, a multi-dimensional array similar to NumPy arrays but with the ability to run on GPUs. We will also explore Autograd, PyTorch's automatic differentiation engine. It tracks all operations on tensors, allowing you to automatically compute gradients, which is essential for training neural networks."
+      },
+      {
+        title: "Building a Neural Network",
+        content: "You'll learn to build your first neural network using PyTorch's `nn` module. We'll define a network architecture with layers (like linear and activation layers), implement a forward pass to process input data, and understand how the network's parameters (weights and biases) are initialized and stored."
+      },
+      {
+        title: "Training and Optimization",
+        content: "This chapter covers the full training loop. You'll learn to define a loss function (e.g., Cross-Entropy Loss) to measure the model's error, and an optimizer (e.g., Adam or SGD) to update the model's parameters using backpropagation. We'll iterate over a dataset, train the model, and monitor its performance."
+      },
+      {
+        title: "Convolutional Neural Networks (CNNs)",
+        content: "CNNs are a specialized type of neural network designed for processing grid-like data, such as images. We'll cover the key layers of a CNN: convolutional layers for feature extraction, pooling layers for down-sampling, and fully connected layers for classification. You'll build a CNN to classify images from a standard dataset like CIFAR-10."
+      }
+    ]
+  },
+  {
+    id: 16,
+    title: "Building Scalable Microservices",
+    description: "Design and develop resilient, and scalable applications using a microservice architecture. Covers service communication, discovery, and deployment.",
+    image: "https://picsum.photos/seed/microservices/600/400",
+    tags: ["microservices", "architecture", "distributed systems", "web development"],
+    topic: "Web Development",
+    chapters: [
+      {
+        title: "Monolith vs. Microservices",
+        content: "We'll start by comparing the traditional monolithic architecture, where an application is built as a single, indivisible unit, with the microservice architecture, which structures an application as a collection of loosely coupled services. We'll discuss the pros and cons of each approach in terms of development, scalability, and maintenance."
+      },
+      {
+        title: "Service Communication",
+        content: "In a microservices architecture, services need to communicate with each other. We'll explore two primary patterns: synchronous communication using REST APIs over HTTP, and asynchronous communication using a message broker like RabbitMQ or Kafka. We'll discuss when to use each pattern and the concept of service discovery."
+      },
+      {
+        title: "API Gateways",
+        content: "An API Gateway acts as a single entry point for all clients. It simplifies the client-side by routing requests to the appropriate microservice, and can also handle cross-cutting concerns like authentication, rate limiting, and logging. We'll explore how to implement an API Gateway to aggregate results from multiple services."
+      },
+      {
+        title: "Containerization with Docker",
+        content: "Docker makes it easy to package and deploy microservices consistently across different environments. You'll learn to write a Dockerfile to create an image for a single microservice, and use Docker Compose to define and run a multi-container application, enabling local development of a complete microservice-based system."
+      }
+    ]
+  },
+  {
+    id: 17,
+    title: "NoSQL Databases Deep Dive",
+    description: "Explore the world beyond relational databases. Learn about different NoSQL models like document, key-value, and column-family stores with hands-on examples.",
+    image: "https://picsum.photos/seed/nosql/600/400",
+    tags: ["nosql", "databases", "mongodb", "big data"],
+    topic: "Databases",
+    chapters: [
+      {
+        title: "The CAP Theorem",
+        content: "The CAP theorem is a fundamental principle in distributed systems. It states that a distributed data store can only provide two of the following three guarantees: Consistency, Availability, and Partition Tolerance. We'll explore what each of these guarantees means and how NoSQL databases often allow developers to choose which to prioritize."
+      },
+      {
+        title: "Document Databases (MongoDB)",
+        content: "Document databases store data in flexible, JSON-like documents. This model is intuitive for developers and maps directly to objects in code. We'll use MongoDB to perform CRUD operations, design schemas with embedded documents and references, and use its rich query language to filter and aggregate data."
+      },
+      {
+        title: "Key-Value Stores (Redis)",
+        content: "Key-value stores are the simplest NoSQL database model, storing data as a collection of key-value pairs. They are incredibly fast and often used for caching. We'll use Redis to store and retrieve data, explore its various data structures (strings, lists, hashes), and see how it can be used to improve application performance."
+      },
+      {
+        title: "Wide-Column Stores (Cassandra)",
+        content: "Wide-column stores like Cassandra are designed for handling massive amounts of data across many commodity servers. They partition data by row and organize it into flexible columns, making them highly scalable and available. We'll discuss the architecture of Cassandra and its query language (CQL), which is similar to SQL."
+      }
+    ]
+  },
+  {
+    id: 18,
+    title: "Docker and Kubernetes: The Complete Guide",
+    description: "From development to production, master containerization with Docker and orchestrate your applications at scale with Kubernetes.",
+    image: "https://picsum.photos/seed/kubernetes/600/400",
+    tags: ["docker", "kubernetes", "devops", "containerization", "systems"],
+    topic: "Systems",
+    chapters: [
+      {
+        title: "Creating Docker Images",
+        content: "This chapter covers the fundamentals of Docker. You'll learn to write a Dockerfile, a text document that contains all the commands a user could call on the command line to assemble an image. We'll build images for a simple web application, manage them, and push them to a container registry like Docker Hub."
+      },
+      {
+        title: "Kubernetes Core Concepts",
+        content: "Kubernetes is a powerful container orchestration system. We'll introduce the core architectural components: Pods (the smallest deployable units), Services (a stable networking endpoint for Pods), Deployments (for managing stateless applications), and ReplicaSets (for ensuring a specified number of Pod replicas are running)."
+      },
+      {
+        title: "Managing Deployments",
+        content: "You'll learn how to manage your applications on Kubernetes using declarative YAML files. We will cover scaling deployments up and down to handle load, and performing rolling updates to deploy new versions of your application with zero downtime. We'll also explore strategies for rolling back to a previous version if something goes wrong."
+      },
+      {
+        title: "Stateful Applications with Volumes",
+        content: "While containers are ephemeral, many applications need to persist data. Kubernetes provides Persistent Volumes (PVs) and Persistent Volume Claims (PVCs) to manage storage. You'll learn how to attach persistent storage to your Pods, enabling you to run stateful applications like databases on Kubernetes."
+      }
+    ]
+  },
+  {
+    id: 19,
+    title: "Web Security: Preventing Common Attacks",
+    description: "Learn to identify and prevent common web vulnerabilities like Cross-Site Scripting (XSS), SQL Injection, and Cross-Site Request Forgery (CSRF).",
+    image: "https://picsum.photos/seed/web-security/600/400",
+    tags: ["web security", "cybersecurity", "owasp", "full-stack"],
+    topic: "Security",
+    chapters: [
+      {
+        title: "Cross-Site Scripting (XSS)",
+        content: "XSS is an attack where malicious scripts are injected into otherwise benign and trusted websites. We'll explore the three main types: Stored, Reflected, and DOM-based XSS. You'll learn how attackers exploit these vulnerabilities and, more importantly, how to prevent them using techniques like context-aware output encoding and Content Security Policy (CSP)."
+      },
+      {
+        title: "SQL Injection",
+        content: "SQL Injection is a code injection technique used to attack data-driven applications, in which malicious SQL statements are inserted into an entry field for execution. We will demonstrate how an attacker can bypass authentication or extract sensitive data. You will learn how to prevent these attacks by using prepared statements (parameterized queries)."
+      },
+      {
+        title: "Cross-Site Request Forgery (CSRF)",
+        content: "CSRF is an attack that forces an end user to execute unwanted actions on a web application in which they're currently authenticated. We'll demonstrate how an attacker can trick a user's browser into making a request to another site. The primary defense is the synchronizer token pattern, where a unique, unpredictable token is required for each state-changing request."
+      },
+      {
+        title: "Secure Authentication and Session Management",
+        content: "Improper authentication and session management can lead to account takeovers. This chapter covers best practices for handling user credentials, such as secure password storage using strong hashing algorithms (like bcrypt). We'll also discuss how to manage session tokens securely, including using secure cookies and implementing proper logout functionality."
+      }
+    ]
   }
 ];
 
