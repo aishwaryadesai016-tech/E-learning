@@ -20,6 +20,7 @@ import { Suspense } from "react";
 import CourseDetailLoading from "./loading";
 import { CourseRating } from "@/components/course-rating";
 import { Separator } from "@/components/ui/separator";
+import { CourseQa } from "@/components/course-qa";
 
 export default async function CourseDetailPage({
   params,
@@ -33,8 +34,11 @@ export default async function CourseDetailPage({
     notFound();
   }
 
+  const fullCourseContent = course.chapters.map(c => `Chapter: ${c.title}\n${c.content}`).join('\n\n');
+
+
   return (
-    <div className="flex flex-col gap-8 max-w-4xl mx-auto">
+    <div className="flex flex-col gap-8">
       {/* Course Header */}
       <div className="space-y-4">
           <Badge variant="outline" className="text-sm">{course.topic}</Badge>
@@ -55,7 +59,7 @@ export default async function CourseDetailPage({
           />
         </div>
 
-      <div className="grid md:grid-cols-3 gap-8">
+      <div className="grid md:grid-cols-3 gap-8 items-start">
         <div className="md:col-span-2 space-y-8">
             {/* About Section */}
             <section>
@@ -89,14 +93,14 @@ export default async function CourseDetailPage({
                     <BookOpen className="h-6 w-6 text-primary" />
                     <h2 className="font-headline text-2xl font-semibold">Syllabus</h2>
                 </div>
-                <Accordion type="single" collapsible className="w-full">
+                <Accordion type="single" collapsible className="w-full" defaultValue="item-0">
                 {course.chapters.map((chapter, index) => (
                     <AccordionItem key={index} value={`item-${index}`} className="border-b">
                     <AccordionTrigger className="text-lg font-semibold hover:no-underline">
                         <span className="text-left">Chapter {index + 1}: {chapter.title}</span>
                     </AccordionTrigger>
                     <AccordionContent className="text-base text-muted-foreground prose prose-sm max-w-none">
-                        {chapter.content}
+                       <div dangerouslySetInnerHTML={{ __html: chapter.content.replace(/\n/g, '<br />') }} />
                     </AccordionContent>
                     </AccordionItem>
                 ))}
@@ -104,7 +108,8 @@ export default async function CourseDetailPage({
             </section>
         </div>
 
-        <div className="space-y-6">
+        <div className="space-y-6 md:sticky md:top-6">
+            <CourseQa courseContent={fullCourseContent} />
             <CourseRating />
         </div>
       </div>

@@ -21,19 +21,19 @@ export const courses: Course[] = [
     chapters: [
       { 
         title: "Getting Started", 
-        content: "Welcome to the world of Python! First, you'll need to set up your environment. Download the latest version of Python from python.org. The installer includes IDLE, a basic development environment. You'll also get 'pip', Python's package installer. To write your first program, open a text file, save it as 'hello.py', and type: print('Hello, World!'). Run it from your terminal using 'python hello.py'. Congratulations, you're a Python programmer!" 
+        content: "Welcome to the world of Python! First, you'll need to set up your environment. Download the latest version of Python from python.org. The installer includes IDLE, a basic development environment. You'll also get 'pip', Python's package installer. To write your first program, open a text file, save it as 'hello.py', and type: `print('Hello, World!')`. Run it from your terminal using `python hello.py`. Congratulations, you're a Python programmer!" 
       },
       { 
         title: "Variables and Data Types", 
-        content: "Variables are containers for storing data values. Python has various data types. Numbers can be integers (e.g., 5) or floating-point numbers (e.g., 3.14). Strings are sequences of characters, enclosed in single or double quotes (e.g., 'hello'). Booleans represent truth values: 'True' or 'False'. You can create a variable like this: 'x = 10' or 'name = \"Alice\"'." 
+        content: "Variables are containers for storing data values. Python has various data types. Numbers can be integers (e.g., 5) or floating-point numbers (e.g., 3.14). Strings are sequences of characters, enclosed in single or double quotes (e.g., 'hello'). Booleans represent truth values: 'True' or 'False'. You can create a variable like this: `x = 10` or `name = \"Alice\"`." 
       },
       { 
         title: "Control Flow", 
-        content: "Control flow statements allow you to execute code based on conditions. The 'if' statement runs a block of code only if a condition is true. Use 'else' for an alternative block. For repetition, 'for' loops iterate over a sequence (like a list), and 'while' loops continue as long as a condition is true. Example: for i in range(5): print(i) will print numbers 0 through 4."
+        content: "Control flow statements allow you to execute code based on conditions. The `if` statement runs a block of code only if a condition is true. Use `else` for an alternative block. For repetition, `for` loops iterate over a sequence (like a list), and `while` loops continue as long as a condition is true. Example: `for i in range(5): print(i)` will print numbers 0 through 4."
       },
       { 
         title: "Functions", 
-        content: "Functions are reusable blocks of code. You define a function using the 'def' keyword, followed by a name and parentheses. You can pass data, known as parameters, into a function. A function can also return data. Example: def greet(name): return f'Hello, {name}!'. To use it, you 'call' it: print(greet('Bob'))." 
+        content: "Functions are reusable blocks of code. You define a function using the `def` keyword, followed by a name and parentheses. You can pass data, known as parameters, into a function. A function can also return data. Example: `def greet(name): return f'Hello, {name}!'`. To use it, you 'call' it: `print(greet('Bob'))`." 
       },
     ],
   },
@@ -129,15 +129,15 @@ export const courses: Course[] = [
     chapters: [
         { 
           title: "Basic SQL Queries", 
-          content: "SQL (Structured Query Language) is the standard language for relational databases. This chapter introduces the foundational SELECT statement. You'll learn how to retrieve data from specific columns using SELECT, specify the table using FROM, and filter rows based on conditions with the WHERE clause. We'll also cover sorting results with ORDER BY."
+          content: "SQL (Structured Query Language) is the standard language for relational databases. This chapter introduces the foundational SELECT statement. You'll learn how to retrieve data from specific columns using `SELECT`, specify the table using `FROM`, and filter rows based on conditions with the `WHERE` clause. We'll also cover sorting results with `ORDER BY`."
         },
         { 
           title: "Joins and Subqueries", 
-          content: "Real-world data is often split across multiple tables. JOIN clauses are used to combine rows from two or more tables based on a related column. We will cover INNER JOIN, LEFT JOIN, and RIGHT JOIN. Subqueries, or nested queries, allow you to use the result of one query as an input to another, enabling more complex data retrieval."
+          content: "Real-world data is often split across multiple tables. `JOIN` clauses are used to combine rows from two or more tables based on a related column. We will cover `INNER JOIN`, `LEFT JOIN`, and `RIGHT JOIN`. Subqueries, or nested queries, allow you to use the result of one query as an input to another, enabling more complex data retrieval."
         },
         { 
           title: "Data Definition Language (DDL)", 
-          content: "DDL statements are used to define and manage the database structure. You will learn how to create new tables with the CREATE TABLE statement, specifying column names and data types. We'll also cover how to modify existing tables using ALTER TABLE (e.g., adding a new column) and how to delete tables entirely with DROP TABLE."
+          content: "DDL statements are used to define and manage the database structure. You will learn how to create new tables with the `CREATE TABLE` statement, specifying column names and data types. We'll also cover how to modify existing tables using `ALTER TABLE` (e.g., adding a new column) and how to delete tables entirely with `DROP TABLE`."
         },
         { 
           title: "Normalization", 
