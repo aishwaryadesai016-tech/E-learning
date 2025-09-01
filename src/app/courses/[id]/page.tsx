@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { RelatedCourses } from "@/components/related-courses";
-import { BookOpen } from "lucide-react";
+import { BookOpen, Info, Star } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -19,6 +19,7 @@ import {
 import { Suspense } from "react";
 import CourseDetailLoading from "./loading";
 import { CourseRating } from "@/components/course-rating";
+import { Separator } from "@/components/ui/separator";
 
 export default async function CourseDetailPage({
   params,
@@ -33,71 +34,86 @@ export default async function CourseDetailPage({
   }
 
   return (
-    <div className="grid gap-8 md:grid-cols-3">
-      <div className="md:col-span-2 space-y-6">
-        <Card>
-          <CardHeader>
-            <div className="space-y-2">
-              <Badge variant="outline">{course.topic}</Badge>
-              <CardTitle className="font-headline text-3xl md:text-4xl">
-                {course.title}
-              </CardTitle>
-            </div>
-          </CardHeader>
-          <CardContent>
-            <div className="relative w-full aspect-video rounded-lg overflow-hidden mb-6">
-              <Image
-                src={course.image}
-                alt={course.title}
-                fill
-                className="object-cover"
-                sizes="(max-width: 768px) 100vw, 66vw"
-                data-ai-hint={`course ${course.topic.toLowerCase()}`}
-              />
-            </div>
-            <h2 className="font-headline text-xl font-semibold mb-2">
-              Description
-            </h2>
-            <p className="text-muted-foreground mb-6">{course.description}</p>
-            <h2 className="font-headline text-xl font-semibold mb-2">Tags</h2>
-            <div className="flex flex-wrap gap-2">
-              {course.tags.map((tag) => (
-                <Badge key={tag} variant="secondary">
-                  {tag}
-                </Badge>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-             <div className="flex items-center gap-2">
-                <BookOpen className="h-6 w-6" />
-                <CardTitle className="font-headline text-xl">Chapters</CardTitle>
-            </div>
-          </CardHeader>
-          <CardContent>
-             <Accordion type="single" collapsible className="w-full">
-              {course.chapters.map((chapter, index) => (
-                <AccordionItem key={index} value={`item-${index}`}>
-                  <AccordionTrigger>{chapter.title}</AccordionTrigger>
-                  <AccordionContent>
-                    {chapter.content}
-                  </AccordionContent>
-                </AccordionItem>
-              ))}
-            </Accordion>
-          </CardContent>
-        </Card>
-
-        <Suspense fallback={<RelatedCoursesSkeleton />}>
-          <RelatedCourses course={course} />
-        </Suspense>
+    <div className="flex flex-col gap-8 max-w-4xl mx-auto">
+      {/* Course Header */}
+      <div className="space-y-4">
+          <Badge variant="outline" className="text-sm">{course.topic}</Badge>
+          <h1 className="font-headline text-4xl md:text-5xl font-bold tracking-tighter">
+            {course.title}
+          </h1>
+          <p className="text-lg text-muted-foreground">{course.description}</p>
       </div>
-      <div className="space-y-6">
-        <CourseRating />
+
+      <div className="relative w-full aspect-video rounded-lg overflow-hidden">
+          <Image
+            src={course.image}
+            alt={course.title}
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 100vw, 80vw"
+            data-ai-hint={`course ${course.topic.toLowerCase()}`}
+          />
+        </div>
+
+      <div className="grid md:grid-cols-3 gap-8">
+        <div className="md:col-span-2 space-y-8">
+            {/* About Section */}
+            <section>
+                <div className="flex items-center gap-3 mb-4">
+                    <Info className="h-6 w-6 text-primary" />
+                    <h2 className="font-headline text-2xl font-semibold">About this course</h2>
+                </div>
+                <div className="space-y-4 text-muted-foreground">
+                    <p>
+                        This course provides a comprehensive overview of {course.title.toLowerCase()}.
+                        Throughout the chapters, you will gain hands-on experience and a deep understanding of the core concepts.
+                    </p>
+                    <div>
+                        <h3 className="font-semibold text-card-foreground mb-2">Tags</h3>
+                        <div className="flex flex-wrap gap-2">
+                        {course.tags.map((tag) => (
+                            <Badge key={tag} variant="secondary">
+                            {tag}
+                            </Badge>
+                        ))}
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <Separator />
+
+            {/* Syllabus Section */}
+            <section>
+                <div className="flex items-center gap-3 mb-4">
+                    <BookOpen className="h-6 w-6 text-primary" />
+                    <h2 className="font-headline text-2xl font-semibold">Syllabus</h2>
+                </div>
+                <Accordion type="single" collapsible className="w-full">
+                {course.chapters.map((chapter, index) => (
+                    <AccordionItem key={index} value={`item-${index}`} className="border-b">
+                    <AccordionTrigger className="text-lg font-semibold hover:no-underline">
+                        <span className="text-left">Chapter {index + 1}: {chapter.title}</span>
+                    </AccordionTrigger>
+                    <AccordionContent className="text-base text-muted-foreground prose prose-sm max-w-none">
+                        {chapter.content}
+                    </AccordionContent>
+                    </AccordionItem>
+                ))}
+                </Accordion>
+            </section>
+        </div>
+
+        <div className="space-y-6">
+            <CourseRating />
+        </div>
       </div>
+      
+      <Separator />
+
+      <Suspense fallback={<RelatedCoursesSkeleton />}>
+        <RelatedCourses course={course} />
+      </Suspense>
     </div>
   );
 }

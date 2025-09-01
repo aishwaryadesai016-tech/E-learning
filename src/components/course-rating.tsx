@@ -36,7 +36,7 @@ export function CourseRating() {
   };
 
   return (
-    <Card className="bg-primary/5 border-primary/20 sticky top-6">
+    <Card className="sticky top-6">
       <CardHeader>
         <CardTitle className="font-headline">Rate this course</CardTitle>
         <CardDescription>
@@ -59,7 +59,7 @@ export function CourseRating() {
             >
               <Star
                 className={cn(
-                  "h-6 w-6 text-muted-foreground transition-colors duration-200",
+                  "h-8 w-8 text-muted-foreground transition-colors duration-200",
                   (hoverRating >= index || rating >= index)
                     ? "text-amber-500 fill-amber-500"
                     : "group-hover:text-amber-500/50"
@@ -69,7 +69,7 @@ export function CourseRating() {
           ))}
         </div>
         <Button className="w-full" variant="default" onClick={handleSubmit}>
-          Complete & Submit Rating
+          Submit Rating
         </Button>
       </CardContent>
     </Card>
