@@ -1,23 +1,28 @@
 import Link from "next/link";
-
+import { GraduationCap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
+  CardFooter,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Logo } from "@/components/logo";
 
 export default function LoginPage() {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-background/50 p-4">
-       <div className="mb-8">
-        <Logo />
+      <div className="flex flex-col items-center text-center mb-8">
+        <div className="bg-primary/10 text-primary p-3 rounded-full mb-4">
+          <GraduationCap className="h-8 w-8" />
+        </div>
+        <h1 className="text-3xl font-bold font-headline">Welcome Back</h1>
+        <p className="text-muted-foreground mt-1">
+          Sign in to continue your learning journey.
+        </p>
       </div>
       <Card className="w-full max-w-sm">
         <CardHeader>
@@ -29,18 +34,23 @@ export default function LoginPage() {
         <CardContent className="grid gap-4">
           <div className="grid gap-2">
             <Label htmlFor="email">Email</Label>
-            <Input id="email" type="email" placeholder="m@example.com" required />
+            <Input
+              id="email"
+              type="email"
+              placeholder="name@example.com"
+              required
+            />
           </div>
           <div className="grid gap-2">
             <Label htmlFor="password">Password</Label>
-            <Input id="password" type="password" required />
+            <Input id="password" type="password" required placeholder="********" />
           </div>
         </CardContent>
         <CardFooter className="flex flex-col gap-4">
           <Button className="w-full" asChild>
-            <Link href="/courses">Sign in</Link>
+            <Link href="/courses">Log In</Link>
           </Button>
-           <div className="text-center text-sm">
+          <div className="text-center text-sm">
             Don&apos;t have an account?{" "}
             <Link href="/signup" className="underline">
               Sign up
