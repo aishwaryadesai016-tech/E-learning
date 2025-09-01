@@ -3,12 +3,10 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { RelatedCourses } from "@/components/related-courses";
-import { Button } from "@/components/ui/button";
-import { Star, BookOpen } from "lucide-react";
+import { BookOpen } from "lucide-react";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -20,6 +18,7 @@ import {
 } from "@/components/ui/accordion"
 import { Suspense } from "react";
 import CourseDetailLoading from "./loading";
+import { CourseRating } from "@/components/course-rating";
 
 export default async function CourseDetailPage({
   params,
@@ -97,31 +96,7 @@ export default async function CourseDetailPage({
         </Suspense>
       </div>
       <div className="space-y-6">
-        <Card className="bg-primary/5 border-primary/20 sticky top-6">
-          <CardHeader>
-            <CardTitle className="font-headline">Rate this course</CardTitle>
-            <CardDescription>
-              Your feedback helps us improve recommendations.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="flex items-center justify-center gap-1 mb-4">
-              {[1, 2, 3, 4, 5].map((rating) => (
-                <Button
-                  key={rating}
-                  variant="ghost"
-                  size="icon"
-                  className="text-muted-foreground hover:text-amber-500 hover:bg-amber-500/10 transition-colors duration-300"
-                >
-                  <Star className="h-6 w-6" />
-                </Button>
-              ))}
-            </div>
-            <Button className="w-full" variant="default">
-              Complete & Submit Rating
-            </Button>
-          </CardContent>
-        </Card>
+        <CourseRating />
       </div>
     </div>
   );
