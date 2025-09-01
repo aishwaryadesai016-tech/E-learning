@@ -1,7 +1,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Home, LogOut, Menu, Bell, LayoutDashboard } from "lucide-react";
+import { Home, LogOut, Menu, Bell, LayoutDashboard, User } from "lucide-react";
 import Link from "next/link";
 import { Logo } from "@/components/logo";
 
@@ -28,10 +28,17 @@ export default function CoursesLayout({
               </Link>
               <Link
                 href="/courses"
-                className="flex items-center gap-3 rounded-lg bg-muted px-3 py-2 text-primary transition-all hover:text-primary"
+                className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
               >
                 <Home className="h-4 w-4" />
                 All Courses
+              </Link>
+               <Link
+                href="/profile"
+                className="flex items-center gap-3 rounded-lg bg-muted px-3 py-2 text-primary transition-all hover:text-primary"
+              >
+                <User className="h-4 w-4" />
+                Profile
               </Link>
             </nav>
           </div>
@@ -79,10 +86,17 @@ export default function CoursesLayout({
                 </Link>
                 <Link
                   href="/courses"
-                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl bg-muted px-3 py-2 text-foreground hover:text-foreground"
+                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-foreground hover:text-foreground"
                 >
                   <Home className="h-5 w-5" />
                   All Courses
+                </Link>
+                 <Link
+                  href="/profile"
+                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl bg-muted px-3 py-2 text-foreground hover:text-foreground"
+                >
+                  <User className="h-5 w-5" />
+                  Profile
                 </Link>
               </nav>
               <div className="mt-auto">
