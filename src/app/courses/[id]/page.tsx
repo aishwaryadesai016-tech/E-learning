@@ -22,6 +22,7 @@ import { Separator } from "@/components/ui/separator";
 import { CourseQuiz } from "@/components/course-quiz";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ChapterContent } from "@/components/chapter-content";
+import { Syllabus } from "@/components/syllabus";
 
 export default async function CourseDetailPage({
   params,
@@ -93,18 +94,7 @@ export default async function CourseDetailPage({
                 <BookOpen className="h-6 w-6 text-primary" />
                 <h2 className="font-headline text-2xl font-semibold">Syllabus</h2>
             </div>
-            <Accordion type="single" collapsible className="w-full" defaultValue="item-0">
-            {course.chapters.map((chapter, index) => (
-                <AccordionItem key={index} value={`item-${index}`} className="border-b">
-                <AccordionTrigger className="text-lg font-semibold hover:no-underline">
-                    <span className="text-left">Chapter {index + 1}: {chapter.title}</span>
-                </AccordionTrigger>
-                <AccordionContent className="text-base text-muted-foreground prose prose-sm max-w-none">
-                   <ChapterContent content={chapter.content} />
-                </AccordionContent>
-                </AccordionItem>
-            ))}
-            </Accordion>
+            <Syllabus course={course} />
         </section>
 
         <Separator />

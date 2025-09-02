@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect } from "react";
@@ -13,8 +14,8 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { courses } from "@/lib/courses";
-import { completedCourses } from "@/lib/dashboard-data";
 import { CourseCard } from "@/components/course-card";
+import { useProgress } from "@/lib/progress";
 
 const allInterests = [
   "Artificial Intelligence",
@@ -33,6 +34,7 @@ const allInterests = [
 
 export default function ProfilePage() {
   const [selectedInterests, setSelectedInterests] = useState<string[]>([]);
+  const { progress } = useProgress();
 
   useEffect(() => {
     // In a real app, you'd fetch the user's saved interests.
@@ -60,8 +62,9 @@ export default function ProfilePage() {
     alert("Your interests have been saved!");
   };
 
-  const completed = courses.filter((course) =>
-    completedCourses.includes(course.id)
+  const completed = courses.filter(
+    (course) =>
+      progress[course.id] && progress[course.id].progressPercentage === 100
   );
 
   return (
