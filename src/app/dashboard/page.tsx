@@ -56,7 +56,7 @@ export default function DashboardPage() {
         </p>
       </div>
       <div className="grid gap-6 lg:grid-cols-3">
-        <Card>
+        <Card className="lg:col-span-2">
           <CardHeader>
             <div className="flex items-center gap-3">
               <Clock className="h-6 w-6 text-blue-500" />
