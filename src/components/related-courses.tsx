@@ -74,7 +74,7 @@ export function RelatedCourses({ course }: { course: Course }) {
             <Lightbulb className="h-5 w-5 text-primary" />
           </span>
           <CardTitle className="font-headline text-xl">
-            AI-Powered Suggestions
+            Top Recommended Courses
           </CardTitle>
         </div>
         <CardDescription>
