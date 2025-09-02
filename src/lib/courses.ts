@@ -6,6 +6,8 @@ export type Course = {
   image: string;
   tags: string[];
   topic: string;
+  difficulty: "Beginner" | "Intermediate" | "Advanced";
+  duration: string;
   chapters: { title: string; content: string }[];
 };
 
@@ -18,6 +20,8 @@ export const courses: Course[] = [
     image: "https://picsum.photos/seed/python/600/400",
     tags: ["python", "beginner", "programming fundamentals"],
     topic: "Programming",
+    difficulty: "Beginner",
+    duration: "6 hours",
     chapters: [
       { 
         title: "Getting Started", 
@@ -45,6 +49,8 @@ export const courses: Course[] = [
     image: "https://picsum.photos/seed/java/600/400",
     tags: ["java", "data structures", "algorithms", "advanced"],
     topic: "Algorithms",
+    difficulty: "Advanced",
+    duration: "12 hours",
     chapters: [
       { 
         title: "Introduction to Data Structures", 
@@ -72,6 +78,8 @@ export const courses: Course[] = [
     image: "https://picsum.photos/seed/ml/600/400",
     tags: ["machine learning", "python", "scikit-learn", "data science"],
     topic: "AI/ML",
+    difficulty: "Intermediate",
+    duration: "10 hours",
     chapters: [
       { 
         title: "Foundations of Machine Learning", 
@@ -99,6 +107,8 @@ export const courses: Course[] = [
     image: "https://picsum.photos/seed/react/600/400",
     tags: ["react", "nodejs", "web development", "full-stack", "mongodb"],
     topic: "Web Development",
+    difficulty: "Intermediate",
+    duration: "20 hours",
     chapters: [
         { 
           title: "Building a REST API with Node.js and Express", 
@@ -126,6 +136,8 @@ export const courses: Course[] = [
     image: "https://picsum.photos/seed/sql/600/400",
     tags: ["sql", "databases", "data management", "beginner"],
     topic: "Databases",
+    difficulty: "Beginner",
+    duration: "8 hours",
     chapters: [
         { 
           title: "Basic SQL Queries", 
@@ -153,6 +165,8 @@ export const courses: Course[] = [
     image: "https://picsum.photos/seed/networking/600/400",
     tags: ["networking", "tcp/ip", "internet protocols"],
     topic: "Systems",
+    difficulty: "Intermediate",
+    duration: "15 hours",
     chapters: [
         { 
           title: "The Application Layer", 
@@ -180,6 +194,8 @@ export const courses: Course[] = [
     image: "https://picsum.photos/seed/security/600/400",
     tags: ["cybersecurity", "security", "networking", "beginner"],
     topic: "Security",
+    difficulty: "Beginner",
+    duration: "5 hours",
     chapters: [
         { 
           title: "The CIA Triad and Common Threats", 
@@ -207,6 +223,8 @@ export const courses: Course[] = [
     image: "https://picsum.photos/seed/aws/600/400",
     tags: ["aws", "cloud computing", "devops"],
     topic: "Systems",
+    difficulty: "Intermediate",
+    duration: "10 hours",
     chapters: [
         { 
           title: "Introduction to AWS and IAM", 
@@ -233,6 +251,8 @@ export const courses: Course[] = [
     image: "https://picsum.photos/seed/swe/600/400",
     tags: ["software engineering", "agile", "sdlc", "design patterns"],
     topic: "Programming",
+    difficulty: "Intermediate",
+    duration: "12 hours",
     chapters: [
       {
         title: "The Software Development Life Cycle (SDLC)",
@@ -259,6 +279,8 @@ export const courses: Course[] = [
     image: "https://picsum.photos/seed/os/600/400",
     tags: ["operating systems", "systems programming", "concurrency"],
     topic: "Systems",
+    difficulty: "Advanced",
+    duration: "18 hours",
     chapters: [
       {
         title: "Process and Thread Management",
@@ -285,6 +307,8 @@ export const courses: Course[] = [
     image: "https://picsum.photos/seed/devops/600/400",
     tags: ["devops", "ci/cd", "automation", "cloud"],
     topic: "Systems",
+    difficulty: "Intermediate",
+    duration: "9 hours",
     chapters: [
       {
         title: "What is DevOps?",
@@ -311,6 +335,8 @@ export const courses: Course[] = [
     image: "https://picsum.photos/seed/graphics/600/400",
     tags: ["computer graphics", "rendering", "opengl", "3d"],
     topic: "Algorithms",
+    difficulty: "Advanced",
+    duration: "16 hours",
     chapters: [
       {
         title: "The Graphics Pipeline",
@@ -337,6 +363,8 @@ export const courses: Course[] = [
     image: "https://picsum.photos/seed/js-advanced/600/400",
     tags: ["javascript", "es6", "asynchronous", "advanced", "programming"],
     topic: "Programming",
+    difficulty: "Intermediate",
+    duration: "8 hours",
     chapters: [
       {
         title: "Arrow Functions and Lexical `this`",
@@ -363,6 +391,8 @@ export const courses: Course[] = [
     image: "https://picsum.photos/seed/dp/600/400",
     tags: ["dynamic programming", "algorithms", "optimization", "advanced"],
     topic: "Algorithms",
+    difficulty: "Advanced",
+    duration: "14 hours",
     chapters: [
       {
         title: "Introduction to DP: Overlapping Subproblems and Optimal Substructure",
@@ -389,6 +419,8 @@ export const courses: Course[] = [
     image: "https://picsum.photos/seed/pytorch/600/400",
     tags: ["deep learning", "pytorch", "neural networks", "ai/ml"],
     topic: "AI/ML",
+    difficulty: "Advanced",
+    duration: "25 hours",
     chapters: [
       {
         title: "Tensors and `nn.Module`",
@@ -415,6 +447,8 @@ export const courses: Course[] = [
     image: "https://picsum.photos/seed/microservices/600/400",
     tags: ["microservices", "architecture", "distributed systems", "web development"],
     topic: "Web Development",
+    difficulty: "Advanced",
+    duration: "18 hours",
     chapters: [
       {
         title: "Monolith vs. Microservices",
@@ -441,6 +475,8 @@ export const courses: Course[] = [
     image: "https://picsum.photos/seed/nosql/600/400",
     tags: ["nosql", "databases", "mongodb", "big data"],
     topic: "Databases",
+    difficulty: "Intermediate",
+    duration: "12 hours",
     chapters: [
       {
         title: "The CAP Theorem and Data Models",
@@ -467,6 +503,8 @@ export const courses: Course[] = [
     image: "https://picsum.photos/seed/kubernetes/600/400",
     tags: ["docker", "kubernetes", "devops", "containerization", "systems"],
     topic: "Systems",
+    difficulty: "Advanced",
+    duration: "22 hours",
     chapters: [
       {
         title: "Creating Optimized Docker Images",
@@ -493,6 +531,8 @@ export const courses: Course[] = [
     image: "https://picsum.photos/seed/web-security/600/400",
     tags: ["web security", "cybersecurity", "owasp", "full-stack"],
     topic: "Security",
+    difficulty: "Intermediate",
+    duration: "10 hours",
     chapters: [
       {
         title: "Cross-Site Scripting (XSS)",

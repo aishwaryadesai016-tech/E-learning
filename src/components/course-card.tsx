@@ -10,8 +10,16 @@ import {
 import { Badge } from "@/components/ui/badge";
 import type { Course } from "@/lib/courses";
 import { ArrowRight } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export function CourseCard({ course }: { course: Course }) {
+
+  const difficultyColors = {
+    Beginner: "bg-green-100 text-green-800 border-green-200",
+    Intermediate: "bg-amber-100 text-amber-800 border-amber-200",
+    Advanced: "bg-red-100 text-red-800 border-red-200",
+  }
+
   return (
     <Link
       href={`/courses/${course.id}`}
@@ -27,6 +35,9 @@ export function CourseCard({ course }: { course: Course }) {
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             data-ai-hint={`course ${course.topic.toLowerCase()}`}
           />
+           <Badge className={cn("absolute top-2 right-2", difficultyColors[course.difficulty])}>
+            {course.difficulty}
+          </Badge>
         </div>
         <CardHeader>
           <CardTitle className="font-headline text-lg leading-tight">

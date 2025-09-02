@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { RelatedCourses } from "@/components/related-courses";
-import { BookOpen, Info, Star, BrainCircuit } from "lucide-react";
+import { BookOpen, Info, Star, BrainCircuit, BarChart, Clock, Book, Layers } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -23,6 +23,7 @@ import { CourseQuiz } from "@/components/course-quiz";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ChapterContent } from "@/components/chapter-content";
 import { Syllabus } from "@/components/syllabus";
+import { cn } from "@/lib/utils";
 
 export default async function CourseDetailPage({
   params,
@@ -50,16 +51,45 @@ export default async function CourseDetailPage({
           <p className="text-lg text-muted-foreground">{course.description}</p>
       </div>
 
-      <div className="relative w-full aspect-video rounded-lg overflow-hidden shadow-lg">
-          <Image
-            src={course.image}
-            alt={course.title}
-            fill
-            className="object-cover"
-            sizes="(max-width: 768px) 100vw, 80vw"
-            data-ai-hint={`course ${course.topic.toLowerCase()}`}
-          />
+      <div className="grid md:grid-cols-3 gap-8">
+        <div className="md:col-span-2">
+            <div className="relative w-full aspect-video rounded-lg overflow-hidden shadow-lg">
+                <Image
+                    src={course.image}
+                    alt={course.title}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, 80vw"
+                    data-ai-hint={`course ${course.topic.toLowerCase()}`}
+                />
+            </div>
         </div>
+        <div className="md:col-span-1">
+            <Card>
+                <CardHeader>
+                    <CardTitle className="text-xl">Course Details</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                    <div className="flex items-center gap-3">
+                        <BarChart className="h-5 w-5 text-muted-foreground" />
+                        <span className="font-medium">Level: {course.difficulty}</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                        <Clock className="h-5 w-5 text-muted-foreground" />
+                        <span className="font-medium">Duration: {course.duration}</span>
+                    </div>
+                     <div className="flex items-center gap-3">
+                        <Book className="h-5 w-5 text-muted-foreground" />
+                        <span className="font-medium">{course.chapters.length} Chapters</span>
+                    </div>
+                     <div className="flex items-center gap-3">
+                        <Layers className="h-5 w-5 text-muted-foreground" />
+                        <span className="font-medium">Topic: {course.topic}</span>
+                    </div>
+                </CardContent>
+            </Card>
+        </div>
+      </div>
 
       <div className="space-y-8">
         {/* About Section */}
