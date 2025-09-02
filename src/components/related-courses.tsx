@@ -20,10 +20,12 @@ export function RelatedCourses({ course }: { course: Course }) {
     null
   );
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchRelated = async () => {
       setLoading(true);
+      setError(null);
       try {
         const result = await suggestRelatedCourses({
           courseTitle: course.title,
@@ -32,7 +34,9 @@ export function RelatedCourses({ course }: { course: Course }) {
         setRelated(result);
       } catch (error) {
         console.error("Failed to fetch related courses:", error);
-        // Gracefully fail by setting related to an empty array
+        setError(
+          "Could not load AI recommendations. This may be due to a missing API key in the application's environment configuration."
+        );
         setRelated([]);
       } finally {
         setLoading(false);
@@ -60,6 +64,26 @@ export function RelatedCourses({ course }: { course: Course }) {
         </CardContent>
       </Card>
     );
+  }
+  
+  if (error) {
+    return (
+       <Card>
+        <CardHeader>
+           <div className="flex items-center gap-2">
+             <span className="p-2 bg-primary/10 rounded-full">
+                <Lightbulb className="h-5 w-5 text-primary" />
+             </span>
+             <CardTitle className="font-headline text-xl">
+                Top Recommended Courses
+             </CardTitle>
+           </div>
+        </CardHeader>
+        <CardContent>
+            <p className="text-muted-foreground text-sm">{error}</p>
+        </CardContent>
+       </Card>
+    )
   }
 
   if (!related || related.length === 0) {
@@ -110,3 +134,4 @@ export function RelatedCourses({ course }: { course: Course }) {
     </Card>
   );
 }
+

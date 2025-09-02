@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect } from "react";
@@ -55,7 +56,7 @@ export function CourseQuiz({
       setQuizState(prev => ({ ...prev, selectedAnswers: Array(result.questions.length).fill(null) }));
     } catch (err) {
       console.error("Failed to generate quiz:", err);
-      setError("Sorry, we couldn't generate the quiz right now. Please try again later.");
+      setError("The AI-powered quiz could not be generated. This may be due to a missing API key in the application's environment configuration. Please try again later.");
     } finally {
       setLoading(false);
     }
@@ -202,3 +203,4 @@ function QuizSkeleton() {
       </Card>
     );
   }
+
