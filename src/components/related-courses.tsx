@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useState } from "react";
@@ -22,6 +23,7 @@ export function RelatedCourses({ course }: { course: Course }) {
 
   useEffect(() => {
     const fetchRelated = async () => {
+      setLoading(true);
       try {
         const result = await suggestRelatedCourses({
           courseTitle: course.title,
