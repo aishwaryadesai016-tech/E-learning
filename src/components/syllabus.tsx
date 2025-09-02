@@ -20,20 +20,19 @@ export function Syllabus({ course }: { course: Course }) {
     <Accordion type="single" collapsible className="w-full" defaultValue="item-0">
       {course.chapters.map((chapter, index) => (
         <AccordionItem key={index} value={`item-${index}`} className="border-b">
-          <AccordionTrigger className="text-lg font-semibold hover:no-underline">
-            <div className="flex items-center gap-4 text-left">
-              <Checkbox
-                id={`chapter-${index}`}
-                checked={courseProgress.completedChapters.includes(index)}
-                onCheckedChange={(checked) => handleChapterToggle(index, !!checked)}
-                onClick={(e) => e.stopPropagation()} // prevent accordion from toggling
-                className="h-5 w-5 rounded-full"
-              />
+          <div className="flex items-center gap-4 py-4 text-left">
+            <Checkbox
+              id={`chapter-${index}`}
+              checked={courseProgress.completedChapters.includes(index)}
+              onCheckedChange={(checked) => handleChapterToggle(index, !!checked)}
+              className="h-5 w-5 rounded-full"
+            />
+            <AccordionTrigger className="text-lg font-semibold hover:no-underline p-0 flex-1 justify-start">
               <Label htmlFor={`chapter-${index}`} className="cursor-pointer">
                 Chapter {index + 1}: {chapter.title}
               </Label>
-            </div>
-          </AccordionTrigger>
+            </AccordionTrigger>
+          </div>
           <AccordionContent className="text-base text-muted-foreground prose prose-sm max-w-none pl-12">
             <ChapterContent content={chapter.content} />
           </AccordionContent>
