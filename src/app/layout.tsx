@@ -3,7 +3,7 @@ import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
-  title: "Course Compass",
+  title: "E-learning recommendation system",
   description: "An E-Learning Recommendation System using Machine Learning",
 };
 
