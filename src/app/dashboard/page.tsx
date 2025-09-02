@@ -1,6 +1,7 @@
 
 "use client";
 
+import { useState, useEffect } from "react";
 import { Clock, CheckCircle, ListVideo } from "lucide-react";
 import {
   Card,
@@ -19,6 +20,17 @@ import { Button } from "@/components/ui/button";
 
 export default function DashboardPage() {
   const { progress } = useProgress();
+  const [userName, setUserName] = useState("User");
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("currentUser");
+    if (storedUser) {
+      const user = JSON.parse(storedUser);
+      if (user.fullName) {
+        setUserName(user.fullName);
+      }
+    }
+  }, []);
 
   const inProgressCourses = courses.filter(
     (course) =>
@@ -37,7 +49,7 @@ export default function DashboardPage() {
     <div className="flex flex-col gap-6">
       <div className="space-y-1">
         <h1 className="text-2xl font-semibold md:text-3xl font-headline">
-          Welcome Back, User!
+          Welcome Back, {userName}!
         </h1>
         <p className="text-muted-foreground">
           Here's a summary of your learning journey.
