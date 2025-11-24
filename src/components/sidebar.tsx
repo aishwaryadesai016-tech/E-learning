@@ -6,6 +6,7 @@ import { Home, LayoutDashboard, User as UserIcon } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { UserInfo } from "./user-info";
+import { Logo } from "./logo";
 
 const navLinks = [
     { href: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
@@ -18,9 +19,9 @@ export function Sidebar() {
 
     return (
         <div className="flex flex-col h-full bg-card text-card-foreground">
-            {/* Header for both Mobile and Desktop */}
-            <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
-                {/* Logo is now only in the main header */}
+            {/* Header for Mobile Sheet */}
+            <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6 md:hidden">
+                <Logo />
             </div>
             
             {/* Navigation for both Mobile and Desktop */}
@@ -42,8 +43,8 @@ export function Sidebar() {
                 </nav>
             </div>
             
-            {/* Footer for both Mobile and Desktop */}
-            <div className="mt-auto p-4 border-t">
+            {/* User Info Footer for Mobile Sheet */}
+            <div className="mt-auto p-4 border-t md:hidden">
                 <UserInfo />
             </div>
         </div>
