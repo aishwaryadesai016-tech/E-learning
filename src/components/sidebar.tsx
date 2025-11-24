@@ -6,6 +6,7 @@ import { Home, LayoutDashboard, User as UserIcon } from "lucide-react";
 import { Logo } from "./logo";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { UserInfo } from "./user-info";
 
 const navLinks = [
     { href: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
