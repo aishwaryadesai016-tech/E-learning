@@ -59,8 +59,8 @@ export function CourseRating() {
     addDocumentNonBlocking(ratingsColRef, ratingData);
 
     toast({
-      title: "Rating submitted!",
-      description: `You rated this course ${rating} out of 5 stars. In a real-world app, a backend process would now update the course's average rating.`,
+      title: "Rating submitted successfully!",
+      description: `Thank you for your feedback. You rated this course ${rating} out of 5 stars.`,
     });
     setIsSubmitting(false);
   };
