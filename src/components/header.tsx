@@ -18,7 +18,7 @@ import { Sidebar } from "./sidebar";
 
 export function Header() {
   return (
-    <header className="sticky top-0 z-40 flex h-14 items-center gap-4 border-b bg-card px-4 lg:h-[60px] lg:px-6">
+    <header className="fixed top-0 left-0 right-0 z-50 flex h-14 items-center gap-4 border-b bg-card px-4 lg:h-[60px] lg:px-6">
       <div className="flex items-center gap-4">
         <Sheet>
           <SheetTrigger asChild>

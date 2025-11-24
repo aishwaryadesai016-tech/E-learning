@@ -6,6 +6,7 @@ import { Home, LayoutDashboard, User as UserIcon } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { UserInfo } from "./user-info";
+import { Logo } from "./logo";
 
 const navLinks = [
     { href: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
@@ -17,7 +18,7 @@ export function Sidebar() {
     const pathname = usePathname();
 
     return (
-        <div className="flex h-full max-h-screen flex-col gap-2 bg-card text-card-foreground border-r">
+        <div className="fixed flex h-full max-h-screen flex-col gap-2 bg-card text-card-foreground border-r md:w-[220px] lg:w-[280px]">
             {/* Navigation for both Mobile and Desktop */}
             <div className="flex-1 overflow-y-auto">
                 <nav className="grid items-start px-2 text-sm font-medium lg:px-4 gap-2 pt-4">
