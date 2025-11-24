@@ -3,7 +3,7 @@ import { courses } from "@/lib/courses";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
-import { BookOpen, Star, BarChart, Clock, Book, Award, Users, Languages, ArrowRight, CheckCircle, BrainCircuit } from "lucide-react";
+import { BookOpen, Star, BarChart, Clock, Book, Award, Users, Languages, ArrowRight, CheckCircle } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -177,27 +177,6 @@ export default async function CourseDetailPage({
                     ))}
                 </CardContent>
              </Card>
-
-            {/* Quiz Section */}
-            <Card className="bg-primary/10 border-primary/20">
-                <CardHeader className="text-center">
-                    <div className="mx-auto bg-primary text-primary-foreground rounded-full p-3 w-fit mb-2">
-                        <BrainCircuit className="h-6 w-6" />
-                    </div>
-                    <CardTitle className="font-headline text-2xl">Test Your Knowledge</CardTitle>
-                    <CardDescription>
-                        Ready to see what you've learned? Take a short quiz to check your understanding.
-                    </CardDescription>
-                </CardHeader>
-                <CardContent className="flex justify-center">
-                    <Button asChild size="lg">
-                        <Link href={`/courses/${course.id}/quiz`}>
-                            Start Quiz
-                            <ArrowRight className="ml-2 h-4 w-4" />
-                        </Link>
-                    </Button>
-                </CardContent>
-            </Card>
         </div>
       </div>
     </div>

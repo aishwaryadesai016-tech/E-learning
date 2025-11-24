@@ -5,8 +5,8 @@ import { courses } from "@/lib/courses";
 import { notFound, useParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { ArrowLeft, BookOpen, CheckCircle } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ArrowLeft, BookOpen, BrainCircuit, ArrowRight } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { useProgress } from "@/lib/progress";
 import { Syllabus } from "@/components/syllabus";
@@ -18,7 +18,7 @@ export default function CourseLearnPage() {
     const course = courses.find((c) => c.id === id);
 
     const { user } = useUser();
-    const { progress, isProgressLoading } = useProgress();
+    const { progress } = useProgress();
     
     if (!course) {
         notFound();
@@ -67,6 +67,26 @@ export default function CourseLearnPage() {
                 </CardHeader>
                 <CardContent>
                    <Syllabus course={course} />
+                </CardContent>
+            </Card>
+
+            <Card className="bg-primary/10 border-primary/20">
+                <CardHeader className="text-center">
+                    <div className="mx-auto bg-primary text-primary-foreground rounded-full p-3 w-fit mb-2">
+                        <BrainCircuit className="h-6 w-6" />
+                    </div>
+                    <CardTitle className="font-headline text-2xl">Test Your Knowledge</CardTitle>
+                    <CardDescription>
+                        Ready to see what you've learned? Take a short quiz to check your understanding.
+                    </CardDescription>
+                </CardHeader>
+                <CardContent className="flex justify-center">
+                    <Button asChild size="lg">
+                        <Link href={`/courses/${course.id}/quiz`}>
+                            Start Quiz
+                            <ArrowRight className="ml-2 h-4 w-4" />
+                        </Link>
+                    </Button>
                 </CardContent>
             </Card>
         </div>

@@ -7,6 +7,8 @@ import { useProgress } from "@/lib/progress";
 import { Checkbox } from "./ui/checkbox";
 import { Label } from "./ui/label";
 import { useUser } from "@/firebase";
+import { courseContent } from "@/lib/course-content";
+import { ChapterContent } from "./chapter-content";
 
 export function Syllabus({ course }: { course: Course }) {
   const { user } = useUser();
@@ -19,6 +21,8 @@ export function Syllabus({ course }: { course: Course }) {
       updateProgress(user.uid, courseId, course.modules.length, chapterIndex, isCompleted);
     }
   };
+
+  const modulesContent = courseContent[course.id]?.modules;
 
   return (
     <Accordion type="single" collapsible className="w-full" defaultValue="item-0">
@@ -39,7 +43,11 @@ export function Syllabus({ course }: { course: Course }) {
             </AccordionTrigger>
           </div>
           <AccordionContent className="text-base text-muted-foreground prose prose-sm max-w-none pl-12 pb-4">
-             <p>{module.topics.join(' · ')}</p>
+             {modulesContent && modulesContent[index] ? (
+                <ChapterContent content={modulesContent[index]} />
+             ) : (
+                <p>Content for this module is not available yet.</p>
+             )}
           </AccordionContent>
         </AccordionItem>
       ))}
