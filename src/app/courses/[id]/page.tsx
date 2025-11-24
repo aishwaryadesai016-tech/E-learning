@@ -1,3 +1,4 @@
+
 import { courses } from "@/lib/courses";
 import { notFound } from "next/navigation";
 import Image from "next/image";
@@ -10,20 +11,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion"
 import { Suspense } from "react";
 import { CourseRating } from "@/components/course-rating";
 import { Separator } from "@/components/ui/separator";
 import { CourseQuiz } from "@/components/course-quiz";
 import { Skeleton } from "@/components/ui/skeleton";
-import { ChapterContent } from "@/components/chapter-content";
 import { Syllabus } from "@/components/syllabus";
-import { cn } from "@/lib/utils";
 
 export default async function CourseDetailPage({
   params,
@@ -183,14 +176,16 @@ function RelatedCoursesSkeleton() {
         <Card>
           <CardHeader>
             <div className="flex items-center gap-2">
-              <div className="h-9 w-9 bg-muted rounded-full"></div>
-              <div className="h-6 w-1/2 bg-muted rounded-md"></div>
+              <span className="p-2 bg-muted rounded-full">
+                 <Skeleton className="h-5 w-5" />
+              </span>
+              <Skeleton className="h-6 w-1/2" />
             </div>
-            <div className="h-4 w-full bg-muted rounded-md"></div>
+            <Skeleton className="h-4 w-full" />
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="h-16 w-full bg-muted rounded-lg"></div>
-            <div className="h-16 w-full bg-muted rounded-lg"></div>
+            <Skeleton className="h-16 w-full" />
+            <Skeleton className="h-16 w-full" />
           </CardContent>
         </Card>
     )

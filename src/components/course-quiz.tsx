@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { generateQuiz } from "@/ai/flows/generate-quiz";
 import type { GenerateQuizOutput } from "@/ai/flows/generate-quiz";
 import { Button } from "@/components/ui/button";
@@ -17,7 +17,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
-import { CheckCircle, XCircle, RefreshCw } from "lucide-react";
+import { RefreshCw } from "lucide-react";
 
 type QuizState = {
   selectedAnswers: (number | null)[];
@@ -41,7 +41,7 @@ export function CourseQuiz({
     score: 0,
   });
 
-  const fetchQuiz = async () => {
+  const fetchQuiz = useCallback(async () => {
     setLoading(true);
     setError(null);
     setQuizData(null);
@@ -52,19 +52,23 @@ export function CourseQuiz({
     })
     try {
       const result = await generateQuiz({ courseTitle, courseContent });
-      setQuizData(result);
-      setQuizState(prev => ({ ...prev, selectedAnswers: Array(result.questions.length).fill(null) }));
+      if (result && result.questions) {
+        setQuizData(result);
+        setQuizState(prev => ({ ...prev, selectedAnswers: Array(result.questions.length).fill(null) }));
+      } else {
+        throw new Error("Quiz data is invalid or empty.");
+      }
     } catch (err) {
       console.error("Failed to generate quiz:", err);
-      setError("The AI-powered quiz could not be generated. This may be due to a missing API key in the application's environment configuration. Please try again later.");
+      setError("The AI-powered quiz could not be generated. This may be due to a temporary issue with the AI service or a missing API key in the application's environment configuration. Please try again later.");
     } finally {
       setLoading(false);
     }
-  };
+  }, [courseTitle, courseContent]);
 
   useEffect(() => {
     fetchQuiz();
-  }, [courseTitle, courseContent]);
+  }, [fetchQuiz]);
 
   const handleAnswerChange = (questionIndex: number, answerIndex: number) => {
     if (quizState.submitted) return;
@@ -203,4 +207,3 @@ function QuizSkeleton() {
       </Card>
     );
   }
-

@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from "next/link";
@@ -72,7 +73,7 @@ export default function SignupPage() {
     // Simulate a session by storing user info
     localStorage.setItem("currentUser", JSON.stringify(newUser));
     setError("");
-    router.push("/dashboard");
+    router.push("/courses");
   };
 
   return (

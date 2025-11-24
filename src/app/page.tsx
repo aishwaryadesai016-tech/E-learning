@@ -1,7 +1,7 @@
+
 import Link from "next/link";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Logo } from "@/components/logo";
-import Image from "next/image";
 import { ArrowRight, BookOpen, BrainCircuit, Target } from "lucide-react";
 import { cn } from "@/lib/utils";
 

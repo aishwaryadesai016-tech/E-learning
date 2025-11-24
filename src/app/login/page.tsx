@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from "next/link";
@@ -34,7 +35,7 @@ export default function LoginPage() {
       setError("");
       // Simulate a session by storing user info
       localStorage.setItem("currentUser", JSON.stringify(user));
-      router.push("/dashboard");
+      router.push("/courses");
     } else {
       setError("Invalid email or password. Please try again.");
     }

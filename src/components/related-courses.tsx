@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { suggestRelatedCourses } from "@/ai/flows/suggest-related-courses";
 import type { Course } from "@/lib/courses";
 import {
@@ -14,6 +14,7 @@ import {
 import { Badge } from "./ui/badge";
 import { Lightbulb } from "lucide-react";
 import type { SuggestRelatedCoursesOutput } from "@/ai/flows/suggest-related-courses";
+import { Skeleton } from "./ui/skeleton";
 
 export function RelatedCourses({ course }: { course: Course }) {
   const [related, setRelated] = useState<SuggestRelatedCoursesOutput | null>(
@@ -22,73 +23,55 @@ export function RelatedCourses({ course }: { course: Course }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchRelated = async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        const result = await suggestRelatedCourses({
-          courseTitle: course.title,
-          courseDescription: course.description,
-        });
-        setRelated(result);
-      } catch (error) {
-        console.error("Failed to fetch related courses:", error);
-        setError(
-          "Could not load AI recommendations. This may be due to a missing API key in the application's environment configuration."
-        );
-        setRelated([]);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchRelated();
+  const fetchRelated = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const result = await suggestRelatedCourses({
+        courseTitle: course.title,
+        courseDescription: course.description,
+      });
+      setRelated(result);
+    } catch (error) {
+      console.error("Failed to fetch related courses:", error);
+      setError(
+        "Could not load AI recommendations. This may be due to a temporary issue with the AI service or a missing API key in the application's environment configuration."
+      );
+      setRelated([]);
+    } finally {
+      setLoading(false);
+    }
   }, [course]);
+
+  useEffect(() => {
+    fetchRelated();
+  }, [fetchRelated]);
 
   if (loading) {
     return (
-      <Card>
-        <CardHeader>
-          <div className="flex items-center gap-2">
-            <span className="p-2 bg-muted rounded-full">
-              <Lightbulb className="h-5 w-5 text-muted-foreground" />
-            </span>
-            <div className="h-6 w-1/2 bg-muted rounded-md" />
-          </div>
-          <div className="h-4 w-full bg-muted rounded-md" />
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="h-16 w-full bg-muted rounded-lg" />
-          <div className="h-16 w-full bg-muted rounded-lg" />
-        </CardContent>
-      </Card>
+        <Card>
+          <CardHeader>
+            <div className="flex items-center gap-2">
+              <span className="p-2 bg-muted rounded-full">
+                 <Skeleton className="h-5 w-5 rounded-full" />
+              </span>
+              <Skeleton className="h-6 w-1/2" />
+            </div>
+            <Skeleton className="h-4 w-full" />
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <Skeleton className="h-16 w-full" />
+            <Skeleton className="h-16 w-full" />
+          </CardContent>
+        </Card>
     );
   }
   
-  if (error) {
-    return (
-       <Card>
-        <CardHeader>
-           <div className="flex items-center gap-2">
-             <span className="p-2 bg-primary/10 rounded-full">
-                <Lightbulb className="h-5 w-5 text-primary" />
-             </span>
-             <CardTitle className="font-headline text-xl">
-                Top Recommended Courses
-             </CardTitle>
-           </div>
-        </CardHeader>
-        <CardContent>
-            <p className="text-muted-foreground text-sm">{error}</p>
-        </CardContent>
-       </Card>
-    )
-  }
-
-  if (!related || related.length === 0) {
+  if (error || !related || related.length === 0) {
+    // Fail gracefully and don't show the component if there's an error or no related courses.
     return null;
   }
+
 
   return (
     <Card>
@@ -134,4 +117,3 @@ export function RelatedCourses({ course }: { course: Course }) {
     </Card>
   );
 }
-
