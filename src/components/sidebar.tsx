@@ -17,7 +17,7 @@ export function Sidebar() {
     const pathname = usePathname();
 
     return (
-        <div className="fixed flex h-full flex-col bg-card text-card-foreground border-r md:w-[280px] lg:w-[320px]">
+        <div className="hidden h-full flex-col bg-card text-card-foreground border-r md:flex md:w-[280px] lg:w-[320px]">
             {/* Navigation for both Mobile and Desktop */}
             <div className="flex-1 overflow-y-auto pt-4">
                 <nav className="grid items-start px-2 text-sm font-medium lg:px-4 gap-2">
@@ -38,7 +38,7 @@ export function Sidebar() {
             </div>
             
             {/* User Info Footer */}
-            <div className="mt-auto p-4 border-t">
+            <div className="p-4 border-t">
                 <UserInfo />
             </div>
         </div>
