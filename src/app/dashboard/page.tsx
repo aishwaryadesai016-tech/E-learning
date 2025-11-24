@@ -35,7 +35,7 @@ export default function DashboardPage() {
 
   const isLoading = isUserLoading || isUserDocLoading || isProgressLoading;
 
-  const userName = userData?.name || "User";
+  const userName = userData?.name || user?.displayName || "User";
 
   const inProgressCourses = courses.filter(
     (course) =>
