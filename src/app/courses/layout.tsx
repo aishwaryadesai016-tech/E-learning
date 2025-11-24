@@ -64,8 +64,8 @@ export default function CoursesLayout({
   return (
     <div className="grid h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
       <div className="hidden border-r bg-card md:flex md:flex-col">
-        <div className="flex-1 overflow-y-auto">
-            <nav className="grid items-start px-2 text-sm font-medium lg:px-4 gap-2 py-4 mt-16">
+        <div className="flex-1 overflow-y-auto pt-4">
+            <nav className="grid items-start px-2 text-sm font-medium lg:px-4 gap-2">
               <Link
                 href="/dashboard"
                 className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
