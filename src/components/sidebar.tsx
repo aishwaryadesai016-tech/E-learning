@@ -30,8 +30,7 @@ export function Sidebar() {
     };
 
     return (
-        <div className="h-full flex-col bg-card text-card-foreground border-r md:flex md:w-[280px] lg:w-[320px]">
-            {/* Navigation for both Mobile and Desktop */}
+        <div className="h-full flex flex-col bg-card text-card-foreground border-r">
             <div className="flex-1 overflow-y-auto pt-4">
                 <nav className="grid items-start px-2 text-sm font-medium lg:px-4 gap-2">
                     {navLinks.map((link) => (
@@ -51,9 +50,9 @@ export function Sidebar() {
             </div>
             
             {/* User Info Footer */}
-            <div className="p-4 border-t flex items-center justify-between">
+            <div className="p-4 border-t space-y-4">
                 <UserInfo />
-                <Button variant="ghost" onClick={handleLogout} className="text-muted-foreground hover:text-primary">
+                <Button variant="ghost" onClick={handleLogout} className="w-full justify-start text-muted-foreground hover:text-primary">
                     <LogOut className="mr-2 h-5 w-5" />
                     Log out
                 </Button>
