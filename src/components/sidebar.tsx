@@ -1,11 +1,16 @@
 
+
 'use client'
 
 import Link from "next/link";
-import { Home, LayoutDashboard, User as UserIcon } from "lucide-react";
+import { Home, LayoutDashboard, User as UserIcon, LogOut } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { UserInfo } from "./user-info";
+import { Button } from "./ui/button";
+import { useAuth } from "@/firebase";
+import { signOut } from "firebase/auth";
+import { useRouter } from "next/navigation";
 
 const navLinks = [
     { href: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
@@ -15,9 +20,17 @@ const navLinks = [
 
 export function Sidebar() {
     const pathname = usePathname();
+    const auth = useAuth();
+    const router = useRouter();
+
+    const handleLogout = async () => {
+        if (!auth) return;
+        await signOut(auth);
+        router.push('/login');
+    };
 
     return (
-        <div className="hidden h-full flex-col bg-card text-card-foreground border-r md:flex md:w-[280px] lg:w-[320px]">
+        <div className="h-full flex-col bg-card text-card-foreground border-r md:flex md:w-[280px] lg:w-[320px]">
             {/* Navigation for both Mobile and Desktop */}
             <div className="flex-1 overflow-y-auto pt-4">
                 <nav className="grid items-start px-2 text-sm font-medium lg:px-4 gap-2">
@@ -38,8 +51,11 @@ export function Sidebar() {
             </div>
             
             {/* User Info Footer */}
-            <div className="p-4 border-t">
+            <div className="p-4 border-t flex items-center justify-between">
                 <UserInfo />
+                <Button variant="ghost" size="icon" onClick={handleLogout} aria-label="Log out">
+                    <LogOut className="h-5 w-5 text-muted-foreground" />
+                </Button>
             </div>
         </div>
     )
