@@ -3,7 +3,7 @@ import { courses } from "@/lib/courses";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
-import { BookOpen, Info, Star, BrainCircuit, BarChart, Clock, Book, Layers, ArrowRight, CheckCircle, Award, Users, Languages } from "lucide-react";
+import { BookOpen, Star, BarChart, Clock, Book, Award, Users, Languages, ArrowRight, CheckCircle, BrainCircuit } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -89,6 +89,27 @@ export default async function CourseDetailPage({
             </Card>
         </div>
       </div>
+      
+       <Card className="bg-primary/5 border-primary/20">
+        <CardHeader className="text-center">
+            <div className="mx-auto bg-primary text-primary-foreground rounded-full p-4 w-fit mb-3">
+                <BookOpen className="h-8 w-8" />
+            </div>
+            <CardTitle className="font-headline text-3xl">Ready to Begin?</CardTitle>
+            <CardDescription>
+                Enroll now to get access to all course materials, quizzes, and track your progress.
+            </CardDescription>
+        </CardHeader>
+        <CardContent className="flex justify-center">
+            <Button asChild size="lg">
+                <Link href={`/courses/${course.id}/learn`}>
+                    Start Learning
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+            </Button>
+        </CardContent>
+      </Card>
+
 
       <div className="grid md:grid-cols-3 gap-8">
         <div className="md:col-span-2 space-y-8">
@@ -103,24 +124,6 @@ export default async function CourseDetailPage({
                         <li key={i}>{objective}</li>
                     ))}
                 </ul>
-            </section>
-            
-            <Separator />
-
-            {/* Syllabus Section */}
-            <section>
-                <div className="flex items-center gap-3 mb-4">
-                    <BookOpen className="h-6 w-6 text-primary" />
-                    <h2 className="font-headline text-2xl font-semibold">Syllabus</h2>
-                </div>
-                <div className="space-y-4">
-                    {course.modules.map((module) => (
-                        <div key={module.week} className="p-4 border rounded-lg">
-                            <h3 className="font-semibold">Week {module.week}: {module.title}</h3>
-                            <p className="text-sm text-muted-foreground mt-1">{module.topics.join(' · ')}</p>
-                        </div>
-                    ))}
-                </div>
             </section>
             
             <Separator />

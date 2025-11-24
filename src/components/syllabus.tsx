@@ -3,7 +3,6 @@
 
 import type { Course } from "@/lib/courses";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { ChapterContent } from "./chapter-content";
 import { useProgress } from "@/lib/progress";
 import { Checkbox } from "./ui/checkbox";
 import { Label } from "./ui/label";
@@ -23,7 +22,7 @@ export function Syllabus({ course }: { course: Course }) {
 
   return (
     <Accordion type="single" collapsible className="w-full" defaultValue="item-0">
-      {course.modules.map((chapter, index) => (
+      {course.modules.map((module, index) => (
         <AccordionItem key={index} value={`item-${index}`} className="border-b">
           <div className="flex items-center gap-4 py-4 text-left">
             <Checkbox
@@ -35,12 +34,12 @@ export function Syllabus({ course }: { course: Course }) {
             />
             <AccordionTrigger className="text-lg font-semibold hover:no-underline p-0 flex-1 justify-start">
               <Label htmlFor={`chapter-${index}`} className="cursor-pointer">
-                Week {chapter.week}: {chapter.title}
+                Week {module.week}: {module.title}
               </Label>
             </AccordionTrigger>
           </div>
-          <AccordionContent className="text-base text-muted-foreground prose prose-sm max-w-none pl-12">
-            <ChapterContent content={chapter.topics.join('\n\n')} />
+          <AccordionContent className="text-base text-muted-foreground prose prose-sm max-w-none pl-12 pb-4">
+             <p>{module.topics.join(' · ')}</p>
           </AccordionContent>
         </AccordionItem>
       ))}
