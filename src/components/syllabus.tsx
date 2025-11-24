@@ -7,13 +7,17 @@ import { ChapterContent } from "./chapter-content";
 import { useProgress } from "@/lib/progress";
 import { Checkbox } from "./ui/checkbox";
 import { Label } from "./ui/label";
+import { useUser } from "@/firebase";
 
 export function Syllabus({ course }: { course: Course }) {
+  const { user } = useUser();
   const { progress, updateProgress } = useProgress();
   const courseProgress = progress[course.id] || { completedChapters: [] };
 
   const handleChapterToggle = (chapterIndex: number, isCompleted: boolean) => {
-    updateProgress(course.id, course.chapters.length, chapterIndex, isCompleted);
+    if (user) {
+      updateProgress(user.uid, course.id, course.chapters.length, chapterIndex, isCompleted);
+    }
   };
 
   return (
@@ -26,6 +30,7 @@ export function Syllabus({ course }: { course: Course }) {
               checked={courseProgress.completedChapters.includes(index)}
               onCheckedChange={(checked) => handleChapterToggle(index, !!checked)}
               className="h-5 w-5 rounded-full"
+              disabled={!user}
             />
             <AccordionTrigger className="text-lg font-semibold hover:no-underline p-0 flex-1 justify-start">
               <Label htmlFor={`chapter-${index}`} className="cursor-pointer">

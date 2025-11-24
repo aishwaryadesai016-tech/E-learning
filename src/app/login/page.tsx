@@ -16,29 +16,36 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { useToast } from "@/hooks/use-toast";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const auth = useAuth();
+  const { toast } = useToast();
 
-  const handleLogin = () => {
-    // In a real app, this would involve a call to your backend authentication service.
-    // For this prototype, we'll use localStorage.
-    const users = JSON.parse(localStorage.getItem("users") || "[]");
-    const user = users.find(
-      (u: any) => u.email === email && u.password === password
-    );
-
-    if (user) {
-      setError("");
-      // Simulate a session by storing user info
-      localStorage.setItem("currentUser", JSON.stringify(user));
+  const handleLogin = async () => {
+    setLoading(true);
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
       router.push("/courses");
-    } else {
-      setError("Invalid email or password. Please try again.");
+    } catch (error: any) {
+      console.error("Login failed:", error);
+      toast({
+        variant: "destructive",
+        title: "Login Failed",
+        description:
+          error.code === "auth/invalid-credential"
+            ? "Invalid email or password. Please try again."
+            : "An unexpected error occurred. Please try again later.",
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -70,6 +77,7 @@ export default function LoginPage() {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              disabled={loading}
             />
           </div>
           <div className="grid gap-2 relative">
@@ -82,6 +90,7 @@ export default function LoginPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="pr-10"
+              disabled={loading}
             />
             <Button
               type="button"
@@ -89,6 +98,7 @@ export default function LoginPage() {
               size="icon"
               className="absolute right-1 top-7 h-7 w-7 text-muted-foreground"
               onClick={() => setShowPassword((prev) => !prev)}
+              disabled={loading}
             >
               {showPassword ? <EyeOff /> : <Eye />}
               <span className="sr-only">
@@ -96,11 +106,10 @@ export default function LoginPage() {
               </span>
             </Button>
           </div>
-          {error && <p className="text-sm text-destructive">{error}</p>}
         </CardContent>
         <CardFooter className="flex flex-col gap-4">
-          <Button className="w-full" onClick={handleLogin}>
-            Log In
+          <Button className="w-full" onClick={handleLogin} disabled={loading}>
+            {loading ? "Logging in..." : "Log In"}
           </Button>
           <div className="text-center text-sm">
             Don&apos;t have an account?{" "}

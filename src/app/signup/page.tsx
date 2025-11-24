@@ -17,8 +17,12 @@ import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Checkbox } from "@/components/ui/checkbox";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { courseTopics } from "@/lib/courses";
+import { useAuth, useFirestore } from "@/firebase";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { doc } from "firebase/firestore";
+import { setDocumentNonBlocking } from "@/firebase/non-blocking-updates";
+import { useToast } from "@/hooks/use-toast";
 
 export default function SignupPage() {
   const [fullName, setFullName] = useState("");
@@ -27,55 +31,83 @@ export default function SignupPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [interests, setInterests] = useState<string[]>([]);
-  const [skillLevel, setSkillLevel] = useState("beginner");
-  const [error, setError] = useState("");
+  const [interestTags, setInterestTags] = useState<string[]>([]);
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const auth = useAuth();
+  const firestore = useFirestore();
+  const { toast } = useToast();
 
   const handleInterestChange = (topic: string) => {
-    setInterests((prev) =>
+    setInterestTags((prev) =>
       prev.includes(topic)
         ? prev.filter((i) => i !== topic)
         : [...prev, topic]
     );
   };
 
-  const handleSignup = () => {
-    setError("");
+  const handleSignup = async () => {
     if (!fullName || !email || !password || !confirmPassword) {
-      setError("Please fill in all required fields.");
+      toast({
+        variant: "destructive",
+        title: "Missing Fields",
+        description: "Please fill in all required fields.",
+      });
       return;
     }
 
     if (password !== confirmPassword) {
-      setError("Passwords do not match.");
+      toast({
+        variant: "destructive",
+        title: "Password Mismatch",
+        description: "Passwords do not match.",
+      });
       return;
     }
 
-    // In a real app, this would involve a call to your backend to create a user.
-    // For this prototype, we'll use localStorage.
-    const users = JSON.parse(localStorage.getItem("users") || "[]");
-    const existingUser = users.find((u: any) => u.email === email);
+    setLoading(true);
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const user = userCredential.user;
 
-    if (existingUser) {
-      setError("A user with this email already exists.");
-      return;
+      // Create user profile in Firestore
+      const userDocRef = doc(firestore, "users", user.uid);
+      const userProfile = {
+        id: user.uid,
+        name: fullName,
+        email: user.email,
+        interestTags: interestTags,
+        completedCourseIds: [],
+      };
+      
+      setDocumentNonBlocking(userDocRef, userProfile, { merge: true });
+
+      toast({
+        title: "Account Created!",
+        description: "Welcome! You are now being redirected.",
+      });
+
+      router.push("/courses");
+    } catch (error: any) {
+      console.error("Signup failed:", error);
+      let description = "An unexpected error occurred. Please try again later.";
+      if (error.code === "auth/email-already-in-use") {
+        description = "This email address is already in use.";
+      } else if (error.code === "auth/weak-password") {
+        description = "The password is too weak. Please use at least 6 characters.";
+      }
+      toast({
+        variant: "destructive",
+        title: "Signup Failed",
+        description: description,
+      });
+    } finally {
+      setLoading(false);
     }
-
-    const newUser = {
-      fullName,
-      email,
-      password, // In a real app, you would hash this password
-      interests,
-      skillLevel,
-    };
-    users.push(newUser);
-    localStorage.setItem("users", JSON.stringify(users));
-
-    // Simulate a session by storing user info
-    localStorage.setItem("currentUser", JSON.stringify(newUser));
-    setError("");
-    router.push("/courses");
   };
 
   return (
@@ -106,6 +138,7 @@ export default function SignupPage() {
                 required
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
+                disabled={loading}
               />
             </div>
             <div className="grid gap-2">
@@ -117,6 +150,7 @@ export default function SignupPage() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                disabled={loading}
               />
             </div>
             <div className="grid gap-2 relative">
@@ -128,13 +162,15 @@ export default function SignupPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="pr-10"
+                disabled={loading}
               />
-               <Button
+              <Button
                 type="button"
                 variant="ghost"
                 size="icon"
                 className="absolute right-1 top-7 h-7 w-7 text-muted-foreground"
                 onClick={() => setShowPassword((prev) => !prev)}
+                disabled={loading}
               >
                 {showPassword ? <EyeOff /> : <Eye />}
                 <span className="sr-only">
@@ -142,7 +178,7 @@ export default function SignupPage() {
                 </span>
               </Button>
             </div>
-             <div className="grid gap-2 relative">
+            <div className="grid gap-2 relative">
               <Label htmlFor="confirm-password">Confirm Password</Label>
               <Input
                 id="confirm-password"
@@ -151,13 +187,15 @@ export default function SignupPage() {
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 className="pr-10"
+                disabled={loading}
               />
-               <Button
+              <Button
                 type="button"
                 variant="ghost"
                 size="icon"
                 className="absolute right-1 top-7 h-7 w-7 text-muted-foreground"
                 onClick={() => setShowConfirmPassword((prev) => !prev)}
+                disabled={loading}
               >
                 {showConfirmPassword ? <EyeOff /> : <Eye />}
                 <span className="sr-only">
@@ -169,36 +207,28 @@ export default function SignupPage() {
           <div className="grid gap-2">
             <Label>Areas of Interest</Label>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-2 text-sm">
-                {courseTopics.map(topic => (
-                    <div key={topic} className="flex items-center space-x-2">
-                        <Checkbox id={topic} onCheckedChange={() => handleInterestChange(topic)} />
-                        <Label htmlFor={topic} className="font-normal">{topic}</Label>
-                    </div>
-                ))}
+              {courseTopics.map((topic) => (
+                <div key={topic} className="flex items-center space-x-2">
+                  <Checkbox
+                    id={topic}
+                    onCheckedChange={() => handleInterestChange(topic)}
+                    disabled={loading}
+                  />
+                  <Label htmlFor={topic} className="font-normal">
+                    {topic}
+                  </Label>
+                </div>
+              ))}
             </div>
           </div>
-          <div className="grid gap-2">
-            <Label>Current Skill Level</Label>
-             <RadioGroup defaultValue={skillLevel} onValueChange={setSkillLevel} className="flex gap-4">
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="beginner" id="beginner" />
-                <Label htmlFor="beginner" className="font-normal">Beginner</Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="intermediate" id="intermediate" />
-                <Label htmlFor="intermediate" className="font-normal">Intermediate</Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="advanced" id="advanced" />
-                <Label htmlFor="advanced" className="font-normal">Advanced</Label>
-              </div>
-            </RadioGroup>
-          </div>
-          {error && <p className="text-sm text-destructive">{error}</p>}
         </CardContent>
         <CardFooter className="flex flex-col gap-4">
-          <Button className="w-full" onClick={handleSignup}>
-            Sign Up & Start Learning
+          <Button
+            className="w-full"
+            onClick={handleSignup}
+            disabled={loading}
+          >
+            {loading ? "Creating Account..." : "Sign Up & Start Learning"}
           </Button>
           <div className="text-center text-sm">
             Already have an account?{" "}

@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { cn } from "@/lib/utils";
+import { FirebaseClientProvider } from "@/firebase";
+import { ProgressProvider } from "@/lib/progress.tsx";
 
 export const metadata: Metadata = {
   title: "E-learning recommendation system",
@@ -28,7 +30,11 @@ export default function RootLayout({
         />
       </head>
       <body className={cn("font-body antialiased", "min-h-screen bg-background flex flex-col")}>
-        {children}
+        <FirebaseClientProvider>
+            <ProgressProvider>
+                {children}
+            </ProgressProvider>
+        </FirebaseClientProvider>
         <Toaster />
       </body>
     </html>

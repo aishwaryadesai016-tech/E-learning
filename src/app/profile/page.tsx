@@ -13,37 +13,35 @@ import {
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { courses } from "@/lib/courses";
+import { courses, courseTopics } from "@/lib/courses";
 import { CourseCard } from "@/components/course-card";
 import { useProgress } from "@/lib/progress";
-
-const allInterests = [
-  "Artificial Intelligence",
-  "Machine Learning",
-  "Data Science",
-  "Web Development",
-  "Mobile Development",
-  "Game Development",
-  "Cybersecurity",
-  "Cloud Computing",
-  "Software Engineering",
-  "Blockchain",
-  "UI/UX Design",
-  "Algorithms & Data Structures",
-];
+import { useUser, useFirestore, useDoc, useMemoFirebase } from "@/firebase";
+import { doc } from "firebase/firestore";
+import { updateDocumentNonBlocking } from "@/firebase/non-blocking-updates";
+import { useToast } from "@/hooks/use-toast";
+import type { User } from "@/lib/users";
 
 export default function ProfilePage() {
+  const { user, isUserLoading } = useUser();
+  const firestore = useFirestore();
+  const { toast } = useToast();
+  const { progress, isProgressLoading } = useProgress();
+  
+  const userDocRef = useMemoFirebase(() => {
+    if (!firestore || !user) return null;
+    return doc(firestore, 'users', user.uid);
+  }, [firestore, user]);
+
+  const { data: userData, isLoading: isUserDocLoading } = useDoc<User>(userDocRef);
+
   const [selectedInterests, setSelectedInterests] = useState<string[]>([]);
-  const { progress } = useProgress();
 
   useEffect(() => {
-    // In a real app, you'd fetch the user's saved interests.
-    // For this prototype, we'll get them from localStorage.
-    const storedUser = JSON.parse(localStorage.getItem("currentUser") || "{}");
-    if (storedUser.interests) {
-      setSelectedInterests(storedUser.interests);
+    if (userData?.interestTags) {
+      setSelectedInterests(userData.interestTags);
     }
-  }, []);
+  }, [userData]);
 
   const handleInterestChange = (interest: string) => {
     setSelectedInterests((prev) =>
@@ -54,18 +52,21 @@ export default function ProfilePage() {
   };
 
   const handleSaveChanges = () => {
-    // In a real app, you would save this to your database.
-    // For this prototype, we'll update localStorage.
-    const storedUser = JSON.parse(localStorage.getItem("currentUser") || "{}");
-    const updatedUser = { ...storedUser, interests: selectedInterests };
-    localStorage.setItem("currentUser", JSON.stringify(updatedUser));
-    alert("Your interests have been saved!");
+    if (userDocRef) {
+      updateDocumentNonBlocking(userDocRef, { interestTags: selectedInterests });
+      toast({
+        title: "Interests Saved",
+        description: "Your course recommendations will now be updated.",
+      });
+    }
   };
 
   const completed = courses.filter(
     (course) =>
       progress[course.id] && progress[course.id].progressPercentage === 100
   );
+
+  const isLoading = isUserLoading || isUserDocLoading || isProgressLoading;
 
   return (
     <div className="space-y-6">
@@ -85,12 +86,13 @@ export default function ProfilePage() {
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                {allInterests.map((interest) => (
+                {courseTopics.map((interest) => (
                   <div key={interest} className="flex items-center space-x-2">
                     <Checkbox
                       id={interest}
                       checked={selectedInterests.includes(interest)}
                       onCheckedChange={() => handleInterestChange(interest)}
+                      disabled={isLoading}
                     />
                     <Label htmlFor={interest} className="font-normal">
                       {interest}
@@ -98,7 +100,9 @@ export default function ProfilePage() {
                   </div>
                 ))}
               </div>
-              <Button onClick={handleSaveChanges}>Save Changes</Button>
+              <Button onClick={handleSaveChanges} disabled={isLoading}>
+                {isLoading ? "Saving..." : "Save Changes"}
+              </Button>
             </CardContent>
           </Card>
         </TabsContent>
@@ -111,7 +115,11 @@ export default function ProfilePage() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              {completed.length > 0 ? (
+              {isLoading ? (
+                 <div className="text-center py-12">
+                  <p className="text-muted-foreground">Loading completed courses...</p>
+                </div>
+              ) : completed.length > 0 ? (
                 <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                   {completed.map((course) => (
                     <CourseCard key={course.id} course={course} />

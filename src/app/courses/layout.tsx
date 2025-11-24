@@ -1,19 +1,68 @@
 
+'use client'
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Home, LogOut, Menu, Bell, LayoutDashboard, User } from "lucide-react";
+import { Home, LogOut, Menu, Bell, LayoutDashboard, User as UserIcon } from "lucide-react";
 import Link from "next/link";
 import { Logo } from "@/components/logo";
+import { useAuth, useUser } from "@/firebase";
+import { useRouter } from "next/navigation";
+import { signOut } from "firebase/auth";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function CoursesLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const { user, isUserLoading } = useUser();
+  const auth = useAuth();
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    await signOut(auth);
+    router.push('/login');
+  };
+
+  const UserInfo = () => {
+    if (isUserLoading) {
+      return (
+        <div className="flex items-center gap-4">
+          <Skeleton className="h-10 w-10 rounded-full" />
+          <div className="flex-1 space-y-1">
+            <Skeleton className="h-4 w-20" />
+            <Skeleton className="h-3 w-32" />
+          </div>
+        </div>
+      );
+    }
+
+    if (user) {
+      return (
+        <div className="flex items-center gap-4">
+          <Avatar className="h-10 w-10 border">
+            <AvatarImage src={user.photoURL || `https://avatar.vercel.sh/${user.uid}.png`} alt={user.displayName || 'User'} data-ai-hint="profile avatar" />
+            <AvatarFallback>{user.displayName?.charAt(0) || 'U'}</AvatarFallback>
+          </Avatar>
+          <div className="flex-1 overflow-hidden">
+            <p className="font-semibold text-sm truncate">{user.displayName || 'User'}</p>
+            <p className="text-xs text-muted-foreground truncate">{user.email}</p>
+          </div>
+          <Button variant="ghost" size="icon" className="text-muted-foreground" onClick={handleLogout}>
+            <LogOut className="h-5 w-5" />
+          </Button>
+        </div>
+      );
+    }
+
+    return null;
+  }
+
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
-      <div className="hidden border-r bg-card md:fixed md:inset-y-0 md:left-0 md:z-10 md:block md:w-[220px] lg:w-[280px]">
+      <div className="hidden border-r bg-card md:fixed md:inset-y-0 md:left-0 md:z-20 md:block md:w-[220px] lg:w-[280px]">
         <div className="flex h-full max-h-screen flex-col gap-2">
           <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
             <Logo />
@@ -29,7 +78,7 @@ export default function CoursesLayout({
               </Link>
               <Link
                 href="/courses"
-                className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
+                className="flex items-center gap-3 rounded-lg bg-muted px-3 py-2 text-primary transition-all hover:text-primary"
               >
                 <Home className="h-4 w-4" />
                 All Courses
@@ -38,25 +87,13 @@ export default function CoursesLayout({
                 href="/profile"
                 className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
               >
-                <User className="h-4 w-4" />
+                <UserIcon className="h-4 w-4" />
                 Profile
               </Link>
             </nav>
           </div>
           <div className="mt-auto p-4">
-            <div className="flex items-center gap-4">
-              <Avatar className="h-10 w-10 border">
-                <AvatarImage src="https://picsum.photos/100" alt="@user" data-ai-hint="profile avatar" />
-                <AvatarFallback>U</AvatarFallback>
-              </Avatar>
-              <div className="flex-1">
-                <p className="font-semibold text-sm">User</p>
-                <p className="text-xs text-muted-foreground">user@example.com</p>
-              </div>
-              <Button variant="ghost" size="icon" className="text-muted-foreground">
-                <LogOut className="h-5 w-5" />
-              </Button>
-            </div>
+            <UserInfo />
           </div>
         </div>
       </div>
@@ -80,46 +117,28 @@ export default function CoursesLayout({
               <nav className="grid gap-4 text-lg font-medium">
                 <Link
                   href="/dashboard"
-                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-foreground hover:text-foreground"
+                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-primary"
                 >
                   <LayoutDashboard className="h-5 w-5" />
                   Dashboard
                 </Link>
                 <Link
                   href="/courses"
-                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-foreground hover:text-foreground"
+                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl bg-muted px-3 py-2 text-primary"
                 >
                   <Home className="h-5 w-5" />
                   All Courses
                 </Link>
                 <Link
                   href="/profile"
-                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-foreground hover:text-foreground"
+                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-primary"
                 >
-                  <User className="h-5 w-5" />
+                  <UserIcon className="h-5 w-5" />
                   Profile
                 </Link>
               </nav>
               <div className="mt-auto">
-                <div className="flex items-center gap-4">
-                  <Avatar className="h-10 w-10 border">
-                    <AvatarImage
-                      src="https://picsum.photos/100"
-                      alt="@user"
-                      data-ai-hint="profile avatar"
-                    />
-                    <AvatarFallback>U</AvatarFallback>
-                  </Avatar>
-                  <div className="flex-1">
-                    <p className="font-semibold text-sm">User</p>
-                    <p className="text-xs text-muted-foreground">
-                      user@example.com
-                    </p>
-                  </div>
-                  <Button variant="ghost" size="icon" className="text-muted-foreground">
-                    <LogOut className="h-5 w-5" />
-                  </Button>
-                </div>
+                 <UserInfo />
               </div>
             </SheetContent>
           </Sheet>

@@ -1,7 +1,6 @@
 
 "use client";
 
-import { useState, useEffect } from "react";
 import { Clock, CheckCircle, ListVideo } from "lucide-react";
 import {
   Card,
@@ -13,37 +12,48 @@ import {
 import { Progress } from "@/components/ui/progress";
 import { CourseCard } from "@/components/course-card";
 import { courses } from "@/lib/courses";
-import { watchlist } from "@/lib/dashboard-data";
 import { useProgress } from "@/lib/progress";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { useUser, useDoc, useMemoFirebase } from "@/firebase";
+import { useFirestore } from "@/firebase";
+import { doc } from "firebase/firestore";
+import type { User } from "@/lib/users";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function DashboardPage() {
-  const { progress } = useProgress();
-  const [userName, setUserName] = useState("User");
+  const { user, isUserLoading } = useUser();
+  const firestore = useFirestore();
+  const { progress, isProgressLoading } = useProgress();
 
-  useEffect(() => {
-    const storedUser = localStorage.getItem("currentUser");
-    if (storedUser) {
-      const user = JSON.parse(storedUser);
-      if (user.fullName) {
-        setUserName(user.fullName);
-      }
-    }
-  }, []);
+  const userDocRef = useMemoFirebase(() => {
+    if (!firestore || !user) return null;
+    return doc(firestore, 'users', user.uid);
+  }, [firestore, user]);
+
+  const { data: userData, isLoading: isUserDocLoading } = useDoc<User>(userDocRef);
+
+  const isLoading = isUserLoading || isUserDocLoading || isProgressLoading;
+
+  const userName = userData?.name || "User";
 
   const inProgressCourses = courses.filter(
     (course) =>
       progress[course.id] && progress[course.id].progressPercentage < 100
   );
 
-  const completed = courses.filter(
+  const completedCourses = courses.filter(
     (course) =>
       progress[course.id] && progress[course.id].progressPercentage === 100
   );
+
   const watchlisted = courses.filter((course) =>
-    watchlist.includes(course.id)
+    (userData?.watchlist || []).includes(course.id)
   );
+
+  if (isLoading) {
+    return <DashboardSkeleton />;
+  }
 
   return (
     <div className="flex flex-col gap-6">
@@ -114,9 +124,9 @@ export default function DashboardPage() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            {completed.length > 0 ? (
+            {completedCourses.length > 0 ? (
               <div className="space-y-4">
-                {completed.map((course) => (
+                {completedCourses.map((course) => (
                   <div key={course.id} className="flex items-center gap-4">
                     <div className="w-12 h-12 bg-muted rounded-lg flex-shrink-0">
                       <img
@@ -163,4 +173,53 @@ export default function DashboardPage() {
       </div>
     </div>
   );
+}
+
+function DashboardSkeleton() {
+  return (
+    <div className="flex flex-col gap-6">
+      <div className="space-y-1">
+        <Skeleton className="h-8 w-64" />
+        <Skeleton className="h-4 w-80" />
+      </div>
+      <div className="grid gap-6 lg:grid-cols-3">
+        <Card className="lg:col-span-2">
+          <CardHeader>
+            <div className="flex items-center gap-3">
+              <Skeleton className="h-6 w-6 rounded-full" />
+              <Skeleton className="h-6 w-40" />
+            </div>
+            <Skeleton className="h-4 w-48" />
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <Skeleton className="h-16 w-full" />
+            <Skeleton className="h-16 w-full" />
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader>
+            <div className="flex items-center gap-3">
+              <Skeleton className="h-6 w-6 rounded-full" />
+              <Skeleton className="h-6 w-40" />
+            </div>
+            <Skeleton className="h-4 w-48" />
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <Skeleton className="h-12 w-full" />
+          </CardContent>
+        </Card>
+      </div>
+      <div>
+        <div className="flex items-center gap-3 mb-4">
+          <Skeleton className="h-6 w-6 rounded-full" />
+          <Skeleton className="h-6 w-40" />
+        </div>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <Skeleton className="h-80 w-full" />
+          <Skeleton className="h-80 w-full" />
+          <Skeleton className="h-80 w-full" />
+        </div>
+      </div>
+    </div>
+  )
 }
