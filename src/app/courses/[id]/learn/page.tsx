@@ -26,6 +26,7 @@ export default function CourseLearnPage() {
     
     const courseId = parseInt(course.id, 10);
     const courseProgress = progress[courseId] || { completedChapters: [], progressPercentage: 0 };
+    const hasStartedCourse = courseProgress && courseProgress.progressPercentage > 0;
 
     return (
         <div className="max-w-4xl mx-auto w-full space-y-8">
@@ -70,25 +71,27 @@ export default function CourseLearnPage() {
                 </CardContent>
             </Card>
 
-            <Card className="bg-primary/10 border-primary/20">
-                <CardHeader className="text-center">
-                    <div className="mx-auto bg-primary text-primary-foreground rounded-full p-3 w-fit mb-2">
-                        <BrainCircuit className="h-6 w-6" />
-                    </div>
-                    <CardTitle className="font-headline text-2xl">Review Your Learning</CardTitle>
-                    <CardDescription>
-                        Generate an AI-powered summary of the key takeaways from this course.
-                    </CardDescription>
-                </CardHeader>
-                <CardContent className="flex justify-center">
-                    <Button asChild size="lg">
-                        <Link href={`/courses/${course.id}/summary`}>
-                            Review Key Takeaways
-                            <ArrowRight className="ml-2 h-4 w-4" />
-                        </Link>
-                    </Button>
-                </CardContent>
-            </Card>
+            {hasStartedCourse && (
+                <Card className="bg-primary/10 border-primary/20">
+                    <CardHeader className="text-center">
+                        <div className="mx-auto bg-primary text-primary-foreground rounded-full p-3 w-fit mb-2">
+                            <BrainCircuit className="h-6 w-6" />
+                        </div>
+                        <CardTitle className="font-headline text-2xl">Review Your Learning</CardTitle>
+                        <CardDescription>
+                            Generate an AI-powered summary of the key takeaways from this course.
+                        </CardDescription>
+                    </CardHeader>
+                    <CardContent className="flex justify-center">
+                        <Button asChild size="lg">
+                            <Link href={`/courses/${course.id}/summary`}>
+                                Review Key Takeaways
+                                <ArrowRight className="ml-2 h-4 w-4" />
+                            </Link>
+                        </Button>
+                    </CardContent>
+                </Card>
+            )}
         </div>
     );
 }

@@ -1,3 +1,4 @@
+
 'use server';
 
 /**
@@ -38,7 +39,7 @@ const prompt = ai.definePrompt({
   Title: {{{title}}}
   Description: {{{description}}}
 
-  Tags:`, // Removed the extra space here
+  Return the tags as a JSON object with a "tags" key containing an array of strings.`,
 });
 
 const generateCourseTagsFlow = ai.defineFlow(

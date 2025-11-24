@@ -11,7 +11,6 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
-  CardDescription,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -19,6 +18,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import { useProgress } from "@/lib/progress";
 import { useUser } from "@/firebase";
+import { CourseRating } from "@/components/course-rating";
+import { RelatedCourses } from "@/components/related-courses";
 
 export default function CourseDetailPage() {
   const params = useParams();
@@ -160,6 +161,7 @@ export default function CourseDetailPage() {
         </div>
 
         <div className="md:col-span-1 space-y-8">
+             <CourseRating />
             {/* Instructor Card */}
             <Card>
                 <CardHeader>
@@ -186,6 +188,7 @@ export default function CourseDetailPage() {
                     ))}
                 </CardContent>
              </Card>
+             <RelatedCourses course={course} />
         </div>
       </div>
     </div>
