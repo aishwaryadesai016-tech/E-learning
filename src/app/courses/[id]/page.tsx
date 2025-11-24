@@ -2,7 +2,7 @@
 'use client'
 
 import { courses } from "@/lib/courses";
-import { notFound } from "next/navigation";
+import { notFound, useParams } from "next/navigation";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { BookOpen, Star, BarChart, Clock, Book, Award, Users, Languages, ArrowRight, CheckCircle } from "lucide-react";
@@ -20,12 +20,10 @@ import { Separator } from "@/components/ui/separator";
 import { useProgress } from "@/lib/progress";
 import { useUser } from "@/firebase";
 
-export default function CourseDetailPage({
-  params,
-}: {
-  params: { id: string };
-}) {
-  const course = courses.find((c) => c.id === params.id);
+export default function CourseDetailPage() {
+  const params = useParams();
+  const id = params.id as string;
+  const course = courses.find((c) => c.id === id);
   const { user } = useUser();
   const { progress } = useProgress();
 
