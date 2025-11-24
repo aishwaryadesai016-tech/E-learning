@@ -11,16 +11,16 @@ export default function CoursesLayout({
 }) {
 
   return (
-    <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
-      <div className="hidden border-r bg-card md:block">
-        <Sidebar />
+      <div className="min-h-screen w-full">
+        <div className="hidden md:block md:w-[220px] lg:w-[280px] h-full fixed">
+            <Sidebar />
+        </div>
+        <div className="flex flex-col md:ml-[220px] lg:ml-[280px]">
+            <Header />
+            <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
+                {children}
+            </main>
+        </div>
       </div>
-      <div className="flex flex-col">
-        <Header />
-        <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
-          {children}
-        </main>
-      </div>
-    </div>
   );
 }
