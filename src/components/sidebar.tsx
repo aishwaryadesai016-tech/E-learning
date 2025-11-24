@@ -18,7 +18,7 @@ export function Sidebar() {
     const pathname = usePathname();
 
     return (
-        <div className="flex flex-col h-full bg-card text-card-foreground">
+        <div className="flex flex-col h-full bg-card text-card-foreground pt-14 md:pt-0">
             {/* Header for Mobile Sheet */}
             <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6 md:hidden">
                 <Logo />
