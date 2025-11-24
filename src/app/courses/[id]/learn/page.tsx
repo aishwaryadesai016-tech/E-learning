@@ -75,15 +75,15 @@ export default function CourseLearnPage() {
                     <div className="mx-auto bg-primary text-primary-foreground rounded-full p-3 w-fit mb-2">
                         <BrainCircuit className="h-6 w-6" />
                     </div>
-                    <CardTitle className="font-headline text-2xl">Test Your Knowledge</CardTitle>
+                    <CardTitle className="font-headline text-2xl">Review Your Learning</CardTitle>
                     <CardDescription>
-                        Ready to see what you've learned? Take a short quiz to check your understanding.
+                        Generate an AI-powered summary of the key takeaways from this course.
                     </CardDescription>
                 </CardHeader>
                 <CardContent className="flex justify-center">
                     <Button asChild size="lg">
-                        <Link href={`/courses/${course.id}/quiz`}>
-                            Start Quiz
+                        <Link href={`/courses/${course.id}/summary`}>
+                            Review Key Takeaways
                             <ArrowRight className="ml-2 h-4 w-4" />
                         </Link>
                     </Button>
@@ -92,4 +92,3 @@ export default function CourseLearnPage() {
         </div>
     );
 }
-

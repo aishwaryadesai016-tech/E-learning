@@ -1,6 +1,7 @@
+'use server';
 import { config } from 'dotenv';
 config();
 
 import '@/ai/flows/generate-course-tags.ts';
 import '@/ai/flows/suggest-related-courses.ts';
-import '@/ai/flows/generate-quiz.ts';
+import '@/ai/flows/generate-course-summary.ts';

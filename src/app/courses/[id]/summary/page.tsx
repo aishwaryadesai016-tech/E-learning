@@ -1,14 +1,14 @@
 
 import { courses } from "@/lib/courses";
 import { notFound } from "next/navigation";
-import { CourseQuiz } from "@/components/course-quiz";
+import { CourseSummary } from "@/components/course-summary";
 import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 
-function QuizSkeleton() {
+function SummarySkeleton() {
     return (
       <div className="max-w-4xl mx-auto w-full">
         <Skeleton className="h-8 w-48 mb-8" />
@@ -17,7 +17,7 @@ function QuizSkeleton() {
     );
 }
 
-export default async function QuizPage({
+export default async function SummaryPage({
   params,
 }: {
   params: { id: string };
@@ -28,20 +28,20 @@ export default async function QuizPage({
     notFound();
   }
 
-  const fullCourseContent = course.modules.map(c => `Module: ${c.title}\nTopics: ${c.topics.join(', ')}`).join('\n\n');
+  const fullCourseContent = course.modules.map(c => `Module: ${c.title}\n${c.topics.join(', ')}`).join('\n\n');
 
   return (
     <div className="max-w-4xl mx-auto w-full">
         <div className="mb-8">
             <Button asChild variant="outline">
-                <Link href={`/courses/${course.id}`}>
+                <Link href={`/courses/${course.id}/learn`}>
                     <ArrowLeft className="mr-2 h-4 w-4" />
-                    Back to Course
+                    Back to Learning
                 </Link>
             </Button>
         </div>
-      <Suspense fallback={<QuizSkeleton />}>
-        <CourseQuiz courseTitle={course.title} courseContent={fullCourseContent} />
+      <Suspense fallback={<SummarySkeleton />}>
+        <CourseSummary courseTitle={course.title} courseContent={fullCourseContent} />
       </Suspense>
     </div>
   );
