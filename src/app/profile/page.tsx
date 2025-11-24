@@ -85,7 +85,7 @@ export default function ProfilePage() {
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+              <div className="flex flex-wrap gap-x-6 gap-y-4">
                 {courseTopics.map((interest) => (
                   <div key={interest} className="flex items-center space-x-2">
                     <Checkbox
