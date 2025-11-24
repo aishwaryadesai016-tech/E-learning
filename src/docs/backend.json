@@ -1,0 +1,215 @@
+
+{
+  "entities": {
+    "User": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "User",
+      "type": "object",
+      "description": "Represents a user in the E-Learning Recommendation System.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the User entity."
+        },
+        "email": {
+          "type": "string",
+          "description": "User's email address.",
+          "format": "email"
+        },
+        "name": {
+          "type": "string",
+          "description": "User's full name."
+        },
+        "profilePicture": {
+          "type": "string",
+          "description": "URL of the user's profile picture.",
+          "format": "uri"
+        },
+        "completedCourseIds": {
+          "type": "array",
+          "description": "References to completed Courses. (Relationship: User 1:N Course)",
+          "items": {
+            "type": "string"
+          }
+        },
+        "interestTags": {
+          "type": "array",
+          "description": "References to interest tags that the user selected during signup. These will be used for course recommendations.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "level": {
+          "type": "string",
+          "description": "User's self-assessed expertise level.",
+          "enum": [
+            "Beginner",
+            "Intermediate",
+            "Advanced"
+          ]
+        },
+        "watchlist": {
+            "type": "array",
+            "description": "An array of course IDs that the user has added to their watchlist.",
+            "items": {
+                "type": "number"
+            }
+        },
+        "progress": {
+            "type": "object",
+            "description": "An object tracking the user's progress in each course.",
+            "additionalProperties": {
+                "type": "object",
+                "properties": {
+                    "completedChapters": {
+                        "type": "array",
+                        "items": { "type": "number" }
+                    },
+                    "progressPercentage": {
+                        "type": "number"
+                    }
+                }
+            }
+        }
+      },
+      "required": [
+        "id",
+        "email",
+        "name"
+      ]
+    },
+    "Course": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Course",
+      "type": "object",
+      "description": "Represents a Computer Science course.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Course entity."
+        },
+        "title": {
+          "type": "string",
+          "description": "Title of the course."
+        },
+        "description": {
+          "type": "string",
+          "description": "Detailed description of the course."
+        },
+        "tags": {
+          "type": "array",
+          "description": "Tags associated with the course for filtering and recommendations.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "topic": {
+          "type": "string",
+          "description": "General topic or category the course belongs to (e.g., 'Algorithms', 'Data Structures')."
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "description"
+      ]
+    },
+    "Rating": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Rating",
+      "type": "object",
+      "description": "Represents a user's rating for a specific course.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Rating entity."
+        },
+        "userId": {
+          "type": "string",
+          "description": "Reference to User. (Relationship: User 1:N Rating)"
+        },
+        "courseId": {
+          "type": "string",
+          "description": "Reference to Course. (Relationship: Course 1:N Rating)"
+        },
+        "ratingValue": {
+          "type": "number",
+          "description": "The rating given by the user for the course (e.g., 1 to 5)."
+        },
+        "comment": {
+          "type": "string",
+          "description": "Optional comment or review provided by the user."
+        }
+      },
+      "required": [
+        "id",
+        "userId",
+        "courseId",
+        "ratingValue"
+      ]
+    }
+  },
+  "auth": {
+    "providers": [
+      "password",
+      "anonymous"
+    ]
+  },
+  "firestore": {
+    "structure": [
+      {
+        "path": "/users/{userId}",
+        "definition": {
+          "entityName": "User",
+          "schema": {
+            "$ref": "#/backend/entities/User"
+          },
+          "description": "Stores user profiles. Includes completedCourseIds and interestTags for recommendation purposes.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier for the user (from Firebase Authentication)."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/courses/{courseId}",
+        "definition": {
+          "entityName": "Course",
+          "schema": {
+            "$ref": "#/backend/entities/Course"
+          },
+          "description": "Stores course information.",
+          "params": [
+            {
+              "name": "courseId",
+              "description": "The unique identifier for the course."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userId}/ratings/{ratingId}",
+        "definition": {
+          "entityName": "Rating",
+          "schema": {
+            "$ref": "#/backend/entities/Rating"
+          },
+          "description": "Stores user ratings for courses. Path-based ownership ensures only the user can manage their own ratings.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier for the user who created the rating (from Firebase Authentication)."
+            },
+            {
+              "name": "ratingId",
+              "description": "The unique identifier for the rating."
+            }
+          ]
+        }
+      }
+    ],
+    "reasoning": "The Firestore data structure is designed to support the E-Learning Recommendation System with a focus on scalability, security, and efficient querying. The core principle is Authorization Independence, achieved through denormalization of authorization data where necessary. This avoids complex `get()` calls in security rules, enabling atomic operations and simplifying debugging.\n\n**Structure Overview:**\n\n*   **`/users/{userId}`:** Stores user profiles, including completed course IDs and interest tags. This collection is path-based, ensuring only the authenticated user can access their own data. The `userId` is obtained from `request.auth.uid`.\n*   **`/courses/{courseId}`:** Stores course information, including title, description, tags, and topic. This collection can be queried to list available courses and filter by topic.\n*   **`/users/{userId}/ratings/{ratingId}`:** Stores user ratings for courses. This subcollection is path-based and tied to the user that created the rating.\n\n**Authorization Independence:**\n\nAuthorization Independence is maintained by using path-based security for user data. A user can only access their own profile and ratings. No `get()` calls are required in the security rules for basic read/write operations on user data.\n\n**QAPs (Rules are not Filters):**\n\n*   **Secure List Operations:** The structure supports secure list operations through structural segregation. Each collection has a homogeneous security posture. For example, only authenticated users can access their own user documents.\n\n**Denormalization:**\n\nTo support recommendation efficiently, the `User` entity includes `completedCourseIds` and `interestTags`. These are denormalized copies of information. This approach prevents the need for complex joins or subqueries, improving performance and scalability."
+  }
+}

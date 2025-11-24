@@ -2,7 +2,7 @@
 'use client'
 
 import Link from "next/link";
-import { Home, LayoutDashboard, User as UserIcon, LogOut } from "lucide-react";
+import { Home, LayoutDashboard, User as UserIcon, LogOut, Sparkles } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { UserInfo } from "./user-info";
@@ -13,6 +13,7 @@ import { useRouter } from "next/navigation";
 
 const navLinks = [
     { href: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
+    { href: "/recommendations", icon: Sparkles, label: "For You" },
     { href: "/courses", icon: Home, label: "All Courses" },
     { href: "/profile", icon: UserIcon, label: "Profile" },
 ];

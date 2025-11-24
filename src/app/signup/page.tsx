@@ -85,6 +85,8 @@ export default function SignupPage() {
         interestTags: interestTags,
         completedCourseIds: [],
         level: level,
+        watchlist: [],
+        progress: {},
       };
       
       setDocumentNonBlocking(userDocRef, userProfile, { merge: true });
