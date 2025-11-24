@@ -8,7 +8,7 @@ export function Logo() {
       <div className="bg-primary/20 text-primary p-2 rounded-lg group-hover:bg-primary/30 transition-colors flex-shrink-0">
         <Cpu className="h-5 w-5" />
       </div>
-      <span className="font-headline text-base font-medium group-hover:text-primary transition-colors whitespace-nowrap">
+      <span className="font-headline text-base font-medium group-hover:text-primary transition-colors">
         E-learning recommendation system
       </span>
     </Link>
