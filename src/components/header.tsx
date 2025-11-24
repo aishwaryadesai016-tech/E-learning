@@ -23,17 +23,12 @@ export function Header() {
           </Button>
         </SheetTrigger>
         <SheetContent side="left" className="flex flex-col p-0 w-[280px] sm:w-[280px]">
-           <div className="p-4 border-b">
-             <Logo />
-           </div>
-           <div className="flex-1 overflow-y-auto">
-             <Sidebar />
-           </div>
-           <div className="mt-auto p-4 border-t">
-            <UserInfo />
-          </div>
+           <Sidebar />
         </SheetContent>
       </Sheet>
+      <div className="hidden md:block">
+        <Logo />
+      </div>
       <div className="w-full flex-1">
         {/* Placeholder for potential header content like breadcrumbs */}
       </div>
@@ -41,9 +36,7 @@ export function Header() {
         <Bell className="h-5 w-5" />
         <span className="sr-only">Toggle notifications</span>
       </Button>
-      <div className="hidden md:block">
-        <UserInfo />
-      </div>
+      <UserInfo />
     </header>
   )
 }
