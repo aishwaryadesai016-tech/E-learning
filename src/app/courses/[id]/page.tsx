@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { RelatedCourses } from "@/components/related-courses";
-import { BookOpen, Info, Star, BrainCircuit, BarChart, Clock, Book, Layers } from "lucide-react";
+import { BookOpen, Info, Star, BrainCircuit, BarChart, Clock, Book, Layers, ArrowRight } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -14,9 +14,10 @@ import {
 import { Suspense } from "react";
 import { CourseRating } from "@/components/course-rating";
 import { Separator } from "@/components/ui/separator";
-import { CourseQuiz } from "@/components/course-quiz";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Syllabus } from "@/components/syllabus";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export default async function CourseDetailPage({
   params,
@@ -29,9 +30,6 @@ export default async function CourseDetailPage({
   if (!course) {
     notFound();
   }
-
-  const fullCourseContent = course.chapters.map(c => `Chapter: ${c.title}\n${c.content}`).join('\n\n');
-
 
   return (
     <div className="flex flex-col gap-8 max-w-4xl mx-auto">
@@ -135,13 +133,25 @@ export default async function CourseDetailPage({
 
         {/* Quiz Section */}
         <section>
-            <div className="flex items-center gap-3 mb-4">
-                <BrainCircuit className="h-6 w-6 text-primary" />
-                <h2 className="font-headline text-2xl font-semibold">Test Your Knowledge</h2>
-            </div>
-            <Suspense fallback={<QuizSkeleton />}>
-                <CourseQuiz courseTitle={course.title} courseContent={fullCourseContent} />
-            </Suspense>
+            <Card className="bg-primary/10 border-primary/20">
+                <CardHeader className="text-center">
+                    <div className="mx-auto bg-primary text-primary-foreground rounded-full p-3 w-fit mb-2">
+                        <BrainCircuit className="h-6 w-6" />
+                    </div>
+                    <CardTitle className="font-headline text-2xl">Test Your Knowledge</CardTitle>
+                    <CardDescription>
+                        Ready to see what you've learned? Take a short quiz to check your understanding.
+                    </CardDescription>
+                </CardHeader>
+                <CardContent className="flex justify-center">
+                    <Button asChild size="lg">
+                        <Link href={`/courses/${course.id}/quiz`}>
+                            Start Quiz
+                            <ArrowRight className="ml-2 h-4 w-4" />
+                        </Link>
+                    </Button>
+                </CardContent>
+            </Card>
         </section>
       </div>
       
@@ -154,22 +164,6 @@ export default async function CourseDetailPage({
   );
 }
 
-function QuizSkeleton() {
-    return (
-        <Card>
-          <CardHeader>
-            <Skeleton className="h-6 w-1/2" />
-            <Skeleton className="h-4 w-full" />
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <Skeleton className="h-10 w-full" />
-            <Skeleton className="h-10 w-full" />
-            <Skeleton className="h-10 w-full" />
-            <Skeleton className="h-10 w-full" />
-          </CardContent>
-        </Card>
-    )
-}
 
 function RelatedCoursesSkeleton() {
     return (
