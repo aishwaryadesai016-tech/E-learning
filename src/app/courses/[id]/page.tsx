@@ -1,4 +1,6 @@
 
+'use client'
+
 import { courses } from "@/lib/courses";
 import { notFound } from "next/navigation";
 import Image from "next/image";
@@ -15,17 +17,26 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
+import { useProgress } from "@/lib/progress";
+import { useUser } from "@/firebase";
 
-export default async function CourseDetailPage({
+export default function CourseDetailPage({
   params,
 }: {
   params: { id: string };
 }) {
   const course = courses.find((c) => c.id === params.id);
+  const { user } = useUser();
+  const { progress } = useProgress();
 
   if (!course) {
     notFound();
   }
+  
+  const courseId = parseInt(course.id, 10);
+  const courseProgress = progress[courseId];
+  const hasStartedCourse = courseProgress && courseProgress.progressPercentage > 0;
+
 
   return (
     <div className="flex flex-col gap-8 max-w-5xl mx-auto">
@@ -103,7 +114,7 @@ export default async function CourseDetailPage({
         <CardContent className="flex justify-center">
             <Button asChild size="lg">
                 <Link href={`/courses/${course.id}/learn`}>
-                    Start Learning
+                    {hasStartedCourse ? "Continue Learning" : "Start Learning"}
                     <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
             </Button>
