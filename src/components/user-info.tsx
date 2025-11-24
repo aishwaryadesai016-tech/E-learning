@@ -4,7 +4,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useAuth, useUser, useFirestore, useDoc, useMemoFirebase } from "@/firebase";
+import { useAuth, useUser } from "@/firebase";
 import { signOut } from "firebase/auth";
 import { LogOut } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -16,21 +16,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { doc } from "firebase/firestore";
-import type { User } from "@/lib/users";
 
 export function UserInfo() {
   const { user, isUserLoading } = useUser();
   const auth = useAuth();
-  const firestore = useFirestore();
   const router = useRouter();
-
-  const userDocRef = useMemoFirebase(() => {
-    if (!firestore || !user) return null;
-    return doc(firestore, 'users', user.uid);
-  }, [firestore, user]);
-
-  const { data: userData, isLoading: isUserDocLoading } = useDoc<User>(userDocRef);
 
   const handleLogout = async () => {
     if (!auth) return;
@@ -38,9 +28,7 @@ export function UserInfo() {
     router.push('/login');
   };
 
-  const isLoading = isUserLoading || isUserDocLoading;
-
-  if (isLoading) {
+  if (isUserLoading) {
     return (
       <div className="flex items-center gap-2">
         <Skeleton className="h-8 w-8 rounded-full" />
@@ -50,7 +38,7 @@ export function UserInfo() {
   }
 
   if (user) {
-    const displayName = userData?.name || user.displayName || 'User';
+    const displayName = user.displayName || 'User';
 
     return (
       <DropdownMenu>

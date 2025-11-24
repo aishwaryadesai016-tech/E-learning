@@ -40,6 +40,9 @@ export function Sidebar() {
                         ))}
                     </nav>
                 </div>
+                 <div className="mt-auto p-4 border-t">
+                    <UserInfo />
+                </div>
             </div>
             
             {/* Mobile Sidebar Content */}
