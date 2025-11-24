@@ -22,28 +22,28 @@ export function Header() {
             <span className="sr-only">Toggle navigation menu</span>
           </Button>
         </SheetTrigger>
-        <SheetContent side="left" className="flex flex-col p-0">
-          <div className="p-4 border-b">
-            <Logo />
-          </div>
-          <div className="flex-1 overflow-y-auto">
-            <Sidebar />
-          </div>
-          <div className="mt-auto p-4 border-t">
+        <SheetContent side="left" className="flex flex-col p-0 w-[280px] sm:w-[280px]">
+           <div className="p-4 border-b">
+             <Logo />
+           </div>
+           <div className="flex-1 overflow-y-auto">
+             <Sidebar />
+           </div>
+           <div className="mt-auto p-4 border-t">
             <UserInfo />
           </div>
         </SheetContent>
       </Sheet>
-      <div className="w-full flex-1 md:hidden">
-         <Logo />
-      </div>
-      <div className="w-full flex-1 hidden md:block">
+      <div className="w-full flex-1">
         {/* Placeholder for potential header content like breadcrumbs */}
       </div>
       <Button variant="ghost" size="icon" className="rounded-full text-muted-foreground">
         <Bell className="h-5 w-5" />
         <span className="sr-only">Toggle notifications</span>
       </Button>
+      <div className="hidden md:block">
+        <UserInfo />
+      </div>
     </header>
   )
 }
