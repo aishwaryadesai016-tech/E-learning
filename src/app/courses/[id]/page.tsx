@@ -5,12 +5,13 @@ import { courses } from "@/lib/courses";
 import { notFound, useParams } from "next/navigation";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
-import { BookOpen, Star, BarChart, Clock, Book, Award, Users, Languages, ArrowRight, CheckCircle } from "lucide-react";
+import { BookOpen, Star, BarChart, Clock, Award, Users, Languages, ArrowRight, CheckCircle } from "lucide-react";
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
+  CardDescription
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -20,7 +21,6 @@ import { useProgress } from "@/lib/progress";
 import { useUser } from "@/firebase";
 import { CourseRating } from "@/components/course-rating";
 import { RelatedCourses } from "@/components/related-courses";
-import { CardDescription } from "@/components/ui/card";
 
 export default function CourseDetailPage() {
   const params = useParams();
@@ -76,14 +76,6 @@ export default function CourseDetailPage() {
                         <Clock className="h-5 w-5 text-muted-foreground" />
                         <span className="font-medium">Duration: {course.duration}</span>
                     </div>
-                     <div className="flex items-center gap-3">
-                        <Book className="h-5 w-5 text-muted-foreground" />
-                        <span className="font-medium">{course.modules.length} Modules</span>
-                    </div>
-                     <div className="flex items-center gap-3">
-                        <Users className="h-5 w-5 text-muted-foreground" />
-                        <span className="font-medium">{course.total_enrollments} enrolled</span>
-                    </div>
                     <div className="flex items-center gap-3">
                         <Star className="h-5 w-5 text-muted-foreground" />
                         <span className="font-medium">{course.rating} average rating</span>
@@ -92,10 +84,6 @@ export default function CourseDetailPage() {
                         <Languages className="h-5 w-5 text-muted-foreground" />
                         <span className="font-medium">{course.language}</span>
                     </div>
-                     {course.certificate_available && <div className="flex items-center gap-3">
-                        <Award className="h-5 w-5 text-muted-foreground" />
-                        <span className="font-medium">Certificate available</span>
-                    </div>}
                 </CardContent>
             </Card>
         </div>
