@@ -13,7 +13,7 @@ export default function CoursesLayout({
     <div className="min-h-screen w-full bg-background">
       <Header />
       <div className="grid">
-        <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6 mt-14 md:mt-0">
+        <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6 mt-14 lg:mt-[60px]">
           {children}
         </main>
       </div>
