@@ -1,5 +1,4 @@
 
-
 'use client'
 
 import Link from "next/link";
@@ -50,12 +49,14 @@ export function Sidebar() {
             </div>
             
             {/* User Info Footer */}
-            <div className="p-4 border-t space-y-4">
-                <UserInfo />
-                <Button variant="ghost" onClick={handleLogout} className="w-full justify-start text-muted-foreground hover:text-primary">
-                    <LogOut className="mr-2 h-5 w-5" />
-                    Log out
-                </Button>
+            <div className="p-4 border-t">
+                <div className="flex items-center justify-between">
+                    <UserInfo />
+                    <Button variant="ghost" size="icon" onClick={handleLogout} className="text-muted-foreground hover:text-primary h-8 w-8">
+                        <LogOut className="h-5 w-5" />
+                        <span className="sr-only">Log out</span>
+                    </Button>
+                </div>
             </div>
         </div>
     )
