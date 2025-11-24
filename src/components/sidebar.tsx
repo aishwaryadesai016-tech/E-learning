@@ -53,8 +53,9 @@ export function Sidebar() {
             {/* User Info Footer */}
             <div className="p-4 border-t flex items-center justify-between">
                 <UserInfo />
-                <Button variant="ghost" size="icon" onClick={handleLogout} aria-label="Log out">
-                    <LogOut className="h-5 w-5 text-muted-foreground" />
+                <Button variant="ghost" onClick={handleLogout} className="text-muted-foreground hover:text-primary">
+                    <LogOut className="mr-2 h-5 w-5" />
+                    Log out
                 </Button>
             </div>
         </div>
