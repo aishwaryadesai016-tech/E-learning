@@ -1,3 +1,4 @@
+
 {
   "entities": {
     "User": {
@@ -37,6 +38,15 @@
           "items": {
             "type": "string"
           }
+        },
+        "level": {
+          "type": "string",
+          "description": "User's self-assessed expertise level.",
+          "enum": [
+            "Beginner",
+            "Intermediate",
+            "Advanced"
+          ]
         }
       },
       "required": [

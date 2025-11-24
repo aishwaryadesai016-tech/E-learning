@@ -23,6 +23,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { doc } from "firebase/firestore";
 import { setDocumentNonBlocking } from "@/firebase/non-blocking-updates";
 import { useToast } from "@/hooks/use-toast";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 export default function SignupPage() {
   const [fullName, setFullName] = useState("");
@@ -32,6 +33,7 @@ export default function SignupPage() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [interestTags, setInterestTags] = useState<string[]>([]);
+  const [level, setLevel] = useState<string>("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const auth = useAuth();
@@ -47,7 +49,7 @@ export default function SignupPage() {
   };
 
   const handleSignup = async () => {
-    if (!fullName || !email || !password || !confirmPassword) {
+    if (!fullName || !email || !password || !confirmPassword || !level) {
       toast({
         variant: "destructive",
         title: "Missing Fields",
@@ -82,6 +84,7 @@ export default function SignupPage() {
         email: user.email,
         interestTags: interestTags,
         completedCourseIds: [],
+        level: level,
       };
       
       setDocumentNonBlocking(userDocRef, userProfile, { merge: true });
@@ -203,6 +206,23 @@ export default function SignupPage() {
                 </span>
               </Button>
             </div>
+          </div>
+          <div className="grid gap-2">
+            <Label>Your Experience Level</Label>
+             <RadioGroup onValueChange={setLevel} value={level} className="flex gap-4 pt-2">
+                <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="Beginner" id="r1" />
+                    <Label htmlFor="r1">Beginner</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="Intermediate" id="r2" />
+                    <Label htmlFor="r2">Intermediate</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="Advanced" id="r3" />
+                    <Label htmlFor="r3">Advanced</Label>
+                </div>
+            </RadioGroup>
           </div>
           <div className="grid gap-2">
             <Label>Areas of Interest</Label>

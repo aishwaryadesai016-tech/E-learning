@@ -6,6 +6,7 @@ export type User = {
     profilePicture?: string;
     completedCourseIds?: string[];
     interestTags?: string[];
+    level?: "Beginner" | "Intermediate" | "Advanced";
     progress?: {
         [courseId: number]: {
             completedChapters: number[];
