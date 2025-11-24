@@ -11,7 +11,6 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
-  CardDescription,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -21,7 +20,7 @@ import { useProgress } from "@/lib/progress";
 import { useUser } from "@/firebase";
 import { CourseRating } from "@/components/course-rating";
 import { RelatedCourses } from "@/components/related-courses";
-import { CourseQuiz } from "@/components/course-quiz";
+import { CardDescription } from "@/components/ui/card";
 
 export default function CourseDetailPage() {
   const params = useParams();
@@ -138,28 +137,6 @@ export default function CourseDetailPage() {
                 </ul>
             </section>
 
-            <Separator />
-
-             <Card>
-                <CardHeader>
-                    <div className="mx-auto bg-primary/10 text-primary rounded-full p-3 w-fit mb-2">
-                        <BookOpen className="h-6 w-6" />
-                    </div>
-                    <CardTitle className="font-headline text-2xl">Test Your Knowledge</CardTitle>
-                    <CardDescription>
-                        Ready to see what you&apos;ve learned? Take a short quiz to check your understanding.
-                    </CardDescription>
-                </CardHeader>
-                <CardContent className="flex justify-center">
-                    <Button asChild size="lg">
-                        <Link href={`/courses/${course.id}/quiz`}>
-                            Start Quiz
-                            <ArrowRight className="ml-2 h-4 w-4" />
-                        </Link>
-                    </Button>
-                </CardContent>
-            </Card>
-            
             <Separator />
             
              {/* Reviews Section */}
