@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useMemo } from "react";
@@ -12,32 +13,37 @@ export function CourseListView({ courses }: { courses: Course[] }) {
   const [activeTopic, setActiveTopic] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
 
-  const filteredCoursesByTopic = useMemo(() => {
-    const searchFiltered = courses.filter((course) =>
-      searchTerm.length > 1
-        ? course.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          course.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          course.tags.some((tag) =>
-            tag.toLowerCase().includes(searchTerm.toLowerCase())
-          )
-        : true
-    );
+  const filteredCourses = useMemo(() => {
+    let filtered = courses;
 
     if (activeTopic) {
-      const filtered = searchFiltered.filter((course) => course.topic === activeTopic);
-      return { [activeTopic]: filtered };
+      filtered = filtered.filter((course) => course.topic === activeTopic);
     }
 
-    return searchFiltered.reduce((acc, course) => {
+    if (searchTerm.length > 1) {
+      filtered = filtered.filter((course) =>
+        course.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        course.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        course.tags.some((tag) =>
+          tag.toLowerCase().includes(searchTerm.toLowerCase())
+        )
+      );
+    }
+    
+    return filtered;
+  }, [courses, activeTopic, searchTerm]);
+
+  const coursesByTopic = useMemo(() => {
+    return filteredCourses.reduce((acc, course) => {
       if (!acc[course.topic]) {
         acc[course.topic] = [];
       }
       acc[course.topic].push(course);
       return acc;
     }, {} as Record<string, Course[]>);
-  }, [courses, activeTopic, searchTerm]);
+  }, [filteredCourses]);
   
-  const topicsToDisplay = activeTopic ? [activeTopic] : courseTopics;
+  const topicsToDisplay = activeTopic ? [activeTopic] : courseTopics.filter(topic => coursesByTopic[topic]?.length > 0);
 
   return (
     <div className="flex flex-col gap-8">
@@ -72,24 +78,18 @@ export function CourseListView({ courses }: { courses: Course[] }) {
         </div>
       </div>
 
-      {Object.keys(filteredCoursesByTopic).length > 0 ? (
+      {filteredCourses.length > 0 ? (
         <div className="space-y-8">
-          {topicsToDisplay.map((topic) => {
-            const coursesForTopic = filteredCoursesByTopic[topic] || [];
-            if (coursesForTopic.length === 0 && (searchTerm || activeTopic)) return null;
-            if (coursesForTopic.length === 0) return null;
-
-            return (
+          {topicsToDisplay.map((topic) => (
               <section key={topic}>
                 <h2 className="text-xl md:text-2xl font-headline font-semibold mb-4">{topic}</h2>
                 <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                  {coursesForTopic.map((course) => (
+                  {coursesByTopic[topic].map((course) => (
                     <CourseCard key={course.id} course={course} />
                   ))}
                 </div>
               </section>
-            );
-          })}
+            ))}
         </div>
       ) : (
         <div className="text-center py-20 rounded-lg bg-card">
