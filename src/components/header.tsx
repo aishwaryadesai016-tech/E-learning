@@ -1,9 +1,7 @@
 
 'use client'
 
-import Link from "next/link";
 import {
-  Bell,
   Menu,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -13,7 +11,6 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Logo } from "./logo";
-import { UserInfo } from "./user-info";
 import { Sidebar } from "./sidebar";
 
 export function Header() {
@@ -44,11 +41,6 @@ export function Header() {
         {/* Placeholder for potential header content like breadcrumbs */}
       </div>
       
-      <Button variant="ghost" size="icon" className="rounded-full text-muted-foreground">
-        <Bell className="h-5 w-5" />
-        <span className="sr-only">Toggle notifications</span>
-      </Button>
-      <UserInfo />
     </header>
   )
 }
