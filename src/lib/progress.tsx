@@ -1,3 +1,4 @@
+
 "use client";
 
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
@@ -71,7 +72,7 @@ export const ProgressProvider = ({ children }: { children: ReactNode }) => {
     }
     
     const updatedChapters = Array.from(completedChapters);
-    const progressPercentage = Math.round((updatedChapters.length / totalChapters) * 100);
+    const progressPercentage = totalChapters > 0 ? Math.round((updatedChapters.length / totalChapters) * 100) : 0;
 
     newProgress[courseId] = {
         completedChapters: updatedChapters,

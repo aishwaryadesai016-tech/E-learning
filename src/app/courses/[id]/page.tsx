@@ -3,8 +3,7 @@ import { courses } from "@/lib/courses";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
-import { RelatedCourses } from "@/components/related-courses";
-import { BookOpen, Info, Star, BrainCircuit, BarChart, Clock, Book, Layers, ArrowRight } from "lucide-react";
+import { BookOpen, Info, Star, BrainCircuit, BarChart, Clock, Book, Layers, ArrowRight, CheckCircle, Award, Users, Languages } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -12,31 +11,27 @@ import {
   CardTitle,
   CardDescription,
 } from "@/components/ui/card";
-import { Suspense } from "react";
-import { CourseRating } from "@/components/course-rating";
-import { Separator } from "@/components/ui/separator";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Syllabus } from "@/components/syllabus";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Separator } from "@/components/ui/separator";
 
 export default async function CourseDetailPage({
   params,
 }: {
   params: { id: string };
 }) {
-  const courseId = parseInt(params.id, 10);
-  const course = courses.find((c) => c.id === courseId);
+  const course = courses.find((c) => c.id === params.id);
 
   if (!course) {
     notFound();
   }
 
   return (
-    <div className="flex flex-col gap-8 max-w-4xl mx-auto">
+    <div className="flex flex-col gap-8 max-w-5xl mx-auto">
       {/* Course Header */}
-      <div className="space-y-4 text-center">
-          <Badge variant="outline" className="text-sm">{course.topic}</Badge>
+      <div className="space-y-4">
+          <Badge variant="outline" className="text-sm">{course.category}</Badge>
           <h1 className="font-headline text-4xl md:text-5xl font-bold tracking-tighter">
             {course.title}
           </h1>
@@ -52,7 +47,7 @@ export default async function CourseDetailPage({
                     fill
                     className="object-cover"
                     sizes="(max-width: 768px) 100vw, 80vw"
-                    data-ai-hint={`course ${course.topic.toLowerCase()}`}
+                    data-ai-hint={`course ${course.category.toLowerCase()}`}
                 />
             </div>
         </div>
@@ -64,7 +59,7 @@ export default async function CourseDetailPage({
                 <CardContent className="space-y-4">
                     <div className="flex items-center gap-3">
                         <BarChart className="h-5 w-5 text-muted-foreground" />
-                        <span className="font-medium">Level: {course.difficulty}</span>
+                        <span className="font-medium">Level: {course.level}</span>
                     </div>
                     <div className="flex items-center gap-3">
                         <Clock className="h-5 w-5 text-muted-foreground" />
@@ -72,68 +67,115 @@ export default async function CourseDetailPage({
                     </div>
                      <div className="flex items-center gap-3">
                         <Book className="h-5 w-5 text-muted-foreground" />
-                        <span className="font-medium">{course.chapters.length} Chapters</span>
+                        <span className="font-medium">{course.modules.length} Modules</span>
                     </div>
                      <div className="flex items-center gap-3">
-                        <Layers className="h-5 w-5 text-muted-foreground" />
-                        <span className="font-medium">Topic: {course.topic}</span>
+                        <Users className="h-5 w-5 text-muted-foreground" />
+                        <span className="font-medium">{course.total_enrollments} enrolled</span>
                     </div>
+                    <div className="flex items-center gap-3">
+                        <Star className="h-5 w-5 text-muted-foreground" />
+                        <span className="font-medium">{course.rating} average rating</span>
+                    </div>
+                     <div className="flex items-center gap-3">
+                        <Languages className="h-5 w-5 text-muted-foreground" />
+                        <span className="font-medium">{course.language}</span>
+                    </div>
+                     {course.certificate_available && <div className="flex items-center gap-3">
+                        <Award className="h-5 w-5 text-muted-foreground" />
+                        <span className="font-medium">Certificate available</span>
+                    </div>}
                 </CardContent>
             </Card>
         </div>
       </div>
 
-      <div className="space-y-8">
-        {/* About Section */}
-        <section>
-            <div className="flex items-center gap-3 mb-4">
-                <Info className="h-6 w-6 text-primary" />
-                <h2 className="font-headline text-2xl font-semibold">About this course</h2>
-            </div>
-            <div className="space-y-4 text-muted-foreground">
-                <p>
-                    This course provides a comprehensive overview of {course.title.toLowerCase()}.
-                    Throughout the chapters, you will gain hands-on experience and a deep understanding of the core concepts.
-                </p>
-                <div>
-                    <h3 className="font-semibold text-card-foreground mb-2">Tags</h3>
-                    <div className="flex flex-wrap gap-2">
-                    {course.tags.map((tag) => (
-                        <Badge key={tag} variant="secondary">
-                        {tag}
-                        </Badge>
-                    ))}
-                    </div>
+      <div className="grid md:grid-cols-3 gap-8">
+        <div className="md:col-span-2 space-y-8">
+            {/* What you'll learn */}
+            <section>
+                <div className="flex items-center gap-3 mb-4">
+                    <CheckCircle className="h-6 w-6 text-primary" />
+                    <h2 className="font-headline text-2xl font-semibold">What You'll Learn</h2>
                 </div>
-            </div>
-        </section>
-        
-        <Separator />
+                 <ul className="space-y-2 list-disc list-inside text-muted-foreground">
+                    {course.learning_objectives.map((objective, i) => (
+                        <li key={i}>{objective}</li>
+                    ))}
+                </ul>
+            </section>
+            
+            <Separator />
 
-        {/* Syllabus Section */}
-        <section>
-            <div className="flex items-center gap-3 mb-4">
-                <BookOpen className="h-6 w-6 text-primary" />
-                <h2 className="font-headline text-2xl font-semibold">Syllabus</h2>
-            </div>
-            <Syllabus course={course} />
-        </section>
+            {/* Syllabus Section */}
+            <section>
+                <div className="flex items-center gap-3 mb-4">
+                    <BookOpen className="h-6 w-6 text-primary" />
+                    <h2 className="font-headline text-2xl font-semibold">Syllabus</h2>
+                </div>
+                <div className="space-y-4">
+                    {course.modules.map((module) => (
+                        <div key={module.week} className="p-4 border rounded-lg">
+                            <h3 className="font-semibold">Week {module.week}: {module.title}</h3>
+                            <p className="text-sm text-muted-foreground mt-1">{module.topics.join(' · ')}</p>
+                        </div>
+                    ))}
+                </div>
+            </section>
+            
+            <Separator />
+            
+             {/* Reviews Section */}
+            <section>
+                <div className="flex items-center gap-3 mb-4">
+                    <Star className="h-6 w-6 text-primary" />
+                    <h2 className="font-headline text-2xl font-semibold">Student Reviews</h2>
+                </div>
+                <div className="space-y-4">
+                    {course.reviews.map((review, i) => (
+                        <div key={i} className="p-4 bg-muted/50 rounded-lg">
+                            <div className="flex items-center justify-between">
+                                <p className="font-semibold">{review.user}</p>
+                                <div className="flex items-center gap-1 text-amber-500">
+                                    {[...Array(review.rating)].map((_, j) => <Star key={j} className="h-4 w-4 fill-current" />)}
+                                </div>
+                            </div>
+                            <p className="text-sm text-muted-foreground mt-2 italic">"{review.comment}"</p>
+                        </div>
+                    ))}
+                </div>
+            </section>
+        </div>
 
-        <Separator />
+        <div className="md:col-span-1 space-y-8">
+            {/* Instructor Card */}
+            <Card>
+                <CardHeader>
+                    <CardTitle>Instructor</CardTitle>
+                </CardHeader>
+                <CardContent className="flex flex-col items-center text-center">
+                    <Avatar className="h-24 w-24 mb-4">
+                        <AvatarImage src={course.instructor.profile_image} alt={course.instructor.name} />
+                        <AvatarFallback>{course.instructor.name.charAt(0)}</AvatarFallback>
+                    </Avatar>
+                    <h3 className="font-semibold">{course.instructor.name}</h3>
+                    <p className="text-sm text-muted-foreground">{course.instructor.designation}</p>
+                </CardContent>
+            </Card>
 
-        {/* Rating Section */}
-        <section>
-            <div className="flex items-center gap-3 mb-4">
-                <Star className="h-6 w-6 text-primary" />
-                <h2 className="font-headline text-2xl font-semibold">Your Feedback</h2>
-            </div>
-            <CourseRating />
-        </section>
-        
-        <Separator />
+             {/* Skills Card */}
+             <Card>
+                <CardHeader>
+                    <CardTitle>Skills You'll Gain</CardTitle>
+                </CardHeader>
+                <CardContent className="flex flex-wrap gap-2">
+                    {course.skills_gained.map(skill => (
+                        <Badge key={skill} variant="secondary">{skill}</Badge>
+                    ))}
+                </CardContent>
+             </Card>
 
-        {/* Quiz Section */}
-        <section>
+            {/* Quiz Section */}
             <Card className="bg-primary/10 border-primary/20">
                 <CardHeader className="text-center">
                     <div className="mx-auto bg-primary text-primary-foreground rounded-full p-3 w-fit mb-2">
@@ -153,35 +195,8 @@ export default async function CourseDetailPage({
                     </Button>
                 </CardContent>
             </Card>
-        </section>
+        </div>
       </div>
-      
-      <Separator />
-
-      <Suspense fallback={<RelatedCoursesSkeleton />}>
-        <RelatedCourses course={course} />
-      </Suspense>
     </div>
   );
-}
-
-
-function RelatedCoursesSkeleton() {
-    return (
-        <Card>
-          <CardHeader>
-            <div className="flex items-center gap-2">
-              <span className="p-2 bg-muted rounded-full">
-                 <Skeleton className="h-5 w-5" />
-              </span>
-              <Skeleton className="h-6 w-1/2" />
-            </div>
-            <Skeleton className="h-4 w-full" />
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <Skeleton className="h-16 w-full" />
-            <Skeleton className="h-16 w-full" />
-          </CardContent>
-        </Card>
-    )
 }

@@ -22,14 +22,13 @@ export default async function QuizPage({
 }: {
   params: { id: string };
 }) {
-  const courseId = parseInt(params.id, 10);
-  const course = courses.find((c) => c.id === courseId);
+  const course = courses.find((c) => c.id === params.id);
 
   if (!course) {
     notFound();
   }
 
-  const fullCourseContent = course.chapters.map(c => `Chapter: ${c.title}\n${c.content}`).join('\n\n');
+  const fullCourseContent = course.modules.map(c => `Module: ${c.title}\nTopics: ${c.topics.join(', ')}`).join('\n\n');
 
   return (
     <div className="max-w-4xl mx-auto w-full">

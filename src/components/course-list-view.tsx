@@ -23,7 +23,7 @@ export function CourseListView({ courses }: { courses: Course[] }) {
     let filtered = courses;
 
     if (activeTopic) {
-      filtered = filtered.filter((course) => course.topic === activeTopic);
+      filtered = filtered.filter((course) => course.category === activeTopic);
     }
 
     if (searchTerm.length > 1) {
@@ -31,8 +31,8 @@ export function CourseListView({ courses }: { courses: Course[] }) {
         (course) =>
           course.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
           course.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          course.tags.some((tag) =>
-            tag.toLowerCase().includes(searchTerm.toLowerCase())
+          course.skills_gained.some((skill) =>
+            skill.toLowerCase().includes(searchTerm.toLowerCase())
           )
       );
     }
@@ -42,10 +42,10 @@ export function CourseListView({ courses }: { courses: Course[] }) {
 
   const coursesByTopic = useMemo(() => {
     return filteredCourses.reduce((acc, course) => {
-      if (!acc[course.topic]) {
-        acc[course.topic] = [];
+      if (!acc[course.category]) {
+        acc[course.category] = [];
       }
-      acc[course.topic].push(course);
+      acc[course.category].push(course);
       return acc;
     }, {} as Record<string, Course[]>);
   }, [filteredCourses]);
@@ -74,10 +74,10 @@ export function CourseListView({ courses }: { courses: Course[] }) {
             defaultValue="all"
           >
             <SelectTrigger className="w-full">
-              <SelectValue placeholder="Select a topic" />
+              <SelectValue placeholder="Select a category" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">All Topics</SelectItem>
+              <SelectItem value="all">All Categories</SelectItem>
               {courseTopics.map((topic) => (
                 <SelectItem key={topic} value={topic}>
                   {topic}

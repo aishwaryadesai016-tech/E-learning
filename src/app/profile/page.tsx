@@ -62,8 +62,10 @@ export default function ProfilePage() {
   };
 
   const completed = courses.filter(
-    (course) =>
-      progress[course.id] && progress[course.id].progressPercentage === 100
+    (course) => {
+      const courseId = parseInt(course.id, 10);
+      return progress[courseId] && progress[courseId].progressPercentage === 100
+    }
   );
 
   const isLoading = isUserLoading || isUserDocLoading || isProgressLoading;

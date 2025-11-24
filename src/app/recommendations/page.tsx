@@ -29,9 +29,9 @@ export default function RecommendationsPage() {
     }
 
     return courses.filter(course => {
-      const topicMatch = userData.interestTags?.includes(course.topic);
-      const levelMatch = userData.level === course.difficulty;
-      return topicMatch && levelMatch;
+      const categoryMatch = userData.interestTags?.includes(course.category);
+      const levelMatch = userData.level === course.level;
+      return categoryMatch && levelMatch;
     });
   }, [userData]);
   

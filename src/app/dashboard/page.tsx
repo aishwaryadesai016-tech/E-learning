@@ -20,6 +20,7 @@ import { useFirestore } from "@/firebase";
 import { doc } from "firebase/firestore";
 import type { User } from "@/lib/users";
 import { Skeleton } from "@/components/ui/skeleton";
+import Image from "next/image";
 
 export default function DashboardPage() {
   const { user, isUserLoading } = useUser();
@@ -38,17 +39,21 @@ export default function DashboardPage() {
   const userName = userData?.name || user?.displayName || "User";
 
   const inProgressCourses = courses.filter(
-    (course) =>
-      progress[course.id] && progress[course.id].progressPercentage < 100
+    (course) => {
+      const courseId = parseInt(course.id, 10);
+      return progress[courseId] && progress[courseId].progressPercentage < 100
+    }
   );
 
   const completedCourses = courses.filter(
-    (course) =>
-      progress[course.id] && progress[course.id].progressPercentage === 100
+    (course) => {
+      const courseId = parseInt(course.id, 10);
+      return progress[courseId] && progress[courseId].progressPercentage === 100
+    }
   );
 
   const watchlisted = courses.filter((course) =>
-    (userData?.watchlist || []).includes(course.id)
+    (userData?.watchlist || []).includes(parseInt(course.id, 10))
   );
 
   if (isLoading) {
@@ -77,31 +82,34 @@ export default function DashboardPage() {
           <CardContent>
             {inProgressCourses.length > 0 ? (
               <div className="space-y-4">
-                {inProgressCourses.map((course) => (
+                {inProgressCourses.map((course) => {
+                  const courseId = parseInt(course.id, 10);
+                  return (
                   <Link href={`/courses/${course.id}`} key={course.id} className="block group">
                     <div className="flex items-center gap-4 p-2 -m-2 rounded-lg group-hover:bg-muted">
-                        <div className="w-16 h-16 bg-muted rounded-lg flex-shrink-0">
-                        <img
+                        <div className="w-16 h-16 bg-muted rounded-lg flex-shrink-0 relative overflow-hidden">
+                        <Image
                             src={course.image}
                             alt={course.title}
-                            className="w-full h-full object-cover rounded-lg"
+                            fill
+                            className="object-cover"
                         />
                         </div>
                         <div className="flex-1">
                         <p className="font-semibold text-sm">{course.title}</p>
                         <div className="flex items-center gap-2 mt-1">
                             <Progress
-                            value={progress[course.id]?.progressPercentage || 0}
+                            value={progress[courseId]?.progressPercentage || 0}
                             className="h-2 w-full"
                             />
                             <span className="text-xs text-muted-foreground">
-                            {progress[course.id]?.progressPercentage || 0}%
+                            {progress[courseId]?.progressPercentage || 0}%
                             </span>
                         </div>
                         </div>
                     </div>
                   </Link>
-                ))}
+                )})}
               </div>
             ) : (
               <div className="text-center text-muted-foreground py-8">
@@ -128,11 +136,12 @@ export default function DashboardPage() {
               <div className="space-y-4">
                 {completedCourses.map((course) => (
                   <div key={course.id} className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-muted rounded-lg flex-shrink-0">
-                      <img
+                    <div className="w-12 h-12 bg-muted rounded-lg flex-shrink-0 relative overflow-hidden">
+                      <Image
                         src={course.image}
                         alt={course.title}
-                        className="w-full h-full object-cover rounded-lg"
+                        fill
+                        className="object-cover"
                       />
                     </div>
                     <div className="flex-1">
@@ -151,7 +160,7 @@ export default function DashboardPage() {
       </div>
       <div>
         <div className="flex items-center gap-3 mb-4">
-          <ListVideo className="h-6 w-6 text-purple-500" />
+          <ListVideo className="h-6 w-6 text-primary" />
           <h2 className="text-xl font-semibold font-headline">My Watchlist</h2>
         </div>
         {watchlisted.length > 0 ? (
@@ -167,6 +176,9 @@ export default function DashboardPage() {
               <p className="text-muted-foreground mt-2">
                 Browse courses and add them to your watchlist.
               </p>
+               <Button asChild className="mt-4">
+                  <Link href="/courses">Browse Courses</Link>
+                </Button>
             </CardContent>
           </Card>
         )}

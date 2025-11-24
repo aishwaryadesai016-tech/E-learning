@@ -26,7 +26,7 @@ export function CourseRating() {
   const { user } = useUser();
   const firestore = useFirestore();
   const params = useParams();
-  const courseId = parseInt(params.id as string, 10);
+  const courseId = params.id as string;
 
   const handleSubmit = async () => {
     if (!user) {
