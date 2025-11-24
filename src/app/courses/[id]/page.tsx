@@ -10,6 +10,7 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
+  CardDescription,
 } from "@/components/ui/card";
 import { Suspense } from "react";
 import { CourseRating } from "@/components/course-rating";
