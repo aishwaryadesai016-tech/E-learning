@@ -13,7 +13,6 @@ export type Course = {
   skills_gained: string[];
   learning_objectives: string[];
   modules: {
-    week: number;
     title: string;
     topics: string[];
   }[];
@@ -55,23 +54,19 @@ export const courses: Course[] = [
     ],
     modules: [
       {
-        week: 1,
-        title: 'Introduction to Frontend with React',
+        title: 'Module 1: Frontend with React (10 Hours)',
         topics: ['React Components & JSX', 'State and Props', 'Handling Events', 'Conditional Rendering'],
       },
       {
-        week: 2,
-        title: 'Advanced React and State Management',
+        title: 'Module 2: Advanced React (12 Hours)',
         topics: ['React Hooks (useState, useEffect)', 'React Router', 'Context API for State Management', 'Introduction to Redux'],
       },
       {
-        week: 3,
-        title: 'Building a Backend with Node.js & Express',
+        title: 'Module 3: Backend with Node.js & Express (15 Hours)',
         topics: ['Introduction to Node.js', 'Creating an Express Server', 'Routing and Middleware', 'Building a RESTful API'],
       },
       {
-        week: 4,
-        title: 'Database Integration with MongoDB',
+        title: 'Module 4: Database Integration with MongoDB (12 Hours)',
         topics: ['Introduction to NoSQL', 'MongoDB Atlas Setup', 'Mongoose Schemas and Models', 'CRUD Operations'],
       },
     ],
@@ -117,23 +112,19 @@ export const courses: Course[] = [
     ],
     modules: [
       {
-        week: 1,
-        title: 'Data Analysis with Pandas',
+        title: 'Module 1: Data Analysis with Pandas (20 Hours)',
         topics: ['DataFrames and Series', 'Data Cleaning and Preprocessing', 'Exploratory Data Analysis (EDA)', 'Data Grouping and Aggregation'],
       },
       {
-        week: 2,
-        title: 'Machine Learning Fundamentals',
+        title: 'Module 2: Machine Learning Fundamentals (25 Hours)',
         topics: ['Supervised vs. Unsupervised Learning', 'Linear & Logistic Regression', 'Decision Trees & Random Forests', 'Model Evaluation Metrics'],
       },
       {
-        week: 3,
-        title: 'Introduction to Deep Learning',
+        title: 'Module 3: Introduction to Deep Learning (30 Hours)',
         topics: ['Neural Networks Basics', 'Building models with Keras/TensorFlow', 'Convolutional Neural Networks (CNNs) for Image Data', 'Training and Optimization'],
       },
       {
-        week: 4,
-        title: 'Capstone Project',
+        title: 'Module 4: Capstone Project (40 Hours)',
         topics: ['Problem Definition', 'Data Collection and Scoping', 'Model Development and Deployment', 'Presenting Results'],
       },
     ],
@@ -173,23 +164,19 @@ export const courses: Course[] = [
     ],
     modules: [
         {
-            week: 1,
-            title: "Getting Started with Python",
+            title: "Module 1: Getting Started with Python (8 Hours)",
             topics: ["Why we program", "Variables and expressions", "Conditional code"]
         },
         {
-            week: 2,
-            title: "Python Data Structures",
+            title: "Module 2: Python Data Structures (10 Hours)",
             topics: ["Lists", "Dictionaries", "Tuples", "Strings and Files"]
         },
         {
-            week: 3,
-            title: "Using Python to Access Web Data",
+            title: "Module 3: Using Python to Access Web Data (12 Hours)",
             topics: ["Regular Expressions", "Networking with Sockets", "Web Scraping", "Working with APIs"]
         },
         {
-            week: 4,
-            title: "Using Databases with Python",
+            title: "Module 4: Using Databases with Python (12 Hours)",
             topics: ["Object-Oriented Python", "Basic SQL", "Data Modeling", "Building a data retrieval application"]
         }
     ],
@@ -229,14 +216,16 @@ export const courses: Course[] = [
     ],
     modules: [
       {
-        week: 1,
-        title: 'The Cybersecurity Landscape',
+        title: 'Module 1: The Cybersecurity Landscape (6 Hours)',
         topics: ['History of Cybersecurity', 'Common Attack Vectors', 'The CIA Triad', 'Malware Types'],
       },
       {
-        week: 2,
-        title: 'Defensive Measures',
+        title: 'Module 2: Defensive Measures (8 Hours)',
         topics: ['Network Security (Firewalls, IDS/IPS)', 'Cryptography Fundamentals', 'Authentication vs. Authorization', 'Secure Configurations'],
+      },
+       {
+        title: 'Module 3: Security Operations (8 Hours)',
+        topics: ['Incident Response', 'Security Auditing', 'Vulnerability Management', 'Disaster Recovery'],
       },
     ],
     instructor: {
@@ -276,19 +265,16 @@ export const courses: Course[] = [
     ],
     modules: [
       {
-        week: 1,
-        title: 'Cloud Concepts and Technology',
+        title: 'Module 1: Cloud Concepts and Technology (10 Hours)',
         topics: ['Introduction to AWS', 'Cloud Architecture Design Principles', 'AWS Global Infrastructure'],
       },
       {
-        week: 2,
-        title: 'Core Services: Compute, Storage, and Databases',
-        topics: ['Amazon EC2', 'Amazon S3', 'AWS Lambda', 'Amazon RDS and DynamoDB'],
+        title: 'Module 2: Core Services (15 Hours)',
+        topics: ['Amazon EC2', 'Amazon S3', 'AWS Lambda', 'Amazon RDS and DynamoDB', 'VPC and Networking'],
       },
        {
-        week: 3,
-        title: 'Security and Networking',
-        topics: ['Shared Responsibility Model', 'IAM (Identity and Access Management)', 'VPC (Virtual Private Cloud)', 'Security Groups'],
+        title: 'Module 3: Security and Billing (15 Hours)',
+        topics: ['Shared Responsibility Model', 'IAM (Identity and Access Management)', 'AWS Pricing Models', 'Cost Management Tools'],
       },
     ],
     instructor: {
@@ -327,14 +313,16 @@ export const courses: Course[] = [
     ],
     modules: [
         {
-            week: 1,
-            title: "Querying and Filtering Data",
+            title: "Module 1: Querying and Filtering (5 Hours)",
             topics: ["SELECT and FROM", "Filtering with WHERE", "Sorting with ORDER BY", "Using logical operators"]
         },
         {
-            week: 2,
-            title: "Joining and Aggregating Data",
+            title: "Module 2: Joining and Aggregating Data (8 Hours)",
             topics: ["INNER, LEFT, and RIGHT JOINs", "Aggregate Functions (COUNT, SUM, AVG)", "Grouping data with GROUP BY", "Filtering groups with HAVING"]
+        },
+        {
+            title: "Module 3: Advanced SQL (7 Hours)",
+            topics: ["Subqueries", "Common Table Expressions (CTEs)", "Window Functions", "CASE statements"]
         }
     ],
     instructor: {

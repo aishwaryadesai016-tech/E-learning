@@ -38,7 +38,7 @@ export function Syllabus({ course }: { course: Course }) {
             />
             <AccordionTrigger className="text-lg font-semibold hover:no-underline p-0 flex-1 justify-start">
               <Label htmlFor={`chapter-${index}`} className="cursor-pointer">
-                Week {module.week}: {module.title}
+                {module.title}
               </Label>
             </AccordionTrigger>
           </div>
