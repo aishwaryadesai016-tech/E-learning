@@ -1,0 +1,143 @@
+/**
+ * This ruleset enforces a security model for an E-Learning Recommendation System.
+ *
+ * Core Philosophy: The security model is based on strict user ownership. All user-specific
+ * data, such as profiles and course ratings, is private and can only be accessed by the
+ * authenticated owner. Publicly accessible data, like the course catalog, is segregated
+ * into its own top-level collection and is read-only for clients.
+ *
+ * Data Structure:
+ * - /users/{userId}: Contains private user profile data. Each document is owned by the
+ *   user corresponding to the {userId}.
+ * - /users/{userId}/ratings/{ratingId}: A subcollection containing a user's private
+ *   ratings for courses. Access is inherited from the parent user document.
+ * - /courses/{courseId}: A top-level collection of all available courses, intended for
+ *   public read access.
+ *
+ * Key Security Decisions:
+ * - User Isolation: Users can only interact with their own data tree under /users/{userId}.
+ *   They cannot read, list, or modify any other user's information.
+ * - No User Listing: Listing all documents in the top-level /users collection is explicitly
+ *   disallowed to protect user privacy.
+ * - Public Read-Only Catalog: The /courses collection is publicly readable by anyone,
+ *   including unauthenticated users, to allow browsing. All client-side write operations
+ *   are disabled, assuming courses are managed by a trusted backend service.
+ * - Path-Based Security: Ownership is determined by the {userId} in the document path,
+ *   which provides a fast and secure way to grant access without needing extra database reads.
+ */
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    //============================================================
+    // Helper Functions
+    //============================================================
+
+    /**
+     * Checks if the user is authenticated.
+     */
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    /**
+     * Checks if the authenticated user's UID matches the provided userId.
+     * This is the primary function for establishing document ownership.
+     */
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    /**
+     * Checks for ownership on an existing document. Used for update and delete
+     * operations to prevent acting on non-existent data.
+     */
+    function isExistingOwner(userId) {
+      return isOwner(userId) && resource != null;
+    }
+    
+    /**
+     * Validates that a new user document has its 'id' field set correctly,
+     * linking the document data to the authenticated user creating it.
+     */
+    function isValidNewUserDocument(userId) {
+      return request.resource.data.id == userId;
+    }
+
+    /**
+     * Enforces immutability of the user 'id' field upon update, preventing
+     * the ownership link from ever being changed.
+     */
+    function isImmutableUserDocument() {
+      return request.resource.data.id == resource.data.id;
+    }
+
+    /**
+     * Validates that a new rating document has its 'userId' field set correctly,
+     * linking it to the parent user document in the path.
+     */
+    function isValidNewRating(userId) {
+      return request.resource.data.userId == userId;
+    }
+    
+    /**
+     * Enforces immutability of the 'userId' field in a rating document, ensuring
+     * a rating cannot be reassigned to a different user.
+     */
+    function isImmutableRating() {
+      return request.resource.data.userId == resource.data.userId;
+    }
+
+
+    //============================================================
+    // Collection Rules
+    //============================================================
+
+    /**
+     * @description Manages user profiles. Only the authenticated owner can access their own document.
+     * @path /users/{userId}
+     * @allow (create) An authenticated user creating their own profile document: `create /users/user_abc`
+     * @deny (get) User 'user_xyz' trying to read another user's profile: `get /users/user_abc`
+     * @principle Restricts access to a user's own data tree.
+     */
+    match /users/{userId} {
+      allow get: if isOwner(userId);
+      allow list: if false; // CRITICAL: Prevent listing all users.
+      allow create: if isOwner(userId) && isValidNewUserDocument(userId);
+      allow update: if isExistingOwner(userId) && isImmutableUserDocument();
+      allow delete: if isExistingOwner(userId);
+
+      /**
+       * @description Manages a user's ratings for courses. Access is restricted to the owner.
+       * @path /users/{userId}/ratings/{ratingId}
+       * @allow (create) User 'user_abc' creating a rating for a course: `create /users/user_abc/ratings/new_rating`
+       * @deny (update) User 'user_xyz' trying to update a rating for 'user_abc': `update /users/user_abc/ratings/some_rating`
+       * @principle Enforces document ownership and validates relational integrity.
+       */
+      match /ratings/{ratingId} {
+        allow get: if isOwner(userId);
+        allow list: if isOwner(userId);
+        allow create: if isOwner(userId) && isValidNewRating(userId);
+        allow update: if isExistingOwner(userId) && isImmutableRating();
+        allow delete: if isExistingOwner(userId);
+      }
+    }
+
+    /**
+     * @description Stores the public catalog of courses. Readable by anyone, but not writable by clients.
+     * @path /courses/{courseId}
+     * @allow (get) Any user, signed-in or not, reading a course details: `get /courses/cs101`
+     * @deny (create) Any authenticated user trying to add a new course.
+     * @principle Provides public read access while protecting data integrity by disallowing client writes.
+     */
+    match /courses/{courseId} {
+      allow get: if true;
+      allow list: if true;
+      // CRITICAL: Cannot implement owner-only writes. The 'Course' entity is missing an 'ownerId' or 'authorId' field.
+      // Assuming courses are managed by a trusted admin backend, not by clients.
+      allow create: if false; // TODO: Add owner validation once the schema is updated with an ownership field.
+      allow update: if false; // TODO: Add owner validation once the schema is updated with an ownership field.
+      allow delete: if false; // TODO: Add owner validation once the schema is updated with an ownership field.
+    }
+  }
+}
