@@ -121,7 +121,7 @@ export function CourseCard({ course }: { course: Course }) {
           </CardTitle>
         </CardHeader>
         <CardContent className="flex flex-col flex-grow pt-0">
-          <CardDescription className="flex-grow mb-4">
+          <CardDescription className="flex-grow mb-4 min-h-[60px]">
             {course.description}
           </CardDescription>
           <div className="flex flex-wrap gap-1">
@@ -142,4 +142,3 @@ export function CourseCard({ course }: { course: Course }) {
     </Link>
   );
 }
-
