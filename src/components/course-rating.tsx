@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from "react";
@@ -12,13 +13,30 @@ import {
 import { Star } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
+import { useUser, useFirestore } from "@/firebase";
+import { addDocumentNonBlocking } from "@/firebase/non-blocking-updates";
+import { collection, serverTimestamp } from "firebase/firestore";
+import { useParams } from "next/navigation";
 
 export function CourseRating() {
   const [rating, setRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
+  const { user } = useUser();
+  const firestore = useFirestore();
+  const params = useParams();
+  const courseId = parseInt(params.id as string, 10);
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    if (!user) {
+      toast({
+        title: "Please log in",
+        description: "You must be logged in to rate a course.",
+        variant: "destructive",
+      });
+      return;
+    }
     if (rating === 0) {
       toast({
         title: "No rating selected",
@@ -27,12 +45,24 @@ export function CourseRating() {
       });
       return;
     }
-    // In a real app, you would submit this rating to your backend.
-    console.log("Submitted rating:", rating);
+
+    setIsSubmitting(true);
+
+    const ratingData = {
+      userId: user.uid,
+      courseId: courseId,
+      ratingValue: rating,
+      createdAt: serverTimestamp(),
+    };
+    
+    const ratingsColRef = collection(firestore, "ratings");
+    addDocumentNonBlocking(ratingsColRef, ratingData);
+
     toast({
       title: "Rating submitted!",
-      description: `You rated this course ${rating} out of 5 stars.`,
+      description: `You rated this course ${rating} out of 5 stars. In a real-world app, a backend process would now update the course's average rating.`,
     });
+    setIsSubmitting(false);
   };
 
   return (
@@ -56,6 +86,7 @@ export function CourseRating() {
               className="group"
               onClick={() => setRating(index)}
               onMouseEnter={() => setHoverRating(index)}
+              disabled={isSubmitting}
             >
               <Star
                 className={cn(
@@ -68,8 +99,8 @@ export function CourseRating() {
             </Button>
           ))}
         </div>
-        <Button className="w-full" variant="default" onClick={handleSubmit}>
-          Submit Rating
+        <Button className="w-full" variant="default" onClick={handleSubmit} disabled={isSubmitting}>
+          {isSubmitting ? "Submitting..." : "Submit Rating"}
         </Button>
       </CardContent>
     </Card>

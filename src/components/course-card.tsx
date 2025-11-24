@@ -13,7 +13,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import type { Course } from "@/lib/courses";
 import type { User } from "@/lib/users";
-import { ArrowRight, Bookmark } from "lucide-react";
+import { ArrowRight, Bookmark, Star } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useUser, useFirestore, useDoc, useMemoFirebase } from "@/firebase";
 import { doc, arrayUnion, arrayRemove } from "firebase/firestore";
@@ -80,14 +80,22 @@ export function CourseCard({ course }: { course: Course }) {
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             data-ai-hint={`course ${course.topic.toLowerCase()}`}
           />
-          <Badge
-            className={cn(
-              "absolute top-2 left-2",
-              difficultyColors[course.difficulty]
+          <div className="absolute top-2 left-2 flex gap-2">
+            <Badge
+                className={cn(
+                "border",
+                difficultyColors[course.difficulty]
+                )}
+            >
+                {course.difficulty}
+            </Badge>
+            {course.averageRating > 0 && (
+                <Badge variant="secondary" className="flex items-center gap-1">
+                    <Star className="h-3 w-3 fill-amber-500 text-amber-500" />
+                    <span className="font-bold">{course.averageRating.toFixed(1)}</span>
+                </Badge>
             )}
-          >
-            {course.difficulty}
-          </Badge>
+          </div>
           {user && (
             <Button
               size="icon"
@@ -134,3 +142,4 @@ export function CourseCard({ course }: { course: Course }) {
     </Link>
   );
 }
+

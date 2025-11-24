@@ -9,6 +9,8 @@ export type Course = {
   difficulty: "Beginner" | "Intermediate" | "Advanced";
   duration: string;
   chapters: { title: string; content: string }[];
+  averageRating: number;
+  ratingCount: number;
 };
 
 export const courses: Course[] = [
@@ -22,6 +24,8 @@ export const courses: Course[] = [
     topic: "Programming",
     difficulty: "Beginner",
     duration: "6 hours",
+    averageRating: 4.7,
+    ratingCount: 1250,
     chapters: [
       { 
         title: "Getting Started", 
@@ -51,6 +55,8 @@ export const courses: Course[] = [
     topic: "Algorithms",
     difficulty: "Advanced",
     duration: "12 hours",
+    averageRating: 4.9,
+    ratingCount: 980,
     chapters: [
       { 
         title: "Introduction to Data Structures", 
@@ -80,6 +86,8 @@ export const courses: Course[] = [
     topic: "AI/ML",
     difficulty: "Intermediate",
     duration: "10 hours",
+    averageRating: 4.8,
+    ratingCount: 2100,
     chapters: [
       { 
         title: "Foundations of Machine Learning", 
@@ -109,6 +117,8 @@ export const courses: Course[] = [
     topic: "Web Development",
     difficulty: "Intermediate",
     duration: "20 hours",
+    averageRating: 4.8,
+    ratingCount: 3200,
     chapters: [
         { 
           title: "Building a REST API with Node.js and Express", 
@@ -138,6 +148,8 @@ export const courses: Course[] = [
     topic: "Databases",
     difficulty: "Beginner",
     duration: "8 hours",
+    averageRating: 4.6,
+    ratingCount: 1500,
     chapters: [
         { 
           title: "Basic SQL Queries", 
@@ -167,6 +179,8 @@ export const courses: Course[] = [
     topic: "Systems",
     difficulty: "Intermediate",
     duration: "15 hours",
+    averageRating: 4.7,
+    ratingCount: 800,
     chapters: [
         { 
           title: "The Application Layer", 
@@ -196,6 +210,8 @@ export const courses: Course[] = [
     topic: "Security",
     difficulty: "Beginner",
     duration: "5 hours",
+    averageRating: 4.5,
+    ratingCount: 1900,
     chapters: [
         { 
           title: "The CIA Triad and Common Threats", 
@@ -225,6 +241,8 @@ export const courses: Course[] = [
     topic: "Systems",
     difficulty: "Intermediate",
     duration: "10 hours",
+    averageRating: 4.8,
+    ratingCount: 2500,
     chapters: [
         { 
           title: "Introduction to AWS and IAM", 
@@ -253,6 +271,8 @@ export const courses: Course[] = [
     topic: "Programming",
     difficulty: "Intermediate",
     duration: "12 hours",
+    averageRating: 4.6,
+    ratingCount: 750,
     chapters: [
       {
         title: "The Software Development Life Cycle (SDLC)",
@@ -281,6 +301,8 @@ export const courses: Course[] = [
     topic: "Systems",
     difficulty: "Advanced",
     duration: "18 hours",
+    averageRating: 4.9,
+    ratingCount: 600,
     chapters: [
       {
         title: "Process and Thread Management",
@@ -309,6 +331,8 @@ export const courses: Course[] = [
     topic: "Systems",
     difficulty: "Intermediate",
     duration: "9 hours",
+    averageRating: 4.7,
+    ratingCount: 1100,
     chapters: [
       {
         title: "What is DevOps?",
@@ -337,6 +361,8 @@ export const courses: Course[] = [
     topic: "Algorithms",
     difficulty: "Advanced",
     duration: "16 hours",
+    averageRating: 4.8,
+    ratingCount: 450,
     chapters: [
       {
         title: "The Graphics Pipeline",
@@ -365,6 +391,8 @@ export const courses: Course[] = [
     topic: "Programming",
     difficulty: "Intermediate",
     duration: "8 hours",
+    averageRating: 4.7,
+    ratingCount: 1300,
     chapters: [
       {
         title: "Arrow Functions and Lexical `this`",
@@ -393,6 +421,8 @@ export const courses: Course[] = [
     topic: "Algorithms",
     difficulty: "Advanced",
     duration: "14 hours",
+    averageRating: 4.9,
+    ratingCount: 700,
     chapters: [
       {
         title: "Introduction to DP: Overlapping Subproblems and Optimal Substructure",
@@ -421,6 +451,8 @@ export const courses: Course[] = [
     topic: "AI/ML",
     difficulty: "Advanced",
     duration: "25 hours",
+    averageRating: 4.9,
+    ratingCount: 1800,
     chapters: [
       {
         title: "Tensors and `nn.Module`",
@@ -449,6 +481,8 @@ export const courses: Course[] = [
     topic: "Web Development",
     difficulty: "Advanced",
     duration: "18 hours",
+    averageRating: 4.8,
+    ratingCount: 950,
     chapters: [
       {
         title: "Monolith vs. Microservices",
@@ -477,6 +511,8 @@ export const courses: Course[] = [
     topic: "Databases",
     difficulty: "Intermediate",
     duration: "12 hours",
+    averageRating: 4.7,
+    ratingCount: 880,
     chapters: [
       {
         title: "The CAP Theorem and Data Models",
@@ -505,6 +541,8 @@ export const courses: Course[] = [
     topic: "Systems",
     difficulty: "Advanced",
     duration: "22 hours",
+    averageRating: 4.9,
+    ratingCount: 1400,
     chapters: [
       {
         title: "Creating Optimized Docker Images",
@@ -533,6 +571,8 @@ export const courses: Course[] = [
     topic: "Security",
     difficulty: "Intermediate",
     duration: "10 hours",
+    averageRating: 4.8,
+    ratingCount: 920,
     chapters: [
       {
         title: "Cross-Site Scripting (XSS)",

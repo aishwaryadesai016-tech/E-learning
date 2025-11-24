@@ -47,6 +47,29 @@
             "Intermediate",
             "Advanced"
           ]
+        },
+        "watchlist": {
+            "type": "array",
+            "description": "An array of course IDs that the user has added to their watchlist.",
+            "items": {
+                "type": "number"
+            }
+        },
+        "progress": {
+            "type": "object",
+            "description": "An object tracking the user's progress in each course.",
+            "additionalProperties": {
+                "type": "object",
+                "properties": {
+                    "completedChapters": {
+                        "type": "array",
+                        "items": { "type": "number" }
+                    },
+                    "progressPercentage": {
+                        "type": "number"
+                    }
+                }
+            }
         }
       },
       "required": [
@@ -83,6 +106,14 @@
         "topic": {
           "type": "string",
           "description": "General topic or category the course belongs to (e.g., 'Algorithms', 'Data Structures')."
+        },
+        "averageRating": {
+          "type": "number",
+          "description": "The average user rating for the course, from 1 to 5."
+        },
+        "ratingCount": {
+          "type": "number",
+          "description": "The total number of ratings the course has received."
         }
       },
       "required": [
@@ -106,23 +137,25 @@
           "description": "Reference to User. (Relationship: User 1:N Rating)"
         },
         "courseId": {
-          "type": "string",
+          "type": "number",
           "description": "Reference to Course. (Relationship: Course 1:N Rating)"
         },
         "ratingValue": {
           "type": "number",
           "description": "The rating given by the user for the course (e.g., 1 to 5)."
         },
-        "comment": {
+        "createdAt": {
           "type": "string",
-          "description": "Optional comment or review provided by the user."
+          "format": "date-time",
+          "description": "Timestamp when the rating was created."
         }
       },
       "required": [
         "id",
         "userId",
         "courseId",
-        "ratingValue"
+        "ratingValue",
+        "createdAt"
       ]
     }
   },
@@ -157,7 +190,7 @@
           "schema": {
             "$ref": "#/backend/entities/Course"
           },
-          "description": "Stores course information.",
+          "description": "Stores course information, including aggregated rating data.",
           "params": [
             {
               "name": "courseId",
@@ -167,26 +200,14 @@
         }
       },
       {
-        "path": "/users/{userId}/ratings/{ratingId}",
+        "path": "/ratings/{ratingId}",
         "definition": {
-          "entityName": "Rating",
-          "schema": {
-            "$ref": "#/backend/entities/Rating"
-          },
-          "description": "Stores user ratings for courses. Path-based ownership ensures only the user can manage their own ratings.",
-          "params": [
-            {
-              "name": "userId",
-              "description": "The unique identifier for the user who created the rating (from Firebase Authentication)."
-            },
-            {
-              "name": "ratingId",
-              "description": "The unique identifier for the rating."
-            }
-          ]
+            "entityName": "Rating",
+            "schema": { "$ref": "#/backend/entities/Rating" },
+            "description": "Stores individual user ratings for courses. A backend function would listen to this collection to update the aggregate rating on the corresponding course document."
         }
       }
     ],
-    "reasoning": "The Firestore data structure is designed to support the E-Learning Recommendation System with a focus on scalability, security, and efficient querying. The core principle is Authorization Independence, achieved through denormalization of authorization data where necessary. This avoids complex `get()` calls in security rules, enabling atomic operations and simplifying debugging.\n\n**Structure Overview:**\n\n*   **`/users/{userId}`:** Stores user profiles, including completed course IDs and interest tags. This collection is path-based, ensuring only the authenticated user can access their own data. The `userId` is obtained from `request.auth.uid`.\n*   **`/courses/{courseId}`:** Stores course information, including title, description, tags, and topic. This collection can be queried to list available courses and filter by topic.\n*   **`/users/{userId}/ratings/{ratingId}`:** Stores user ratings for courses. This subcollection is path-based and tied to the user that created the rating.\n\n**Authorization Independence:**\n\nAuthorization Independence is maintained by using path-based security for user data. A user can only access their own profile and ratings. No `get()` calls are required in the security rules for basic read/write operations on user data.\n\n**QAPs (Rules are not Filters):**\n\n*   **Secure List Operations:** The structure supports secure list operations through structural segregation. Each collection has a homogeneous security posture. For example, only authenticated users can access their own user documents.\n\n**Denormalization:**\n\nTo support recommendation efficiently, the `User` entity includes `completedCourseIds` and `interestTags`. These are denormalized copies of information. This approach prevents the need for complex joins or subqueries, improving performance and scalability."
+    "reasoning": "The Firestore data structure is designed to support the E-Learning Recommendation System with a focus on scalability, security, and efficient querying. The core principle is Authorization Independence, achieved through denormalization of authorization data where necessary. This avoids complex `get()` calls in security rules, enabling atomic operations and simplifying debugging.\n\n**Structure Overview:**\n\n*   **`/users/{userId}`:** Stores user profiles, including completed course IDs and interest tags. This collection is path-based, ensuring only the authenticated user can access their own data. The `userId` is obtained from `request.auth.uid`.\n*   **`/courses/{courseId}`:** Stores course information, including title, description, tags, topic, and denormalized rating aggregates (`averageRating`, `ratingCount`).\n*   **`/ratings/{ratingId}`:** A top-level collection to store individual ratings. This structure is chosen to allow a backend function (e.g., Cloud Function) to easily listen for new ratings and update the corresponding `/courses` document without requiring broad read permissions on user data.\n\n**Authorization Independence:**\n\nAuthorization Independence is maintained by using path-based security for user data. A user can only access their own profile. No `get()` calls are required in the security rules for basic read/write operations on user data.\n\n**Denormalization:**\n\nThe `Course` entity is denormalized to include `averageRating` and `ratingCount`. This is critical for performance. It allows the application to display course ratings without needing to query and calculate from all individual rating documents for each course on every load.\n\n"
   }
 }
