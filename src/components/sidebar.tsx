@@ -17,7 +17,7 @@ export function Sidebar() {
     const pathname = usePathname();
 
     return (
-        <div className="fixed flex h-full flex-col bg-card text-card-foreground border-r md:w-[220px] lg:w-[280px]">
+        <div className="fixed flex h-full flex-col bg-card text-card-foreground border-r md:w-[280px] lg:w-[320px]">
             {/* Navigation for both Mobile and Desktop */}
             <div className="flex-1 overflow-y-auto pt-4">
                 <nav className="grid items-start px-2 text-sm font-medium lg:px-4 gap-2">

@@ -14,7 +14,7 @@ export default function CoursesLayout({
       <div className="min-h-screen w-full">
         <Header />
         <div className="flex pt-14 lg:pt-[60px]">
-            <div className="hidden md:block md:w-[220px] lg:w-[280px]">
+            <div className="hidden md:block md:w-[280px] lg:w-[320px]">
                 <Sidebar />
             </div>
             <main className="flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6 overflow-y-auto h-[calc(100vh-3.5rem)] lg:h-[calc(100vh-3.75rem)]">
