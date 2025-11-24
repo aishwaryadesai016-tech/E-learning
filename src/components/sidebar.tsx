@@ -3,7 +3,6 @@
 
 import Link from "next/link";
 import { Home, LayoutDashboard, User as UserIcon } from "lucide-react";
-import { Logo } from "./logo";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { UserInfo } from "./user-info";
@@ -18,10 +17,10 @@ export function Sidebar() {
     const pathname = usePathname();
 
     return (
-        <div className="flex flex-col h-full">
+        <div className="flex flex-col h-full bg-card text-card-foreground">
             {/* Header for both Mobile and Desktop */}
             <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
-                <Logo />
+                {/* Logo is now only in the main header */}
             </div>
             
             {/* Navigation for both Mobile and Desktop */}

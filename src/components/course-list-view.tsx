@@ -5,9 +5,15 @@ import { useState, useMemo } from "react";
 import type { Course } from "@/lib/courses";
 import { CourseCard } from "@/components/course-card";
 import { courseTopics } from "@/lib/courses";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export function CourseListView({ courses }: { courses: Course[] }) {
   const [activeTopic, setActiveTopic] = useState<string | null>(null);
@@ -21,15 +27,16 @@ export function CourseListView({ courses }: { courses: Course[] }) {
     }
 
     if (searchTerm.length > 1) {
-      filtered = filtered.filter((course) =>
-        course.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        course.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        course.tags.some((tag) =>
-          tag.toLowerCase().includes(searchTerm.toLowerCase())
-        )
+      filtered = filtered.filter(
+        (course) =>
+          course.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          course.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          course.tags.some((tag) =>
+            tag.toLowerCase().includes(searchTerm.toLowerCase())
+          )
       );
     }
-    
+
     return filtered;
   }, [courses, activeTopic, searchTerm]);
 
@@ -42,8 +49,10 @@ export function CourseListView({ courses }: { courses: Course[] }) {
       return acc;
     }, {} as Record<string, Course[]>);
   }, [filteredCourses]);
-  
-  const topicsToDisplay = activeTopic ? [activeTopic] : courseTopics.filter(topic => coursesByTopic[topic]?.length > 0);
+
+  const topicsToDisplay = activeTopic
+    ? [activeTopic]
+    : courseTopics.filter((topic) => coursesByTopic[topic]?.length > 0);
 
   return (
     <div className="flex flex-col gap-8">
@@ -57,39 +66,42 @@ export function CourseListView({ courses }: { courses: Course[] }) {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
-        <div className="flex gap-2 overflow-x-auto pb-2 -mb-2 w-full sm:w-auto">
-          <Button
-            variant={activeTopic === null ? "default" : "outline"}
-            onClick={() => setActiveTopic(null)}
-            className="shrink-0"
+        <div className="w-full sm:w-auto sm:min-w-[200px]">
+          <Select
+            onValueChange={(value) =>
+              setActiveTopic(value === "all" ? null : value)
+            }
+            defaultValue="all"
           >
-            All Topics
-          </Button>
-          {courseTopics.map((topic) => (
-            <Button
-              key={topic}
-              variant={activeTopic === topic ? "default" : "outline"}
-              onClick={() => setActiveTopic(topic)}
-              className="shrink-0"
-            >
-              {topic}
-            </Button>
-          ))}
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Select a topic" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Topics</SelectItem>
+              {courseTopics.map((topic) => (
+                <SelectItem key={topic} value={topic}>
+                  {topic}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
       </div>
 
       {filteredCourses.length > 0 ? (
         <div className="space-y-8">
           {topicsToDisplay.map((topic) => (
-              <section key={topic}>
-                <h2 className="text-xl md:text-2xl font-headline font-semibold mb-4">{topic}</h2>
-                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                  {coursesByTopic[topic].map((course) => (
-                    <CourseCard key={course.id} course={course} />
-                  ))}
-                </div>
-              </section>
-            ))}
+            <section key={topic}>
+              <h2 className="text-xl md:text-2xl font-headline font-semibold mb-4">
+                {topic}
+              </h2>
+              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                {coursesByTopic[topic].map((course) => (
+                  <CourseCard key={course.id} course={course} />
+                ))}
+              </div>
+            </section>
+          ))}
         </div>
       ) : (
         <div className="text-center py-20 rounded-lg bg-card">
