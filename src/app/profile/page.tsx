@@ -61,7 +61,7 @@ export default function ProfilePage() {
     }
   };
 
-  const completed = courses.filter(
+  const completedCourses = courses.filter(
     (course) => {
       const courseId = parseInt(course.id, 10);
       return progress[courseId] && progress[courseId].progressPercentage === 100
@@ -121,9 +121,9 @@ export default function ProfilePage() {
                  <div className="text-center py-12">
                   <p className="text-muted-foreground">Loading completed courses...</p>
                 </div>
-              ) : completed.length > 0 ? (
+              ) : completedCourses.length > 0 ? (
                 <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                  {completed.map((course) => (
+                  {completedCourses.map((course) => (
                     <CourseCard key={course.id} course={course} />
                   ))}
                 </div>
