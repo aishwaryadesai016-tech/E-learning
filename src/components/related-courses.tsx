@@ -75,15 +75,13 @@ export function RelatedCourses({ course }: { course: Course }) {
 
   return (
     <Card>
-      <CardHeader>
-        <div className="flex items-center gap-2">
-          <span className="p-2 bg-primary/10 rounded-full">
+      <CardHeader className="items-center text-center">
+        <span className="p-2 bg-primary/10 rounded-full mb-2">
             <Lightbulb className="h-5 w-5 text-primary" />
-          </span>
-          <CardTitle className="font-headline text-xl">
+        </span>
+        <CardTitle className="font-headline text-xl">
             Top Recommended Courses
-          </CardTitle>
-        </div>
+        </CardTitle>
         <CardDescription>
           Because you're viewing "{course.title}", you might also like these
           courses.
@@ -117,3 +115,4 @@ export function RelatedCourses({ course }: { course: Course }) {
     </Card>
   );
 }
+
