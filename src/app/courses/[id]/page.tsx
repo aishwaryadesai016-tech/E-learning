@@ -118,6 +118,8 @@ export default function CourseDetailPage() {
                 </CardContent>
             </Card>
 
+            <CourseRating />
+
             <Separator />
             
              {/* Reviews Section */}
@@ -145,7 +147,6 @@ export default function CourseDetailPage() {
         </div>
 
         <div className="md:col-span-1 space-y-8">
-             <CourseRating />
             {/* Instructor Card */}
             <Card>
                 <CardHeader>
