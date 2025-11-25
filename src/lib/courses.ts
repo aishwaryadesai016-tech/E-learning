@@ -440,6 +440,290 @@ export const courses: Course[] = [
     certificate_available: true,
     course_link: 'https://www.udemy.com/course/advanced-css-and-sass/',
     image: 'https://picsum.photos/seed/advanced-css/600/400',
+  },
+  {
+    id: 'react-complete-guide',
+    title: 'React - The Complete Guide (incl Hooks, React Router, Redux)',
+    category: 'Web Development',
+    rating: 4.6,
+    total_enrollments: '700K+',
+    duration: 'Approx. 50 hours',
+    level: 'Intermediate',
+    language: 'English',
+    platform: 'Udemy',
+    description: 'Dive in and learn React.js from scratch! Learn Reactjs, Hooks, Redux, React Router, Next.js, Best Practices and way more!',
+    skills_gained: ['React', 'Hooks', 'Redux', 'React Router', 'Next.js', 'State Management'],
+    learning_objectives: [
+      'Build powerful, fast, user-friendly and reactive web apps.',
+      'Master the latest features in React, including Hooks.',
+      'Manage complex state with Redux and Redux Toolkit.',
+      'Create single-page applications with React Router.',
+    ],
+    modules: [
+        {
+            title: "Module 1: React Fundamentals (10 Hours)",
+            topics: ["Components and JSX", "Props vs State", "Handling Events", "Conditional Rendering"]
+        },
+        {
+            title: "Module 2: State, Events, and Forms (12 Hours)",
+            topics: ["The useState Hook", "Controlled Components", "Form Submission", "State Lifting"]
+        },
+        {
+            title: "Module 3: Advanced Hooks & Side Effects (15 Hours)",
+            topics: ["The useEffect Hook", "Data Fetching", "useContext", "useReducer", "Custom Hooks"]
+        },
+        {
+            title: "Module 4: Redux & Advanced State Management (13 Hours)",
+            topics: ["Introduction to Redux", "Redux Toolkit", "Async Logic with Thunks", "Connecting React to Redux"]
+        }
+    ],
+    instructor: {
+        name: 'Maximilian Schwarzmüller',
+        designation: 'Professional Web Developer and Instructor',
+        profile_image: 'https://picsum.photos/seed/ins9/100/100'
+    },
+    reviews: [
+        {
+            user: 'Anna L.',
+            rating: 5,
+            comment: 'This is THE most comprehensive React course. Max explains everything so well.'
+        }
+    ],
+    certificate_available: true,
+    course_link: 'https://www.udemy.com/course/react-the-complete-guide-incl-redux/',
+    image: 'https://picsum.photos/seed/react-guide/600/400'
+  },
+  {
+    id: 'nlp-specialization',
+    title: 'Natural Language Processing Specialization',
+    category: 'AI/ML',
+    rating: 4.7,
+    total_enrollments: '100K+',
+    duration: 'Approx. 4 months',
+    level: 'Advanced',
+    language: 'English',
+    platform: 'Coursera',
+    description: 'Become a Natural Language Processing expert. Master cutting-edge NLP techniques to build models for sentiment analysis, machine translation, and text generation.',
+    skills_gained: ['NLP', 'Word Embeddings', 'RNNs', 'LSTMs', 'Attention Models', 'Transformers'],
+    learning_objectives: [
+      'Build a sentiment analysis model using logistic regression and Naive Bayes.',
+      'Create word embeddings to represent words as vectors.',
+      'Develop sequence models like RNNs and LSTMs for text processing.',
+      'Implement attention models for machine translation and text summarization.',
+    ],
+    modules: [
+        {
+            title: "Module 1: Classification and Vector Spaces (18 Hours)",
+            topics: ["Sentiment Analysis", "Logistic Regression", "Naive Bayes", "Vector Space Models"]
+        },
+        {
+            title: "Module 2: Word Embeddings and Neural Networks (20 Hours)",
+            topics: ["Word2Vec", "GloVe", "Recurrent Neural Networks (RNNs)", "LSTMs and GRUs"]
+        },
+        {
+            title: "Module 3: Sequence to Sequence Models and Attention (22 Hours)",
+            topics: ["Seq2Seq Architecture", "Beam Search", "Attention Mechanism", "Transformers"]
+        }
+    ],
+    instructor: {
+        name: 'Younes Bensouda Mourri & Łukasz Kaiser',
+        designation: 'AI Instructors, DeepLearning.AI',
+        profile_image: 'https://picsum.photos/seed/ins10/100/100'
+    },
+    reviews: [
+        {
+            user: 'Sophia K.',
+            rating: 5,
+            comment: 'The explanations of complex topics like Transformers are the best I\'ve seen.'
+        }
+    ],
+    certificate_available: true,
+    course_link: 'https://www.coursera.org/specializations/natural-language-processing',
+    image: 'https://picsum.photos/seed/nlp-spec/600/400'
+  },
+  {
+    id: 'go-programming',
+    title: 'Go: The Complete Developer\'s Guide (Golang)',
+    category: 'Programming',
+    rating: 4.6,
+    total_enrollments: '95K+',
+    duration: 'Approx. 9 hours',
+    level: 'Beginner',
+    language: 'English',
+    platform: 'Udemy',
+    description: 'Master the fundamentals and advanced features of the Go Programming Language (Golang). Learn about concurrency, channels, and building real-world applications.',
+    skills_gained: ['Go (Golang)', 'Concurrency', 'Goroutines', 'Channels', 'Testing', 'Interfaces'],
+    learning_objectives: [
+      'Understand the fundamental syntax and control structures of Go.',
+      'Apply Go\'s concurrency model to build highly concurrent programs.',
+      'Organize code into packages for reusability.',
+      'Write effective tests to ensure your code is robust.',
+    ],
+    modules: [
+        {
+            title: "Module 1: Go Fundamentals (4 Hours)",
+            topics: ["Go Syntax", "Data Types", "Slices and Maps", "Structs and Interfaces"]
+        },
+        {
+            title: "Module 2: Concurrency in Go (5 Hours)",
+            topics: ["Goroutines", "Channels", "Select Statement", "Concurrency Patterns"]
+        }
+    ],
+    instructor: {
+        name: 'Stephen Grider',
+        designation: 'Engineering Architect',
+        profile_image: 'https://picsum.photos/seed/ins11/100/100'
+    },
+    reviews: [
+        {
+            user: 'Mark T.',
+            rating: 5,
+            comment: 'Stephen\'s diagrams are a lifesaver for understanding concurrency. Great course!'
+        }
+    ],
+    certificate_available: true,
+    course_link: 'https://www.udemy.com/course/go-the-complete-developers-guide/',
+    image: 'https://picsum.photos/seed/go-lang/600/400'
+  },
+  {
+    id: 'ethical-hacking-intro',
+    title: 'Learn Ethical Hacking From Scratch',
+    category: 'Security',
+    rating: 4.6,
+    total_enrollments: '480K+',
+    duration: 'Approx. 16 hours',
+    level: 'Beginner',
+    language: 'English',
+    platform: 'Udemy',
+    description: 'Become an ethical hacker that can hack computer systems like black hat hackers and secure them like security experts.',
+    skills_gained: ['Ethical Hacking', 'Penetration Testing', 'Nmap', 'Metasploit', 'Web Application Security', 'SQL Injection'],
+    learning_objectives: [
+      'Understand the five phases of ethical hacking.',
+      'Use Nmap to scan networks and discover vulnerabilities.',
+      'Exploit vulnerabilities using Metasploit to gain control over systems.',
+      'Identify and mitigate common web application vulnerabilities like SQL injection and XSS.',
+    ],
+    modules: [
+        {
+            title: "Module 1: Introduction to Ethical Hacking (4 Hours)",
+            topics: ["Hacking Methodologies", "Legal Framework", "Setting up a Hacking Lab"]
+        },
+        {
+            title: "Module 2: Scanning and Enumeration (6 Hours)",
+            topics: ["Network Scanning with Nmap", "Vulnerability Scanning", "Enumerating Services"]
+        },
+        {
+            title: "Module 3: System Hacking and Web Exploitation (6 Hours)",
+            topics: ["Gaining Access with Metasploit", "Password Cracking", "OWASP Top 10", "SQL Injection"]
+        }
+    ],
+    instructor: {
+        name: 'Zaid Sabih',
+        designation: 'Ethical Hacker, Pentester & Computer Scientist',
+        profile_image: 'https://picsum.photos/seed/ins12/100/100'
+    },
+    reviews: [
+        {
+            user: 'Kevin M.',
+            rating: 5,
+            comment: 'Zaid is a master. This course is packed with practical, hands-on examples.'
+        }
+    ],
+    certificate_available: true,
+    course_link: 'https://www.udemy.com/course/learn-ethical-hacking-from-scratch/',
+    image: 'https://picsum.photos/seed/hacking-course/600/400'
+  },
+  {
+    id: 'docker-kubernetes',
+    title: 'Docker & Kubernetes: The Complete Guide',
+    category: 'Systems',
+    rating: 4.7,
+    total_enrollments: '300K+',
+    duration: 'Approx. 21 hours',
+    level: 'Intermediate',
+    language: 'English',
+    platform: 'Udemy',
+    description: 'Build, test, and deploy Docker applications with Kubernetes while learning the best practices of containerization.',
+    skills_gained: ['Docker', 'Kubernetes', 'CI/CD', 'Microservices', 'Docker Compose', 'Helm'],
+    learning_objectives: [
+      'Master the Docker CLI to build and run containers.',
+      'Write Dockerfiles and Docker Compose files for multi-container applications.',
+      'Understand the architecture of Kubernetes.',
+      'Deploy applications to a Kubernetes cluster and manage them.',
+    ],
+    modules: [
+        {
+            title: "Module 1: Introduction to Containers & Docker (10 Hours)",
+            topics: ["The Docker Engine", "Writing Dockerfiles", "Docker Compose", "Image Management"]
+        },
+        {
+            title: "Module 2: Introduction to Kubernetes (11 Hours)",
+            topics: ["Kubernetes Architecture", "Pods, Services, and Deployments", "The Kubectl CLI", "State management with Volumes"]
+        }
+    ],
+    instructor: {
+        name: 'Stephen Grider',
+        designation: 'Engineering Architect',
+        profile_image: 'https://picsum.photos/seed/ins13/100/100'
+    },
+    reviews: [
+        {
+            user: 'Jane D.',
+            rating: 5,
+            comment: 'Another amazing course by Stephen. He makes complex topics like Kubernetes so easy to understand.'
+        }
+    ],
+    certificate_available: true,
+    course_link: 'https://www.udemy.com/course/docker-and-kubernetes-the-complete-guide/',
+    image: 'https://picsum.photos/seed/docker-k8s/600/400'
+  },
+  {
+    id: 'database-design',
+    title: 'Database Design Introduction',
+    category: 'Databases',
+    rating: 4.7,
+    total_enrollments: '50K+',
+    duration: 'Approx. 12 hours',
+    level: 'Beginner',
+    language: 'English',
+    platform: 'Coursera',
+    description: 'Learn how to create a relational database structure that is both efficient and scalable. Understand the process of normalization and data modeling.',
+    skills_gained: ['Database Design', 'Relational Databases', 'Normalization', 'SQL', 'Data Modeling', 'ERD'],
+    learning_objectives: [
+      'Understand the core principles of the relational database model.',
+      'Apply normalization techniques to reduce data redundancy.',
+      'Create Entity-Relationship Diagrams (ERDs) to model data.',
+      'Translate a logical data model into a physical database schema.',
+    ],
+    modules: [
+        {
+            title: "Module 1: Relational Database Fundamentals (4 Hours)",
+            topics: ["The Relational Model", "Keys (Primary, Foreign)", "Introduction to SQL"]
+        },
+        {
+            title: "Module 2: Normalization (5 Hours)",
+            topics: ["First, Second, and Third Normal Forms", "Data Anomalies", "Decomposition"]
+        },
+        {
+            title: "Module 3: Physical Design and Data Modeling (3 Hours)",
+            topics: ["Entity-Relationship Diagrams (ERDs)", "Cardinality", "Translating ERD to SQL"]
+        }
+    ],
+    instructor: {
+        name: 'Dr. Daniel S.',
+        designation: 'Database Architect & Researcher',
+        profile_image: 'https://picsum.photos/seed/ins14/100/100'
+    },
+    reviews: [
+        {
+            user: 'Tom H.',
+            rating: 5,
+            comment: 'Finally, a course that properly explains normalization. This was a game-changer for me.'
+        }
+    ],
+    certificate_available: true,
+    course_link: 'https://www.coursera.org/learn/database-design',
+    image: 'https://picsum.photos/seed/db-design/600/400'
   }
 ];
 

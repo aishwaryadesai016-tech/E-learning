@@ -1048,5 +1048,499 @@ For more complex animations with multiple steps, you use \`@keyframes\`.
 - Understand how to leverage hardware acceleration for smoother animations.
 `
     }
+  },
+  'react-complete-guide': {
+    modules: {
+        0: `
+### Module 1: React Fundamentals & The Basics
+
+Dive into the core concepts of React. Learn how to think in components, manage state, and handle user events to create dynamic UIs.
+
+#### What is React & Why use it?
+React is a declarative, efficient, and flexible JavaScript library for building user interfaces. It lets you compose complex UIs from small and isolated pieces of code called “components”. We'll explore the virtual DOM and how React's reconciliation process leads to high-performance applications.
+
+#### Components, JSX, and Props
+- **Functional Components**: The modern way to write React components using simple JavaScript functions.
+- **JSX (JavaScript XML)**: A syntax extension that allows you to write HTML-like markup inside your JavaScript code.
+- **Props**: Learn how to pass data from parent to child components, making them reusable and configurable.
+
+\`\`\`jsx
+function Welcome(props) {
+  return <h1>Hello, {props.name}</h1>;
+}
+
+const element = <Welcome name="Sara" />;
+\`\`\`
+`,
+        1: `
+### Module 2: State, Events, and Forms
+
+Master how to make your components interactive by managing state and handling user input.
+
+#### Managing State with \`useState\`
+The \`useState\` hook is the most fundamental hook in React. It allows you to add state to your functional components. When the state changes, React automatically re-renders the component.
+
+\`\`\`jsx
+import { useState } from 'react';
+
+function Counter() {
+  const [count, setCount] = useState(0);
+
+  return (
+    <div>
+      <p>You clicked {count} times</p>
+      <button onClick={() => setCount(count + 1)}>
+        Click me
+      </button>
+    </div>
+  );
+}
+\`\`\`
+
+#### Handling Events
+Learn how to respond to user interactions like clicks, form submissions, and keyboard inputs.
+
+#### Controlled Components & Handling Forms
+Understand the concept of controlled components to build robust and predictable forms in React. We'll manage form input values using component state.
+`,
+        2: `
+### Module 3: Advanced Hooks & Side Effects
+
+Go beyond the basics and learn how to handle complex scenarios like data fetching, subscriptions, and performance optimizations.
+
+#### The \`useEffect\` Hook
+The \`useEffect\` hook lets you perform "side effects" in your components. This includes things like:
+- Fetching data from an API.
+- Setting up or cleaning up a subscription.
+- Manually changing the DOM.
+
+\`\`\`jsx
+useEffect(() => {
+  // Runs after every render
+  document.title = \`You clicked \${count} times\`;
+}, [count]); // Only re-run the effect if count changes
+\`\`\`
+
+#### Other Essential Hooks
+- **\`useContext\`**: To avoid "prop drilling" by passing data through the component tree without having to pass props down manually at every level.
+- **\`useReducer\`**: An alternative to \`useState\` for managing complex state logic with a predictable state transition pattern.
+- **\`useCallback\` & \`useMemo\`**: Hooks to optimize performance by memoizing functions and values, preventing unnecessary re-renders.
+`,
+        3: `
+### Module 4: Redux & Advanced State Management
+
+For large-scale applications, managing state can become complex. This module introduces Redux, the industry standard for predictable state management.
+
+#### Why Redux?
+Understand the problems that Redux solves, such as state management in large applications with many components that need to share and sync state.
+
+#### Core Redux Concepts
+- **Store**: The single, central object that holds the state of your entire application.
+- **Actions**: Plain JavaScript objects that describe an event that has occurred.
+- **Reducers**: Pure functions that take the current state and an action, and return a new state.
+
+#### Redux Toolkit
+Learn how to use Redux Toolkit, the official, recommended way to write Redux logic. It simplifies store setup, reduces boilerplate, and includes powerful tools like Immer for immutable updates.
+
+\`\`\`javascript
+// features/counter/counterSlice.js
+import { createSlice } from '@reduxjs/toolkit';
+
+export const counterSlice = createSlice({
+  name: 'counter',
+  initialState: { value: 0 },
+  reducers: {
+    increment: state => { state.value += 1; },
+    decrement: state => { state.value -= 1; },
+  },
+});
+
+export const { increment, decrement } = counterSlice.actions;
+export default counterSlice.reducer;
+\`\`\`
+`
+    }
+  },
+'nlp-specialization': {
+    modules: {
+        0: `
+### Module 1: Classification and Vector Spaces
+
+This module introduces fundamental Natural Language Processing (NLP) concepts, starting with sentiment analysis as a classification problem. You'll learn how to represent text numerically to be used in machine learning models.
+
+#### Sentiment Analysis with Logistic Regression
+- Learn to build a basic sentiment analysis model.
+- Preprocess text: tokenization, stemming, stopword removal.
+- Extract features from text.
+- Implement logistic regression from scratch.
+
+#### Vector Space Models
+- Understand how to represent words and documents as vectors.
+- **One-hot encoding**: A simple vector representation.
+- **Term Frequency-Inverse Document Frequency (TF-IDF)**: A more advanced weighting scheme that reflects how important a word is to a document in a collection.
+
+\`\`\`python
+from sklearn.feature_extraction.text import TfidfVectorizer
+
+corpus = [
+    'This is the first document.',
+    'This document is the second document.',
+    'And this is the third one.',
+    'Is this the first document?',
+]
+vectorizer = TfidfVectorizer()
+X = vectorizer.fit_transform(corpus)
+print(vectorizer.get_feature_names_out())
+print(X.toarray())
+\`\`\`
+`,
+        1: `
+### Module 2: Word Embeddings and Neural Networks
+
+Dive into modern NLP techniques. Learn how to capture the meaning and relationships of words using word embeddings, and use them in neural network models.
+
+#### Word Embeddings
+- **Word2Vec**: Learn about this popular technique that learns word associations from a large corpus of text. Understand concepts like skip-gram and CBOW.
+- **GloVe (Global Vectors for Word Representation)**: An alternative method that leverages global word-word co-occurrence statistics.
+
+#### Recurrent Neural Networks (RNNs) for NLP
+- Understand the architecture of RNNs and why they are well-suited for sequential data like text.
+- Learn about challenges like vanishing gradients and how LSTMs (Long Short-Term Memory) and GRUs (Gated Recurrent Units) solve them.
+- Build an RNN for text classification.
+
+\`\`\`python
+import tensorflow as tf
+from tensorflow import keras
+
+model = keras.Sequential([
+    keras.layers.Embedding(input_dim=10000, output_dim=16),
+    keras.layers.GlobalAveragePooling1D(),
+    keras.layers.Dense(16, activation='relu'),
+    keras.layers.Dense(1, activation='sigmoid')
+])
+
+model.summary()
+\`\`\`
+`,
+        2: `
+### Module 3: Sequence to Sequence Models and Attention
+
+This module covers models that can transform one sequence into another, which is the basis for machine translation and text summarization.
+
+#### Sequence to Sequence (Seq2Seq) Models
+- Learn the encoder-decoder architecture.
+- The **encoder** processes the input sequence and compresses the information into a context vector (or "thought vector").
+- The **decoder** takes the context vector and generates the output sequence step-by-step.
+- Build a simple machine translation model.
+
+#### Attention Mechanism
+- Understand the limitations of the fixed-size context vector in the basic Seq2Seq model.
+- The **attention mechanism** allows the decoder to "look back" at the source sequence and focus on specific input words at each decoding step. This dramatically improves performance on long sequences.
+- Learn how attention scores are calculated.
+
+#### Transformers
+- Introduction to the "Attention Is All You Need" paper.
+- Understand how the Transformer architecture relies entirely on self-attention mechanisms, dispensing with recurrence and convolutions. This innovation allows for more parallelization and has become the foundation for state-of-the-art models like BERT and GPT.
+`
+    }
+  },
+  'go-programming': {
+    modules: {
+        0: `
+### Module 1: Go Fundamentals
+
+Get started with the Go programming language, created by Google. Learn its syntax, core data types, and the powerful features that make it excel at concurrent programming.
+
+#### Why Go?
+Go (or Golang) is a statically typed, compiled language known for its simplicity, efficiency, and strong support for concurrency. It's widely used for backend services, command-line tools, and network programming.
+
+#### Basic Syntax and Data Types
+- **Variables**: Declaration and initialization (\`var\`, \`:=\`).
+- **Basic Types**: \`int\`, \`float64\`, \`string\`, \`bool\`.
+- **Composite Types**: Arrays, slices, maps, and structs.
+
+\`\`\`go
+package main
+
+import "fmt"
+
+func main() {
+    // Slices are a key data structure in Go
+    s := make([]string, 3)
+    s[0] = "a"
+    s[1] = "b"
+    s[2] = "c"
+    fmt.Println("get:", s[2]) // "c"
+
+    // Maps are Go's built-in associative data type
+    m := make(map[string]int)
+    m["k1"] = 7
+    m["k2"] = 13
+    fmt.Println("map:", m) // "map[k1:7 k2:13]"
+}
+\`\`\`
+
+#### Control Flow
+- **Conditional Statements**: \`if\`, \`else\`, \`switch\`.
+- **Loops**: Go has only one looping construct, the \`for\` loop.
+`,
+        1: `
+### Module 2: Concurrency in Go
+
+This module explores Go's flagship feature: its simple and powerful approach to concurrent programming using goroutines and channels.
+
+#### Goroutines
+A goroutine is a lightweight thread of execution managed by the Go runtime. Starting a goroutine is as simple as adding the \`go\` keyword before a function call.
+
+\`\`\`go
+import (
+    "fmt"
+    "time"
+)
+
+func say(s string) {
+    for i := 0; i < 3; i++ {
+        time.Sleep(100 * time.Millisecond)
+        fmt.Println(s)
+    }
+}
+
+func main() {
+    go say("world") // Start a new goroutine
+    say("hello")    // Current goroutine
+}
+// Output (interleaved):
+// hello
+// world
+// hello
+// world
+// hello
+// world
+\`\`\`
+
+#### Channels
+Channels are the pipes that connect concurrent goroutines. You can send values into channels from one goroutine and receive those values into another.
+
+\`\`\`go
+package main
+
+import "fmt"
+
+func main() {
+    // Create a new channel of type string
+    messages := make(chan string)
+
+    // Send "ping" to the channel from a new goroutine
+    go func() { messages <- "ping" }()
+
+    // Receive the message from the channel in the main goroutine
+    msg := <-messages
+    fmt.Println(msg) // Output: ping
+}
+\`\`\`
+This "share memory by communicating" approach helps prevent race conditions common in other languages.
+`
+    }
+  },
+  'ethical-hacking-intro': {
+    modules: {
+        0: `
+### Module 1: Introduction to Ethical Hacking
+
+This module lays the groundwork for ethical hacking. You'll learn the key concepts, the legal framework, and the methodologies used by professionals to test and secure systems.
+
+#### What is Ethical Hacking?
+Ethical hacking, also known as penetration testing or "white-hat" hacking, involves legally breaking into computers and devices to test an organization's defenses. It's one of the most effective ways to identify security vulnerabilities before a malicious attacker does.
+
+#### The Five Phases of Hacking
+1.  **Reconnaissance**: The "footprinting" phase. Gathering as much information as possible about the target. This can be passive (e.g., searching public records) or active (e.g., scanning the target's network).
+2.  **Scanning**: Using tools to identify open ports, running services, and potential vulnerabilities on the target systems.
+3.  **Gaining Access**: The "exploitation" phase. Using a vulnerability identified in the scanning phase to get unauthorized access to the system.
+4.  **Maintaining Access**: Installing backdoors or other mechanisms to ensure the hacker can return to the compromised system later.
+5.  **Covering Tracks**: Removing evidence of the hack, such as clearing logs.
+
+Ethical hackers follow these same phases to provide a comprehensive security assessment.
+`,
+        1: `
+### Module 2: Scanning and Enumeration
+
+Learn how to probe a target network to discover live hosts, open ports, and running services, and how to enumerate information from those services.
+
+#### Network Scanning with Nmap
+Nmap (Network Mapper) is an essential tool for network discovery and security auditing.
+- **Host Discovery**: Find live hosts on a network (\`nmap -sn <target>\`).
+- **Port Scanning**: Identify open TCP and UDP ports on a target (\`nmap -p- <target>\`).
+- **Service Version Detection**: Determine the software and version running on an open port (\`nmap -sV <target>\`).
+- **OS Detection**: Attempt to identify the operating system of the target (\`nmap -O <target>\`).
+
+\`\`\`bash
+# A common aggressive scan
+nmap -A -T4 192.168.1.1
+\`\`\`
+
+#### Enumeration
+Enumeration is the process of extracting more detailed information from the target, such as user names, machine names, network shares, and services. Techniques vary depending on the service:
+- **NetBIOS Enumeration** on Windows networks.
+- **SNMP Enumeration** on network devices.
+- **LDAP Enumeration** against directory services.
+`,
+        2: `
+### Module 3: System Hacking and Web Exploitation
+
+This module covers common techniques for gaining access to systems and exploiting vulnerabilities in web applications.
+
+#### Gaining Access
+- **Password Cracking**: Techniques for obtaining passwords, including brute-force, dictionary attacks, and rainbow table attacks. Tools like John the Ripper and Hashcat.
+- **Metasploit Framework**: A powerful open-source tool for developing and executing exploit code against a remote target machine. Learn how to use its modules to gain a "shell" on a target.
+
+#### Common Web Application Vulnerabilities (OWASP Top 10)
+- **SQL Injection (SQLi)**: Injecting malicious SQL code into queries to manipulate the backend database.
+- **Cross-Site Scripting (XSS)**: Injecting malicious scripts into web pages viewed by other users. Stored vs. Reflected XSS.
+- **Broken Authentication**: Flaws in session management or credential handling that allow attackers to impersonate users.
+- **XML External Entity (XXE)**: Exploiting XML parsers to access internal files or execute remote code.
+- **Insecure Deserialization**: Exploiting flaws in how an application deserializes data, which can lead to remote code execution.
+`
+    }
+  },
+'docker-kubernetes': {
+    modules: {
+        0: `
+### Module 1: Introduction to Containers & Docker
+
+This module introduces the "why" behind containerization and provides a hands-on introduction to Docker, the leading container platform.
+
+#### Why Containers? The "It Works on My Machine" Problem
+- **Virtual Machines vs. Containers**: Understand the key differences. VMs virtualize the hardware, while containers virtualize the operating system. This makes containers much more lightweight and faster.
+- **Benefits of Containers**: Consistency across environments (dev, staging, prod), resource isolation, and rapid deployment.
+
+#### Docker Fundamentals
+- **The Docker Engine**: The underlying client-server technology that builds and runs containers.
+- **Images and Containers**: A Docker **image** is a lightweight, standalone, executable package of software that includes everything needed to run an application: code, runtime, system tools, system libraries and settings. A **container** is a runtime instance of an image.
+- **The Dockerfile**: A text document that contains all the commands a user could call on the command line to assemble an image.
+
+\`\`\`dockerfile
+# Use an official Node.js runtime as a parent image
+FROM node:18-alpine
+
+# Set the working directory in the container
+WORKDIR /usr/src/app
+
+# Copy package.json and package-lock.json
+COPY package*.json ./
+
+# Install any needed packages
+RUN npm install
+
+# Bundle app source
+COPY . .
+
+# Make port 8080 available to the world outside this container
+EXPOSE 8080
+
+# Define the command to run your app
+CMD [ "node", "server.js" ]
+\`\`\`
+`,
+        1: `
+### Module 2: Introduction to Kubernetes
+
+While Docker is great for running containers on a single machine, Kubernetes is the industry-standard for orchestrating (managing, scaling, and deploying) containers across a cluster of machines.
+
+#### Why Kubernetes?
+- **High Availability**: Automatically restart containers that fail.
+- **Scalability**: Scale your application up or down with a simple command.
+- **Load Balancing**: Distribute network traffic to ensure your application remains stable.
+- **Automated Rollouts and Rollbacks**: Gradually roll out changes to your application while monitoring its health.
+
+#### Core Kubernetes Concepts
+- **Cluster**: A set of worker machines, called nodes, that run containerized applications.
+- **Node**: A worker machine in Kubernetes.
+- **Pod**: The smallest and simplest unit in the Kubernetes object model that you create or deploy. A Pod represents a running process on your cluster and can contain one or more containers.
+- **Service**: An abstract way to expose an application running on a set of Pods as a network service.
+- **Deployment**: A declarative way to manage a set of identical Pods, handling scaling and rollouts.
+
+#### Declarative Configuration with YAML
+You tell Kubernetes what you want your desired state to be (e.g., "I want 3 replicas of this container running"), and Kubernetes works to make it so. This is typically done with YAML files.
+
+\`\`\`yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.21
+        ports:
+        - containerPort: 80
+\`\`\`
+`
+    }
+  },
+'database-design': {
+    modules: {
+        0: `
+### Module 1: Relational Database Fundamentals
+
+This module covers the foundational principles of the relational model, which is the basis for the most widely used databases in the world, like MySQL, PostgreSQL, and SQL Server.
+
+#### The Relational Model
+- **Entities and Attributes**: An entity is a real-world object (e.g., a Customer, a Product). An attribute is a property of that entity (e.g., CustomerName, Price).
+- **Tables, Rows, and Columns**: In a relational database, entities are represented as tables, instances of entities as rows, and attributes as columns.
+- **Keys**: Keys are crucial for uniquely identifying rows and establishing relationships.
+  - **Primary Key**: A column (or set of columns) that uniquely identifies each row in a table.
+  - **Foreign Key**: A key used to link two tables together. It's a field in one table that refers to the PRIMARY KEY in another table.
+
+#### Introduction to SQL
+- **Data Definition Language (DDL)**: Commands for creating and modifying the database structure (\`CREATE TABLE\`, \`ALTER TABLE\`).
+- **Data Manipulation Language (DML)**: Commands for inserting, updating, and deleting data (\`INSERT\`, \`UPDATE\`, \`DELETE\`).
+- **Data Query Language (DQL)**: The \`SELECT\` statement, used to retrieve data.
+`,
+        1: `
+### Module 2: Normalization
+
+Normalization is the process of organizing the columns and tables of a relational database to minimize data redundancy. It's a formal technique for preventing data anomalies and improving data integrity.
+
+#### The "Evils" of Redundancy
+- **Update Anomalies**: If data is stored in multiple places, updating it in one place but not another leads to inconsistency.
+- **Insertion Anomalies**: You might not be able to add a new piece of information because another piece is missing (e.g., can't add a new customer until they've placed an order).
+- **Deletion Anomalies**: Deleting one piece of data might unintentionally delete another (e.g., deleting an order might delete the only record of a customer).
+
+#### Normal Forms
+- **First Normal Form (1NF)**: Ensures that the table is a "flat" table with no repeating groups. Each cell must hold a single, atomic value.
+- **Second Normal Form (2NF)**: Must be in 1NF, and all non-key attributes must be fully functionally dependent on the entire primary key. This applies to tables with composite primary keys.
+- **Third Normal Form (3NF)**: Must be in 2NF, and there should be no transitive dependencies (a non-key attribute should not depend on another non-key attribute).
+
+You'll learn how to decompose tables to achieve these normal forms, resulting in a cleaner, more robust database design.
+`,
+        2: `
+### Module 3: Physical Design and Data Modeling
+
+Move from logical design to physical implementation. Learn how to create Entity-Relationship Diagrams (ERDs) and translate them into a physical database schema.
+
+#### Entity-Relationship Diagrams (ERDs)
+ERDs are a visual way to represent the entities in a database and the relationships between them.
+- **Entities**: Represented by rectangles.
+- **Attributes**: Represented by ovals.
+- **Relationships**: Represented by diamonds, showing how entities are connected (e.g., a Customer *places* an Order).
+
+#### Cardinality
+Cardinality defines the numerical relationship between two entities.
+- **One-to-One (1:1)**: Each instance in one entity is associated with exactly one instance in another (e.g., a User and a UserProfile).
+- **One-to-Many (1:N)**: One instance in an entity can be associated with many instances in another (e.g., a Customer can have many Orders). This is the most common relationship type.
+- **Many-to-Many (M:N)**: Many instances in one entity can be associated with many instances in another (e.g., a Student can enroll in many Courses, and a Course can have many Students). Many-to-many relationships are implemented using a "junction" or "linking" table.
+
+You will practice creating ERDs for various business scenarios and translating them into \`CREATE TABLE\` SQL statements with appropriate primary and foreign keys.
+`
+    }
   }
 };
