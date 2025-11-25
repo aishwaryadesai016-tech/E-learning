@@ -5,7 +5,7 @@ import { courses } from "@/lib/courses";
 import { notFound, useParams } from "next/navigation";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
-import { BookOpen, Star, BarChart, Clock, Award, Users, Languages, ArrowRight, CheckCircle } from "lucide-react";
+import { BookOpen, Star, BarChart, Clock, Languages, ArrowRight, CheckCircle } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -63,77 +63,72 @@ export default function CourseDetailPage() {
             </div>
         </div>
         <div className="md:col-span-1">
-            <Card>
-                <CardHeader>
-                    <CardTitle className="text-xl">Course Details</CardTitle>
+             <Card className="bg-primary/5 border-primary/20">
+                <CardHeader className="text-center">
+                    <div className="mx-auto bg-primary text-primary-foreground rounded-full p-4 w-fit mb-3">
+                        <BookOpen className="h-8 w-8" />
+                    </div>
+                    <CardTitle className="font-headline text-3xl">Ready to Begin?</CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-4">
-                    <div className="flex items-center gap-3">
-                        <BarChart className="h-5 w-5 text-muted-foreground" />
-                        <span className="font-medium">Level: {course.level}</span>
-                    </div>
-                    <div className="flex items-center gap-3">
-                        <Clock className="h-5 w-5 text-muted-foreground" />
-                        <span className="font-medium">Duration: {course.duration}</span>
-                    </div>
-                    <div className="flex items-center gap-3">
-                        <Star className="h-5 w-5 text-muted-foreground" />
-                        <span className="font-medium">{course.rating} average rating</span>
-                    </div>
-                     <div className="flex items-center gap-3">
-                        <Languages className="h-5 w-5 text-muted-foreground" />
-                        <span className="font-medium">{course.language}</span>
+                <CardContent className="flex flex-col gap-4">
+                    <Button asChild size="lg">
+                        <Link href={`/courses/${course.id}/learn`}>
+                            {hasStartedCourse ? "Continue Learning" : "Start Learning"}
+                            <ArrowRight className="ml-2 h-4 w-4" />
+                        </Link>
+                    </Button>
+                    <div className="space-y-3 pt-4">
+                        <div className="flex items-center gap-3">
+                            <BarChart className="h-5 w-5 text-muted-foreground" />
+                            <span className="font-medium">Level: {course.level}</span>
+                        </div>
+                        <div className="flex items-center gap-3">
+                            <Clock className="h-5 w-5 text-muted-foreground" />
+                            <span className="font-medium">Duration: {course.duration}</span>
+                        </div>
+                        <div className="flex items-center gap-3">
+                            <Star className="h-5 w-5 text-muted-foreground" />
+                            <span className="font-medium">{course.rating} average rating</span>
+                        </div>
+                        <div className="flex items-center gap-3">
+                            <Languages className="h-5 w-5 text-muted-foreground" />
+                            <span className="font-medium">{course.language}</span>
+                        </div>
                     </div>
                 </CardContent>
             </Card>
         </div>
       </div>
       
-       <Card className="bg-primary/5 border-primary/20">
-        <CardHeader className="text-center">
-            <div className="mx-auto bg-primary text-primary-foreground rounded-full p-4 w-fit mb-3">
-                <BookOpen className="h-8 w-8" />
-            </div>
-            <CardTitle className="font-headline text-3xl">Ready to Begin?</CardTitle>
-            <CardDescription>
-                Enroll now to get access to all course materials, quizzes, and track your progress.
-            </CardDescription>
-        </CardHeader>
-        <CardContent className="flex justify-center">
-            <Button asChild size="lg">
-                <Link href={`/courses/${course.id}/learn`}>
-                    {hasStartedCourse ? "Continue Learning" : "Start Learning"}
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
-            </Button>
-        </CardContent>
-      </Card>
-
-
       <div className="grid md:grid-cols-3 gap-8">
         <div className="md:col-span-2 space-y-8">
-            {/* What you'll learn */}
-            <section>
-                <div className="flex items-center gap-3 mb-4">
-                    <CheckCircle className="h-6 w-6 text-primary" />
-                    <h2 className="font-headline text-2xl font-semibold">What You'll Learn</h2>
-                </div>
-                 <ul className="space-y-2 list-disc list-inside text-muted-foreground">
-                    {course.learning_objectives.map((objective, i) => (
-                        <li key={i}>{objective}</li>
-                    ))}
-                </ul>
-            </section>
+            <Card>
+                <CardHeader>
+                    <div className="flex items-center gap-3">
+                        <CheckCircle className="h-6 w-6 text-primary" />
+                        <h2 className="font-headline text-2xl font-semibold">What You'll Learn</h2>
+                    </div>
+                </CardHeader>
+                <CardContent>
+                    <ul className="space-y-2 list-disc list-inside text-muted-foreground">
+                        {course.learning_objectives.map((objective, i) => (
+                            <li key={i}>{objective}</li>
+                        ))}
+                    </ul>
+                </CardContent>
+            </Card>
 
             <Separator />
             
              {/* Reviews Section */}
-            <section>
-                <div className="flex items-center gap-3 mb-4">
-                    <Star className="h-6 w-6 text-primary" />
-                    <h2 className="font-headline text-2xl font-semibold">Student Reviews</h2>
-                </div>
-                <div className="space-y-4">
+            <Card>
+                <CardHeader>
+                    <div className="flex items-center gap-3">
+                        <Star className="h-6 w-6 text-primary" />
+                        <h2 className="font-headline text-2xl font-semibold">Student Reviews</h2>
+                    </div>
+                </CardHeader>
+                <CardContent className="space-y-4">
                     {course.reviews.map((review, i) => (
                         <div key={i} className="p-4 bg-muted/50 rounded-lg">
                             <div className="flex items-center justify-between">
@@ -145,8 +140,8 @@ export default function CourseDetailPage() {
                             <p className="text-sm text-muted-foreground mt-2 italic">"{review.comment}"</p>
                         </div>
                     ))}
-                </div>
-            </section>
+                </CardContent>
+            </Card>
         </div>
 
         <div className="md:col-span-1 space-y-8">
