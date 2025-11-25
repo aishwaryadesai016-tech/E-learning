@@ -102,9 +102,9 @@ export default function HomePage() {
                 <div className="mb-4 rounded-full bg-primary/10 p-3">
                   <BrainCircuit className="h-8 w-8 text-primary" />
                 </div>
-                <h3 className="text-xl font-semibold mb-2 font-headline">Interactive Quizzes</h3>
+                <h3 className="text-xl font-semibold mb-2 font-headline">AI-Powered Review</h3>
                 <p className="text-muted-foreground">
-                  Test your knowledge with AI-generated quizzes that adapt to the course content, ensuring you master key concepts.
+                  Reinforce your knowledge. Generate AI-powered summaries to review the key takeaways from any course.
                 </p>
               </div>
               <div className="flex flex-col items-center text-center p-6 bg-card rounded-lg shadow-sm">
