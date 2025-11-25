@@ -340,6 +340,106 @@ export const courses: Course[] = [
     certificate_available: true,
     course_link: "https://www.datacamp.com/courses/sql-for-data-analysis",
     image: "https://picsum.photos/seed/sql-analysis/600/400"
+  },
+  {
+    id: 'js-algos-data-structures',
+    title: 'JavaScript Algorithms and Data Structures',
+    category: 'Programming',
+    rating: 4.8,
+    total_enrollments: '800K+',
+    duration: 'Approx. 300 hours',
+    level: 'Intermediate',
+    language: 'English',
+    platform: 'freeCodeCamp',
+    description: 'Learn fundamental data structures and algorithms and how to implement them in JavaScript. Covers concepts like recursion, sorting algorithms, and Big O notation.',
+    skills_gained: ['JavaScript', 'Algorithms', 'Data Structures', 'Big O Notation', 'Recursion', 'Problem Solving'],
+    learning_objectives: [
+      'Understand and implement common data structures like arrays, objects, stacks, and queues.',
+      'Analyze the time and space complexity of algorithms using Big O notation.',
+      'Implement various sorting algorithms such as bubble sort, insertion sort, and quicksort.',
+      'Solve complex problems using recursion and functional programming.',
+    ],
+    modules: [
+        {
+            title: "Module 1: Basic JavaScript and ES6",
+            topics: ["Variables, Data Types", "Arrays and Objects", "ES6 Features (let, const, arrow functions)"]
+        },
+        {
+            title: "Module 2: Basic Data Structures",
+            topics: ["Arrays", "Objects", "Stacks", "Queues", "Linked Lists"]
+        },
+        {
+            title: "Module 3: Basic Algorithm Scripting",
+            topics: ["String Manipulation", "Factorials", "Finding the Longest Word", "Title Case a Sentence"]
+        },
+         {
+            title: "Module 4: Intermediate Algorithm Scripting",
+            topics: ["Sum All Numbers in a Range", "Diff Two Arrays", "Seek and Destroy", "Spinal Tap Case"]
+        }
+    ],
+    instructor: {
+      name: 'Quincy Larson',
+      designation: 'Founder, freeCodeCamp',
+      profile_image: 'https://picsum.photos/seed/ins7/100/100',
+    },
+    reviews: [
+      {
+        user: 'Aisha K.',
+        rating: 5,
+        comment: 'An incredible free resource. The project-based learning is fantastic.',
+      },
+    ],
+    certificate_available: true,
+    course_link: 'https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/',
+    image: 'https://picsum.photos/seed/js-algos/600/400',
+  },
+  {
+    id: 'advanced-css-sass',
+    title: 'Advanced CSS and Sass',
+    category: 'Web Development',
+    rating: 4.7,
+    total_enrollments: '150K+',
+    duration: 'Approx. 28 hours',
+    level: 'Advanced',
+    language: 'English',
+    platform: 'Udemy',
+    description: 'Master advanced CSS techniques, including Flexbox, CSS Grid, responsive design, and the Sass preprocessor to write more efficient, maintainable, and powerful CSS.',
+    skills_gained: ['Advanced CSS', 'Flexbox', 'CSS Grid', 'Sass', 'Responsive Design', 'CSS Animations'],
+    learning_objectives: [
+      'Build complex, responsive layouts with Flexbox and CSS Grid.',
+      'Write clean, modular, and reusable CSS with Sass.',
+      'Create stunning animations and effects with CSS transitions and keyframes.',
+      'Understand modern CSS architecture patterns like BEM.',
+    ],
+     modules: [
+        {
+            title: "Module 1: Advanced CSS Layouts",
+            topics: ["Flexbox deep dive", "CSS Grid fundamentals", "Combining Flexbox and Grid"]
+        },
+        {
+            title: "Module 2: Sass Preprocessor",
+            topics: ["Variables and Nesting", "Mixins and Functions", "Inheritance with @extend"]
+        },
+        {
+            title: "Module 3: CSS Animations",
+            topics: ["Transitions", "Keyframe Animations", "Performance considerations"]
+        }
+    ],
+    instructor: {
+      name: 'Jonas Schmedtmann',
+      designation: 'Web Developer, Designer, and Teacher',
+      profile_image: 'https://picsum.photos/seed/ins8/100/100',
+    },
+    reviews: [
+      {
+        user: 'Robert P.',
+        rating: 5,
+        comment: 'Jonas is a fantastic instructor. My CSS skills have improved tenfold.',
+      },
+    ],
+    certificate_available: true,
+    course_link: 'https://www.udemy.com/course/advanced-css-and-sass/',
+    image: 'https://picsum.photos/seed/advanced-css/600/400',
   }
 ];
 

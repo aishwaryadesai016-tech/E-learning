@@ -844,5 +844,209 @@ JOIN Categories ON Products.CategoryID = Categories.CategoryID;
 This is extremely powerful for creating rankings, running totals, or calculating moving averages.
         `
     }
+  },
+  'js-algos-data-structures': {
+    modules: {
+        0: `
+### Module 1: Basic JavaScript and ES6
+
+This module serves as a refresher and deep dive into the core mechanics of JavaScript, with a special focus on the modern features introduced in ES6 (ECMAScript 2015) that are essential for today's development landscape.
+
+#### Core Concepts Revisited
+- **Variables and Scoping**: Understand the difference between \`var\`, \`let\`, and \`const\`, and learn about block scope versus function scope.
+- **Data Types**: A review of primitive types (String, Number, Boolean, Null, Undefined, Symbol) and the Object type.
+- **Operators**: A look at arithmetic, assignment, comparison, logical, and ternary operators.
+
+#### ES6 Features
+- **Arrow Functions**: A more concise syntax for writing function expressions.
+  \`\`\`javascript
+  const add = (a, b) => a + b;
+  \`\`\`
+- **Template Literals**: Enhanced string literals allowing for embedded expressions.
+  \`\`\`javascript
+  const name = 'World';
+  console.log(\`Hello, \${name}!\`);
+  \`\`\`
+- **Destructuring Assignment**: Easily extract data from arrays or objects into distinct variables.
+  \`\`\`javascript
+  const person = { firstName: 'John', lastName: 'Doe' };
+  const { firstName, lastName } = person;
+  \`\`\`
+- **Default Parameters**: Set default values for function parameters.
+- **Spread & Rest Operators**: Use \`...\` to expand iterables into more elements or to gather multiple elements into an array.
+`,
+        1: `
+### Module 2: Basic Data Structures
+
+Understanding how to store and organize data is fundamental to writing efficient programs. This module introduces the most common data structures.
+
+#### Arrays
+An ordered collection of values, accessible by an index. JavaScript arrays are dynamic and can hold elements of any type.
+- **Common Methods**: \`push\`, \`pop\`, \`shift\`, \`unshift\`, \`map\`, \`filter\`, \`reduce\`.
+
+#### Objects
+A collection of key-value pairs. Keys are strings (or Symbols), and values can be of any type. This is JavaScript's most fundamental data structure.
+- **Manipulation**: Accessing properties with dot notation vs. bracket notation, adding/deleting properties.
+
+#### Stacks
+A LIFO (Last-In, First-Out) data structure. Think of a stack of plates. The last plate you put on top is the first one you take off.
+- **Implementation**: Can be easily implemented using a JavaScript array's \`push\` and \`pop\` methods.
+
+#### Queues
+A FIFO (First-In, First-Out) data structure. Like a line at a store, the first person in line is the first person to be served.
+- **Implementation**: Can be implemented using a JavaScript array's \`push\` and \`shift\` methods.
+
+#### Linked Lists
+A linear data structure where elements are not stored at contiguous memory locations. Each element is a separate object that contains a pointer/link to the next object in that list.
+- **Types**: Singly Linked Lists, Doubly Linked Lists.
+- **Advantages**: Efficient insertions and deletions compared to arrays.
+`,
+        2: `
+### Module 3: Basic Algorithm Scripting
+
+This module transitions from theory to practice, challenging you to solve common algorithmic problems using your knowledge of JavaScript and basic data structures.
+
+#### Core Problem-Solving Patterns
+- **String Manipulation**: Reversing strings, checking for palindromes, finding the longest word.
+- **Numerical Operations**: Factorializing a number, checking for prime numbers.
+- **Array Manipulation**: Chunking arrays, removing specific elements, finding unions and intersections.
+
+#### Example Problem: Reverse a String
+\`\`\`javascript
+function reverseString(str) {
+  // Split the string into an array of characters, reverse the array, then join it back into a string.
+  return str.split('').reverse().join('');
+}
+
+console.log(reverseString("hello")); // "olleh"
+\`\`\`
+This section focuses on developing a logical approach to breaking down problems into smaller, manageable steps and then translating those steps into code.
+`,
+        3: `
+### Module 4: Intermediate Algorithm Scripting
+
+Building on the basics, this module presents more complex problems that require a deeper understanding of logic and data manipulation.
+
+#### Advanced Challenges
+- **Sum All Numbers in a Range**: Given an array of two numbers, find the sum of those two numbers plus the sum of all the numbers between them.
+- **Diff Two Arrays**: Compare two arrays and return a new array with any items only found in one of the two given arrays, but not both.
+- **Seek and Destroy**: You will be provided with an initial array followed by one or more arguments. Remove all elements from the initial array that are of the same value as these arguments.
+- **Spinal Tap Case**: Convert a string to spinal case (all-lowercase-words-joined-by-dashes).
+
+#### Example Problem: Seek and Destroy
+\`\`\`javascript
+function destroyer(arr, ...valsToRemove) {
+  // Use filter() to create a new array with elements that are not in valsToRemove.
+  return arr.filter(elem => !valsToRemove.includes(elem));
+}
+
+destroyer([1, 2, 3, 1, 2, 3], 2, 3); // Returns [1, 1]
+\`\`\`
+These challenges often require combining multiple methods and thinking creatively about how to transform and filter data to achieve the desired result.
+`
+    }
+  },
+  'advanced-css-sass': {
+    modules: {
+        0: `
+### Module 1: Advanced CSS Layouts
+
+Move beyond basic floats and positioning. This module covers the modern, powerful layout systems that are essential for building any contemporary website.
+
+#### Flexbox Deep Dive
+Flexbox is a one-dimensional layout model that offers powerful space distribution and alignment capabilities.
+- **Core Concepts**: Main axis, cross axis, flex container, flex items.
+- **Properties for the Container**: \`display: flex\`, \`flex-direction\`, \`flex-wrap\`, \`justify-content\`, \`align-items\`, \`align-content\`.
+- **Properties for the Items**: \`flex-grow\`, \`flex-shrink\`, \`flex-basis\`, \`order\`, \`align-self\`.
+- **Practical Examples**: Building navigation bars, centering elements, creating card layouts.
+
+#### CSS Grid Fundamentals
+CSS Grid is a two-dimensional layout system, meaning it can handle both columns and rows. It's the most powerful layout system available in CSS.
+- **Core Concepts**: Grid container, grid items, grid lines, grid tracks, grid cells.
+- **Defining a Grid**: Using \`grid-template-columns\` and \`grid-template-rows\`. The \`fr\` unit for flexible sizing.
+- **Placing Items**: Using grid line numbers, \`grid-column\`, \`grid-row\`, and named grid areas.
+- **Responsive Layouts**: Using \`auto-fit\` and \`minmax()\` to create intrinsically responsive grids.
+
+#### Combining Flexbox and Grid
+Learn when to use Grid and when to use Flexbox. Often, the best layouts use a combination of both: Grid for the overall page structure and Flexbox for aligning the components within that structure.
+`,
+        1: `
+### Module 2: Sass Preprocessor
+
+Sass (Syntactically Awesome Style Sheets) is a CSS preprocessor that adds special features like variables, nested rules, mixins, and functions into regular CSS. Writing CSS with Sass makes it more maintainable, themeable, and DRY (Don't Repeat Yourself).
+
+#### Variables and Nesting
+- **Variables**: Store values you want to reuse throughout your stylesheet, like colors or font sizes.
+  \`\`\`scss
+  $primary-color: #3498db;
+  body { color: $primary-color; }
+  \`\`\`
+- **Nesting**: Nest your CSS selectors in a way that follows the same visual hierarchy of your HTML.
+  \`\`\`scss
+  nav {
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    li { display: inline-block; }
+    a { display: block; padding: 6px 12px; }
+  }
+  \`\`\`
+
+#### Mixins and Functions
+- **Mixins**: Create groups of CSS declarations that you want to reuse throughout your site. You can even pass in values to make your mixin more flexible.
+  \`\`\`scss
+  @mixin border-radius($radius) {
+    -webkit-border-radius: $radius;
+            border-radius: $radius;
+  }
+  .box { @include border-radius(10px); }
+  \`\`\`
+- **Functions**: Define reusable functions to perform calculations or logic within your Sass code.
+
+#### Inheritance with @extend
+Share a set of CSS properties from one selector to another using the \`@extend\` directive. It helps keep your code DRY.
+`,
+        2: `
+### Module 3: CSS Animations
+
+Bring your websites to life with CSS animations. This module covers everything from simple hover effects to complex, multi-step animations.
+
+#### Transitions
+CSS transitions allow you to change property values smoothly, over a given duration.
+- **Properties**: \`transition-property\`, \`transition-duration\`, \`transition-timing-function\`, \`transition-delay\`.
+- **Example**: Creating a smooth color change on a button hover.
+  \`\`\`css
+  .button {
+    background-color: #3498db;
+    transition: background-color 0.3s ease-out;
+  }
+  .button:hover {
+    background-color: #2980b9;
+  }
+  \`\`\`
+
+#### Keyframe Animations
+For more complex animations with multiple steps, you use \`@keyframes\`.
+- **Defining Keyframes**: Define stages of the animation using percentages (from 0% to 100%) or the keywords \`from\` and \`to\`.
+- **Animation Properties**: \`animation-name\`, \`animation-duration\`, \`animation-iteration-count\`, \`animation-direction\`, etc.
+- **Example**: Creating a pulsing effect.
+  \`\`\`css
+  @keyframes pulse {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.1); opacity: 0.7; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  .element {
+    animation: pulse 2s infinite;
+  }
+  \`\`\`
+
+#### Performance Considerations
+- Learn which CSS properties are cheap to animate (\`transform\`, \`opacity\`) and which can be expensive, causing jank (\`width\`, \`height\`, \`top\`).
+- Understand how to leverage hardware acceleration for smoother animations.
+`
+    }
   }
 };
