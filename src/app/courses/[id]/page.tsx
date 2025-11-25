@@ -11,7 +11,6 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
-  CardDescription
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -63,42 +62,46 @@ export default function CourseDetailPage() {
             </div>
         </div>
         <div className="md:col-span-1">
-            {/* This space is now empty */}
+             <Card>
+                <CardHeader>
+                    <CardTitle>Course Details</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4 text-sm">
+                    <div className="flex items-center gap-3">
+                      <BarChart className="h-4 w-4 text-muted-foreground" />
+                      <span className="font-medium">Level: {course.level}</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                      <Clock className="h-4 w-4 text-muted-foreground" />
+                      <span className="font-medium">Duration: {course.duration}</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                      <Star className="h-4 w-4 text-muted-foreground" />
+                      <span className="font-medium">{course.rating} average rating</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                      <Languages className="h-4 w-4 text-muted-foreground" />
+                      <span className="font-medium">{course.language}</span>
+                  </div>
+                </CardContent>
+            </Card>
         </div>
       </div>
 
-      <Card className="bg-primary/5 border-primary/20 md:col-span-3 -mt-24 md:-mt-32 relative z-10 mx-auto w-full max-w-2xl">
+      <Card className="bg-primary/5 border-primary/20">
           <CardHeader className="text-center">
               <div className="mx-auto bg-primary text-primary-foreground rounded-full p-4 w-fit mb-3">
                   <BookOpen className="h-8 w-8" />
               </div>
               <CardTitle className="font-headline text-3xl">Ready to Begin?</CardTitle>
           </CardHeader>
-          <CardContent className="flex flex-col gap-4">
+          <CardContent className="flex flex-col gap-4 items-center">
               <Button asChild size="lg">
                   <Link href={`/courses/${course.id}/learn`}>
                       {hasStartedCourse ? "Continue Learning" : "Start Learning"}
                       <ArrowRight className="ml-2 h-4 w-4" />
                   </Link>
               </Button>
-              <div className="flex justify-center items-center flex-wrap gap-x-6 gap-y-2 pt-4 text-sm">
-                  <div className="flex items-center gap-2">
-                      <BarChart className="h-4 w-4 text-muted-foreground" />
-                      <span className="font-medium">Level: {course.level}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                      <Clock className="h-4 w-4 text-muted-foreground" />
-                      <span className="font-medium">Duration: {course.duration}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                      <Star className="h-4 w-4 text-muted-foreground" />
-                      <span className="font-medium">{course.rating} average rating</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                      <Languages className="h-4 w-4 text-muted-foreground" />
-                      <span className="font-medium">{course.language}</span>
-                  </div>
-              </div>
           </CardContent>
       </Card>
       
