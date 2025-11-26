@@ -8,7 +8,7 @@ import { updateDocumentNonBlocking } from "@/firebase/non-blocking-updates";
 import type { User } from "@/lib/users";
 
 export type CourseProgress = {
-  [courseId: number]: {
+  [courseId: string]: {
     completedChapters: number[]; // Array of chapter indices
     progressPercentage: number;
   };
@@ -19,7 +19,7 @@ type ProgressContextType = {
   isProgressLoading: boolean;
   updateProgress: (
     userId: string,
-    courseId: number,
+    courseId: string,
     totalChapters: number,
     chapterIndex: number,
     isCompleted: boolean
@@ -54,7 +54,7 @@ export const ProgressProvider = ({ children }: { children: ReactNode }) => {
 
   const updateProgress = (
     userId: string,
-    courseId: number,
+    courseId: string,
     totalChapters: number,
     chapterIndex: number,
     isCompleted: boolean

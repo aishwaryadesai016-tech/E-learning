@@ -32,7 +32,7 @@ export function CourseCard({ course }: { course: Course }) {
 
   const { data: userData } = useDoc<User>(userDocRef);
 
-  const isInWatchlist = userData?.watchlist?.includes(parseInt(course.id, 10)) ?? false;
+  const isInWatchlist = userData?.watchlist?.map(String).includes(course.id) ?? false;
 
   const handleWatchlistToggle = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -48,7 +48,7 @@ export function CourseCard({ course }: { course: Course }) {
     }
 
     const updatePayload = {
-      watchlist: isInWatchlist ? arrayRemove(parseInt(course.id, 10)) : arrayUnion(parseInt(course.id, 10)),
+      watchlist: isInWatchlist ? arrayRemove(course.id) : arrayUnion(course.id),
     };
 
     updateDocumentNonBlocking(userDocRef, updatePayload);

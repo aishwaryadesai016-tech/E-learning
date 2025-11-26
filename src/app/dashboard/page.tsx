@@ -11,16 +11,16 @@ import {
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { CourseCard } from "@/components/course-card";
-import { courses } from "@/lib/courses";
 import { useProgress } from "@/lib/progress";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { useUser, useDoc, useMemoFirebase } from "@/firebase";
-import { useFirestore } from "@/firebase";
-import { doc } from "firebase/firestore";
+import { useUser, useDoc, useMemoFirebase, useFirestore, useCollection } from "@/firebase";
+import { collection, doc, query } from "firebase/firestore";
 import type { User } from "@/lib/users";
+import type { Course } from "@/lib/courses";
 import { Skeleton } from "@/components/ui/skeleton";
 import Image from "next/image";
+import { useMemo } from "react";
 
 export default function DashboardPage() {
   const { user, isUserLoading } = useUser();
@@ -34,27 +34,35 @@ export default function DashboardPage() {
 
   const { data: userData, isLoading: isUserDocLoading } = useDoc<User>(userDocRef);
 
-  const isLoading = isUserLoading || isUserDocLoading || isProgressLoading;
+  const coursesQuery = useMemoFirebase(() => {
+    if (!firestore) return null;
+    return query(collection(firestore, 'courses'));
+  }, [firestore]);
+  const { data: courses, isLoading: areCoursesLoading } = useCollection<Course>(coursesQuery);
+
+  const isLoading = isUserLoading || isUserDocLoading || isProgressLoading || areCoursesLoading;
 
   const userName = userData?.name || user?.displayName || "User";
 
-  const inProgressCourses = courses.filter(
-    (course) => {
-      const courseId = parseInt(course.id, 10);
-      return progress[courseId] && progress[courseId].progressPercentage < 100
-    }
-  );
+  const inProgressCourses = useMemo(() => {
+    return (courses || []).filter(course => {
+      const courseProgress = progress[course.id];
+      return courseProgress && courseProgress.progressPercentage < 100;
+    });
+  }, [courses, progress]);
 
-  const completedCourses = courses.filter(
-    (course) => {
-      const courseId = parseInt(course.id, 10);
-      return progress[courseId] && progress[courseId].progressPercentage === 100
-    }
-  );
+  const completedCourses = useMemo(() => {
+    return (courses || []).filter(course => {
+        const courseProgress = progress[course.id];
+        return courseProgress && courseProgress.progressPercentage === 100;
+    });
+  }, [courses, progress]);
 
-  const watchlisted = courses.filter((course) =>
-    (userData?.watchlist || []).includes(parseInt(course.id, 10))
-  );
+  const watchlisted = useMemo(() => {
+    const watchlistIds = userData?.watchlist?.map(String) || [];
+    return (courses || []).filter(course => watchlistIds.includes(course.id));
+  }, [courses, userData]);
+
 
   if (isLoading) {
     return <DashboardSkeleton />;
@@ -83,7 +91,7 @@ export default function DashboardPage() {
             {inProgressCourses.length > 0 ? (
               <div className="space-y-4">
                 {inProgressCourses.map((course) => {
-                  const courseId = parseInt(course.id, 10);
+                  const courseId = course.id;
                   return (
                   <Link href={`/courses/${course.id}`} key={course.id} className="block group">
                     <div className="flex items-center gap-4 p-2 -m-2 rounded-lg group-hover:bg-muted">

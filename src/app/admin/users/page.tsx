@@ -1,9 +1,9 @@
 
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
-import { collection, query, orderBy, doc } from 'firebase/firestore';
+import { collection, query, orderBy, doc, deleteDoc } from 'firebase/firestore';
 import type { User } from '@/lib/users';
 import {
   Table,
@@ -21,6 +21,26 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { updateDocumentNonBlocking } from '@/firebase/non-blocking-updates';
 import { useToast } from '@/hooks/use-toast';
 import { useUser } from '@/firebase';
+import { Button } from '@/components/ui/button';
+import { MoreHorizontal, Trash2 } from 'lucide-react';
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuTrigger,
+    DropdownMenuSeparator,
+  } from "@/components/ui/dropdown-menu";
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 
 function UserManagementSkeleton() {
@@ -74,6 +94,7 @@ export default function UserManagementPage() {
     const firestore = useFirestore();
     const { user: currentUser } = useUser();
     const { toast } = useToast();
+    const [userToDelete, setUserToDelete] = useState<User | null>(null);
 
     const usersQuery = useMemoFirebase(() => {
         if (!firestore) return null;
@@ -101,11 +122,46 @@ export default function UserManagementPage() {
         });
     }
 
+    const handleDisableToggle = (user: User, isDisabled: boolean) => {
+         if (user.id === currentUser?.uid) {
+            toast({
+                variant: 'destructive',
+                title: 'Action Forbidden',
+                description: 'You cannot disable your own account.',
+            });
+            return;
+        }
+
+        const userDocRef = doc(firestore, 'users', user.id);
+        updateDocumentNonBlocking(userDocRef, { isDisabled: isDisabled });
+        toast({
+            title: 'Account Status Updated',
+            description: `${user.name}'s account has been ${isDisabled ? 'disabled' : 'enabled'}.`,
+        });
+    }
+
+    const handleDeleteUser = async () => {
+        if (!userToDelete) return;
+        
+        const userDocRef = doc(firestore, "users", userToDelete.id);
+        await deleteDoc(userDocRef);
+
+        toast({
+            title: "User Deleted",
+            description: `The user ${userToDelete.name} has been permanently deleted.`,
+        });
+        setUserToDelete(null);
+        // Note: This does not delete the user from Firebase Authentication.
+        // That must be done separately, e.g., via the Firebase Console or Admin SDK.
+    };
+
+
     if (isLoading) {
         return <UserManagementSkeleton />;
     }
 
     return (
+    <>
         <div className="space-y-6">
             <div>
                 <h1 className="text-2xl font-semibold md:text-3xl font-headline">User Management</h1>
@@ -123,12 +179,13 @@ export default function UserManagementPage() {
                                 <TableHead>User</TableHead>
                                 <TableHead>Level</TableHead>
                                 <TableHead>Status</TableHead>
-                                <TableHead className="text-right">Admin</TableHead>
+                                <TableHead>Admin</TableHead>
+                                <TableHead className="text-right">Actions</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
                             {users?.map(user => (
-                                <TableRow key={user.id}>
+                                <TableRow key={user.id} className={user.isDisabled ? 'opacity-50 bg-muted/50' : ''}>
                                     <TableCell>
                                         <div className='flex items-center gap-3'>
                                             <Avatar>
@@ -149,13 +206,42 @@ export default function UserManagementPage() {
                                             {user.isAdmin ? 'Admin' : 'User'}
                                         </Badge>
                                     </TableCell>
-                                    <TableCell className="text-right">
+                                    <TableCell>
                                         <Switch
                                             checked={user.isAdmin}
                                             onCheckedChange={(checked) => handleAdminToggle(user, checked)}
                                             disabled={user.id === currentUser?.uid}
                                             aria-label={`Toggle admin status for ${user.name}`}
                                         />
+                                    </TableCell>
+                                    <TableCell className="text-right">
+                                        <DropdownMenu>
+                                            <DropdownMenuTrigger asChild>
+                                                <Button
+                                                    aria-haspopup="true"
+                                                    size="icon"
+                                                    variant="ghost"
+                                                    disabled={user.id === currentUser?.uid}
+                                                >
+                                                    <MoreHorizontal className="h-4 w-4" />
+                                                    <span className="sr-only">Toggle menu</span>
+                                                </Button>
+                                            </DropdownMenuTrigger>
+                                            <DropdownMenuContent align="end">
+                                                <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                                                <DropdownMenuItem onSelect={() => handleDisableToggle(user, !user.isDisabled)}>
+                                                    {user.isDisabled ? 'Enable Account' : 'Disable Account'}
+                                                </DropdownMenuItem>
+                                                <DropdownMenuSeparator />
+                                                <DropdownMenuItem
+                                                    className="text-destructive"
+                                                    onSelect={() => setUserToDelete(user)}
+                                                >
+                                                    <Trash2 className="mr-2 h-4 w-4" />
+                                                    Delete User
+                                                </DropdownMenuItem>
+                                            </DropdownMenuContent>
+                                        </DropdownMenu>
                                     </TableCell>
                                 </TableRow>
                             ))}
@@ -164,5 +250,28 @@ export default function UserManagementPage() {
                 </CardContent>
             </Card>
         </div>
+        {userToDelete && (
+            <AlertDialog open onOpenChange={() => setUserToDelete(null)}>
+                <AlertDialogContent>
+                    <AlertDialogHeader>
+                        <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                        <AlertDialogDescription>
+                            This action cannot be undone. This will permanently delete the user account
+                            for &quot;{userToDelete.name}&quot; from the database. Note that this does not remove the user from Firebase Authentication.
+                        </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction
+                            onClick={handleDeleteUser}
+                            className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                        >
+                            Yes, delete user
+                        </AlertDialogAction>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </AlertDialog>
+        )}
+    </>
     )
 }

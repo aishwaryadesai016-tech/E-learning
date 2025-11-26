@@ -1,6 +1,4 @@
 
-import type { DocumentReference } from "firebase/firestore";
-
 export type Course = {
   id: string;
   title: string;
@@ -33,6 +31,8 @@ export type Course = {
   image: string;
 };
 
+// This data is now only used for fallback or seeding purposes.
+// The primary source of truth is the Firestore 'courses' collection.
 export const courses: Course[] = [
   {
     id: 'fs-dev-spec',

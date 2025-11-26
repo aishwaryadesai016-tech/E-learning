@@ -87,7 +87,8 @@ export default function SignupPage() {
         level: level,
         watchlist: [],
         progress: {},
-        isAdmin: false, // All users are non-admins by default
+        isAdmin: false,
+        isDisabled: false,
       };
       
       setDocumentNonBlocking(userDocRef, userProfile, { merge: true });

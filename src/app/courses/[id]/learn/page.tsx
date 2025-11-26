@@ -1,7 +1,9 @@
 
 'use client'
 
-import { courses } from "@/lib/courses";
+import { useDoc, useFirestore, useMemoFirebase } from "@/firebase";
+import { doc } from "firebase/firestore";
+import type { Course } from "@/lib/courses";
 import { notFound, useParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -10,21 +12,47 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Progress } from "@/components/ui/progress";
 import { useProgress } from "@/lib/progress";
 import { Syllabus } from "@/components/syllabus";
-import { useUser } from "@/firebase";
+import { Skeleton } from "@/components/ui/skeleton";
+
+function CourseLearnSkeleton() {
+    return (
+        <div className="max-w-4xl mx-auto w-full space-y-8">
+            <Skeleton className="h-10 w-48" />
+            <div className="space-y-2">
+                <Skeleton className="h-10 w-3/4" />
+                <Skeleton className="h-5 w-1/2" />
+            </div>
+            <Skeleton className="h-32 w-full" />
+            <Skeleton className="h-96 w-full" />
+        </div>
+    )
+}
 
 export default function CourseLearnPage() {
     const params = useParams();
     const id = params.id as string;
-    const course = courses.find((c) => c.id === id);
+    const firestore = useFirestore();
 
-    const { user } = useUser();
-    const { progress } = useProgress();
+    const courseDocRef = useMemoFirebase(() => {
+        if (!firestore || !id) return null;
+        return doc(firestore, 'courses', id);
+    }, [firestore, id]);
+
+    const { data: course, isLoading: isCourseLoading } = useDoc<Course>(courseDocRef);
+    const { progress, isProgressLoading } = useProgress();
     
+    const isLoading = isCourseLoading || isProgressLoading;
+
+    if (isLoading) {
+        return <CourseLearnSkeleton />;
+    }
+
     if (!course) {
         notFound();
     }
     
-    const courseId = parseInt(course.id, 10);
+    const courseId = course.id;
+    // The progress object keys are now strings, matching the firestore document IDs
     const courseProgress = progress[courseId] || { completedChapters: [], progressPercentage: 0 };
     const hasStartedCourse = courseProgress && courseProgress.progressPercentage > 0;
 

@@ -19,6 +19,7 @@
  *   with the exception of admins performing specific management tasks.
  * - Limited User Listing: Only admins are allowed to list documents in the /users collection.
  * - Public Read-Only Catalog: The /courses collection is publicly readable by anyone.
+ * - Disabled Users: Users with `isDisabled: true` are blocked from all read/write operations.
  */
 rules_version = '2';
 service cloud.firestore {
@@ -34,21 +35,28 @@ service cloud.firestore {
     function isSignedIn() {
       return request.auth != null;
     }
+    
+    /**
+     * Checks if the user's account is active (not disabled).
+     */
+    function isNotDisabled() {
+      return isSignedIn() && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isDisabled != true;
+    }
 
     /**
      * Checks if the authenticated user's UID matches the provided userId.
+     * Also ensures the user is not disabled.
      */
     function isOwner(userId) {
-      return isSignedIn() && request.auth.uid == userId;
+      return isNotDisabled() && request.auth.uid == userId;
     }
 
     /**
      * Checks if the current user has the 'isAdmin' flag set to true
-     * in their user profile document.
+     * in their user profile document and is not disabled.
      */
     function isAdmin() {
-      // Use get() to read the user's profile from the /users collection
-      return isSignedIn() && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true;
+      return isNotDisabled() && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true;
     }
 
     /**
@@ -57,24 +65,28 @@ service cloud.firestore {
     function isValidNewUserDocument(userId) {
       return request.resource.data.id == userId;
     }
-
-    /**
-     * Enforces immutability for a user updating their own document.
-     * Prevents users from changing their own ID or admin status.
-     */
-    function isImmutableSelfUpdate() {
-      return request.resource.data.id == resource.data.id &&
-             request.resource.data.isAdmin == resource.data.isAdmin;
-    }
     
     /**
-     * Enforces immutability for an admin updating another user's document.
-     * Allows ONLY the `isAdmin` field to be changed.
-     * Prevents an admin from changing their own admin status.
+     * Validates that the fields being updated by a user on their own document are allowed.
+     * Prevents users from changing their own ID, admin status, or disabled status.
+     */
+    function isImmutableSelfUpdate() {
+        return request.resource.data.id == resource.data.id &&
+               request.resource.data.isAdmin == resource.data.isAdmin &&
+               request.resource.data.isDisabled == resource.data.isDisabled;
+    }
+
+    /**
+     * Validates that an admin is performing an allowed update on another user's document.
+     * Allows ONLY the `isAdmin` and `isDisabled` fields to be changed.
+     * Prevents an admin from changing their own admin or disabled status.
      */
     function isValidAdminUpdate(userId) {
-        let isChangingOwnStatus = request.auth.uid == userId && request.resource.data.isAdmin != resource.data.isAdmin;
-        let allowedChanges = request.resource.data.diff(resource.data).affectedKeys().hasOnly(['isAdmin']);
+        let isChangingOwnStatus = request.auth.uid == userId && (
+            request.resource.data.isAdmin != resource.data.isAdmin ||
+            request.resource.data.isDisabled != resource.data.isDisabled
+        );
+        let allowedChanges = request.resource.data.diff(resource.data).affectedKeys().hasOnly(['isAdmin', 'isDisabled']);
         
         return isAdmin() && !isChangingOwnStatus && allowedChanges;
     }
@@ -86,39 +98,39 @@ service cloud.firestore {
 
     /**
      * @description Manages user profiles.
-     *              - Users can get or delete their own document.
+     *              - Users can read or update their own document, but not change critical fields.
      *              - Users can create their own document on signup.
-     *              - Users can update their own document, but cannot change their `id` or `isAdmin` status.
      *              - Admins can list all users for the management console.
-     *              - Admins can update another user's `isAdmin` status, but no other fields.
+     *              - Admins can delete users (except themselves).
+     *              - Admins can update another user's `isAdmin` or `isDisabled` status.
      * @path /users/{userId}
      */
     match /users/{userId} {
-      allow get, delete: if isOwner(userId);
+      allow get: if isOwner(userId) || isAdmin();
       allow list: if isAdmin();
       allow create: if isOwner(userId) && isValidNewUserDocument(userId);
       allow update: if (isOwner(userId) && isImmutableSelfUpdate()) || isValidAdminUpdate(userId);
+      allow delete: if isAdmin() && request.auth.uid != userId;
     }
 
     /**
-     * @description Stores the public catalog of courses. Readable by anyone.
+     * @description Stores the public catalog of courses. Readable by any active user.
      *              Client-side writes are restricted to authenticated admins.
      * @path /courses/{courseId}
      */
     match /courses/{courseId} {
-      allow get, list: if true;
+      allow get, list: if isNotDisabled();
       allow create, update, delete: if isAdmin(); 
     }
       
     /**
-     * @description Stores individual user ratings. Users can create their own ratings
-     *              but cannot read or modify others'.
+     * @description Stores individual user ratings. Users can manage their own ratings.
      * @path /ratings/{ratingId}
      */
     match /ratings/{ratingId} {
         allow get: if isOwner(request.resource.data.userId);
-        allow list: if false;
-        allow create: if isSignedIn() && isOwner(request.resource.data.userId);
+        allow list: if false; // Listing ratings is not allowed for performance/security.
+        allow create: if isOwner(request.resource.data.userId);
         allow update, delete: if isOwner(resource.data.userId);
     }
   }

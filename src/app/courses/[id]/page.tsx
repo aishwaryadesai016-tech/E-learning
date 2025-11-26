@@ -1,7 +1,9 @@
 
 'use client'
 
-import { courses } from "@/lib/courses";
+import { useDoc, useFirestore, useMemoFirebase } from "@/firebase";
+import { doc } from "firebase/firestore";
+import type { Course } from "@/lib/courses";
 import { notFound, useParams } from "next/navigation";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
@@ -20,22 +22,33 @@ import { useProgress } from "@/lib/progress";
 import { useUser } from "@/firebase";
 import { CourseRating } from "@/components/course-rating";
 import { RelatedCourses } from "@/components/related-courses";
+import CourseDetailLoading from "./loading";
 
 export default function CourseDetailPage() {
   const params = useParams();
   const id = params.id as string;
-  const course = courses.find((c) => c.id === id);
-  const { user } = useUser();
-  const { progress } = useProgress();
+  const firestore = useFirestore();
+  
+  const courseDocRef = useMemoFirebase(() => {
+    if (!firestore || !id) return null;
+    return doc(firestore, 'courses', id);
+  }, [firestore, id]);
+
+  const { data: course, isLoading: isCourseLoading } = useDoc<Course>(courseDocRef);
+  const { progress, isProgressLoading } = useProgress();
+
+  const isLoading = isCourseLoading || isProgressLoading;
+
+  if (isLoading) {
+    return <CourseDetailLoading />;
+  }
 
   if (!course) {
     notFound();
   }
   
-  const courseId = parseInt(course.id, 10);
-  const courseProgress = progress[courseId];
+  const courseProgress = progress[course.id];
   const hasStartedCourse = courseProgress && courseProgress.progressPercentage > 0;
-
 
   return (
     <div className="flex flex-col gap-8 max-w-5xl mx-auto">
@@ -128,27 +141,29 @@ export default function CourseDetailPage() {
             <Separator />
             
              {/* Reviews Section */}
-            <Card>
-                <CardHeader>
-                    <div className="flex items-center gap-3">
-                        <Star className="h-6 w-6 text-primary" />
-                        <h2 className="font-headline text-2xl font-semibold">Student Reviews</h2>
-                    </div>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                    {course.reviews.map((review, i) => (
-                        <div key={i} className="p-4 bg-muted/50 rounded-lg">
-                            <div className="flex items-center justify-between">
-                                <p className="font-semibold">{review.user}</p>
-                                <div className="flex items-center gap-1 text-amber-500">
-                                    {[...Array(review.rating)].map((_, j) => <Star key={j} className="h-4 w-4 fill-current" />)}
-                                </div>
-                            </div>
-                            <p className="text-sm text-muted-foreground mt-2 italic">"{review.comment}"</p>
+             {course.reviews && course.reviews.length > 0 && (
+                <Card>
+                    <CardHeader>
+                        <div className="flex items-center gap-3">
+                            <Star className="h-6 w-6 text-primary" />
+                            <h2 className="font-headline text-2xl font-semibold">Student Reviews</h2>
                         </div>
-                    ))}
-                </CardContent>
-            </Card>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                        {course.reviews.map((review, i) => (
+                            <div key={i} className="p-4 bg-muted/50 rounded-lg">
+                                <div className="flex items-center justify-between">
+                                    <p className="font-semibold">{review.user}</p>
+                                    <div className="flex items-center gap-1 text-amber-500">
+                                        {[...Array(review.rating)].map((_, j) => <Star key={j} className="h-4 w-4 fill-current" />)}
+                                    </div>
+                                </div>
+                                <p className="text-sm text-muted-foreground mt-2 italic">"{review.comment}"</p>
+                            </div>
+                        ))}
+                    </CardContent>
+                </Card>
+             )}
         </div>
 
         <div className="md:col-span-1 space-y-8">

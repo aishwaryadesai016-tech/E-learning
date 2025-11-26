@@ -2,11 +2,11 @@
 "use client";
 
 import { useMemo } from "react";
-import { courses } from "@/lib/courses";
+import { type Course } from "@/lib/courses";
 import type { User } from "@/lib/users";
 import { CourseCard } from "@/components/course-card";
-import { useUser, useDoc, useMemoFirebase, useFirestore } from "@/firebase";
-import { doc } from "firebase/firestore";
+import { useUser, useDoc, useMemoFirebase, useFirestore, useCollection } from "@/firebase";
+import { collection, doc, query } from "firebase/firestore";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Sparkles, Info } from "lucide-react";
 import Link from "next/link";
@@ -23,8 +23,15 @@ export default function RecommendationsPage() {
 
   const { data: userData, isLoading: isUserDocLoading } = useDoc<User>(userDocRef);
 
+  const coursesQuery = useMemoFirebase(() => {
+    if (!firestore) return null;
+    return query(collection(firestore, 'courses'));
+  }, [firestore]);
+  const { data: courses, isLoading: areCoursesLoading } = useCollection<Course>(coursesQuery);
+
+
   const recommendedCourses = useMemo(() => {
-    if (!userData || !userData.interestTags || !userData.level) {
+    if (!userData || !userData.interestTags || !userData.level || !courses) {
       return [];
     }
 
@@ -33,9 +40,9 @@ export default function RecommendationsPage() {
       const levelMatch = userData.level === course.level;
       return categoryMatch && levelMatch;
     });
-  }, [userData]);
+  }, [userData, courses]);
   
-  const isLoading = isUserLoading || isUserDocLoading;
+  const isLoading = isUserLoading || isUserDocLoading || areCoursesLoading;
 
   if (isLoading) {
     return <RecommendationSkeleton />;

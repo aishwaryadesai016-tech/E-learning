@@ -1,9 +1,25 @@
 
+'use client';
+
 import { CourseListView } from "@/components/course-list-view";
-import { courses } from "@/lib/courses";
+import { useCollection, useFirestore, useMemoFirebase } from "@/firebase";
+import { collection, query } from "firebase/firestore";
+import type { Course } from "@/lib/courses";
+import CoursesLoading from "./loading";
 
 export default function CoursesPage() {
-  const allCourses = courses;
+  const firestore = useFirestore();
+  
+  const coursesQuery = useMemoFirebase(() => {
+    if (!firestore) return null;
+    return query(collection(firestore, "courses"));
+  }, [firestore]);
+
+  const { data: courses, isLoading } = useCollection<Course>(coursesQuery);
+
+  if (isLoading) {
+    return <CoursesLoading />;
+  }
 
   return (
     <>
@@ -12,7 +28,7 @@ export default function CoursesPage() {
           Browse Courses
         </h1>
       </div>
-      <CourseListView courses={allCourses} />
+      <CourseListView courses={courses || []} />
     </>
   );
 }

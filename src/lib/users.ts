@@ -1,5 +1,4 @@
 
-
 export type User = {
     id: string;
     email: string;
@@ -9,13 +8,14 @@ export type User = {
     interestTags?: string[];
     level?: "Beginner" | "Intermediate" | "Advanced";
     progress?: {
-        [courseId: number]: {
+        [courseId: string]: {
             completedChapters: number[];
             progressPercentage: number;
         };
     };
-    watchlist?: number[];
+    watchlist?: string[];
     isAdmin?: boolean;
+    isDisabled?: boolean;
 };
 
 export type Course = {

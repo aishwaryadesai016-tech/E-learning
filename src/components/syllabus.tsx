@@ -13,7 +13,7 @@ import { ChapterContent } from "./chapter-content";
 export function Syllabus({ course }: { course: Course }) {
   const { user } = useUser();
   const { progress, updateProgress } = useProgress();
-  const courseId = parseInt(course.id, 10);
+  const courseId = course.id;
   const courseProgress = progress[courseId] || { completedChapters: [] };
 
   const handleChapterToggle = (chapterIndex: number, isCompleted: boolean) => {

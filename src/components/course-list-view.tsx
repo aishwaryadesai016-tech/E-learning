@@ -4,7 +4,6 @@
 import { useState, useMemo } from "react";
 import type { Course } from "@/lib/courses";
 import { CourseCard } from "@/components/course-card";
-import { courseTopics } from "@/lib/courses";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import {
@@ -18,6 +17,10 @@ import {
 export function CourseListView({ courses }: { courses: Course[] }) {
   const [activeTopic, setActiveTopic] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
+
+  const courseTopics = useMemo(() => {
+    return [...new Set(courses.map((course) => course.category))];
+  }, [courses]);
 
   const filteredCourses = useMemo(() => {
     let filtered = courses;
@@ -42,10 +45,11 @@ export function CourseListView({ courses }: { courses: Course[] }) {
 
   const coursesByTopic = useMemo(() => {
     return filteredCourses.reduce((acc, course) => {
-      if (!acc[course.category]) {
-        acc[course.category] = [];
+      const category = course.category || "Uncategorized";
+      if (!acc[category]) {
+        acc[category] = [];
       }
-      acc[course.category].push(course);
+      acc[category].push(course);
       return acc;
     }, {} as Record<string, Course[]>);
   }, [filteredCourses]);

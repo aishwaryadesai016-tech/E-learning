@@ -179,7 +179,7 @@ export default function AdminCoursesPage() {
                                         <Badge variant="outline">{course.category}</Badge>
                                     </TableCell>
                                     <TableCell className="hidden md:table-cell">
-                                        {course.rating.toFixed(1)}
+                                        {course.rating ? course.rating.toFixed(1) : 'N/A'}
                                     </TableCell>
                                     <TableCell>
                                         <DropdownMenu>
