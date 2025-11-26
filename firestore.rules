@@ -13,10 +13,11 @@
  * - /courses/{courseId}: The public course catalog. Writable only by admins.
  *
  * Key Security Decisions:
- * - Admin Role: A user document with `isAdmin: true` grants write access to the /courses collection.
- *   This is checked using `get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true`.
- * - User Isolation: Users can only interact with their own data tree under /users/{userId}.
- * - No User Listing: Listing all documents in the top-level /users collection is disallowed.
+ * - Admin Role: A user document with `isAdmin: true` grants write access to the /courses collection
+ *   and specific management rights over the /users collection.
+ * - User Isolation: Users can only interact with their own data tree under /users/{userId},
+ *   with the exception of admins performing specific management tasks.
+ * - Limited User Listing: Only admins are allowed to list documents in the /users collection.
  * - Public Read-Only Catalog: The /courses collection is publicly readable by anyone.
  */
 rules_version = '2';
@@ -51,13 +52,6 @@ service cloud.firestore {
     }
 
     /**
-     * Checks for ownership on an existing document.
-     */
-    function isExistingOwner(userId) {
-      return isOwner(userId) && resource != null;
-    }
-    
-    /**
      * Validates that a new user document has its 'id' field set correctly.
      */
     function isValidNewUserDocument(userId) {
@@ -65,28 +59,45 @@ service cloud.firestore {
     }
 
     /**
-     * Enforces immutability of the user 'id' and 'isAdmin' fields upon update.
+     * Enforces immutability for a user updating their own document.
+     * Prevents users from changing their own ID or admin status.
      */
-    function isImmutableUserDocument() {
-      // Prevent users from changing their own ID or admin status.
+    function isImmutableSelfUpdate() {
       return request.resource.data.id == resource.data.id &&
              request.resource.data.isAdmin == resource.data.isAdmin;
     }
+    
+    /**
+     * Enforces immutability for an admin updating another user's document.
+     * Allows ONLY the `isAdmin` field to be changed.
+     * Prevents an admin from changing their own admin status.
+     */
+    function isValidAdminUpdate(userId) {
+        let isChangingOwnStatus = request.auth.uid == userId && request.resource.data.isAdmin != resource.data.isAdmin;
+        let allowedChanges = request.resource.data.diff(resource.data).affectedKeys().hasOnly(['isAdmin']);
+        
+        return isAdmin() && !isChangingOwnStatus && allowedChanges;
+    }
+
 
     //============================================================
     // Collection Rules
     //============================================================
 
     /**
-     * @description Manages user profiles. Only the authenticated owner can access their own document.
-     *              Admins cannot write to other user profiles to prevent privilege escalation.
+     * @description Manages user profiles.
+     *              - Users can get or delete their own document.
+     *              - Users can create their own document on signup.
+     *              - Users can update their own document, but cannot change their `id` or `isAdmin` status.
+     *              - Admins can list all users for the management console.
+     *              - Admins can update another user's `isAdmin` status, but no other fields.
      * @path /users/{userId}
      */
     match /users/{userId} {
       allow get, delete: if isOwner(userId);
-      allow list: if false;
+      allow list: if isAdmin();
       allow create: if isOwner(userId) && isValidNewUserDocument(userId);
-      allow update: if isExistingOwner(userId) && isImmutableUserDocument();
+      allow update: if (isOwner(userId) && isImmutableSelfUpdate()) || isValidAdminUpdate(userId);
     }
 
     /**
