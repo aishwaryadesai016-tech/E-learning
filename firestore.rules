@@ -42,7 +42,7 @@ service cloud.firestore {
      * This function is safe to use in write/update/delete rules.
      */
     function isNotDisabled() {
-      return isSignedIn() && getUserData(request.auth.uid).isDisabled != true;
+      return isSignedIn() && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isDisabled != true;
     }
     
     /**
@@ -63,9 +63,10 @@ service cloud.firestore {
     /**
      * Checks if the current user has the 'isAdmin' flag set to true
      * in their user profile document and is not disabled.
+     * This function is safe because it performs a `get` on a specific, known path.
      */
     function isAdmin() {
-      return isNotDisabled() && getUserData(request.auth.uid).isAdmin == true;
+      return isSignedIn() && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true;
     }
 
     /**
@@ -115,8 +116,7 @@ service cloud.firestore {
      */
     match /users/{userId} {
       // A user can read their own document. An admin can read any user document.
-      // This rule is safe from recursion because it does not call other functions that perform a `get`.
-      allow get: if (isSignedIn() && request.auth.uid == userId) || (isSignedIn() && getUserData(request.auth.uid).isAdmin == true);
+      allow get: if (isSignedIn() && request.auth.uid == userId) || isAdmin();
       
       // Only admins can list all users.
       allow list: if isAdmin();

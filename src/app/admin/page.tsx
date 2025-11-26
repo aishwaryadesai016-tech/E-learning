@@ -1,3 +1,4 @@
+
 "use client";
 
 import {
@@ -12,8 +13,8 @@ import { Home, PlusCircle, Users } from "lucide-react";
 import type { Course } from "@/lib/courses";
 import type { User } from "@/lib/users";
 import Link from "next/link";
-import { useCollection, useFirestore, useMemoFirebase } from "@/firebase";
-import { collection, query } from "firebase/firestore";
+import { useCollection, useFirestore, useMemoFirebase, useUser, useDoc } from "@/firebase";
+import { collection, query, doc } from "firebase/firestore";
 import { Skeleton } from "@/components/ui/skeleton";
 import { CourseCard } from "@/components/course-card";
 
@@ -48,6 +49,16 @@ function AdminDashboardSkeleton() {
 
 export default function AdminDashboardPage() {
     const firestore = useFirestore();
+    const { user } = useUser();
+
+    // First, verify if the user is an admin
+    const userDocRef = useMemoFirebase(() => {
+        if (!firestore || !user) return null;
+        return doc(firestore, 'users', user.uid);
+    }, [firestore, user]);
+    const { data: userData, isLoading: isUserDocLoading } = useDoc<User>(userDocRef);
+    const isAdmin = userData?.isAdmin;
+
 
     const coursesQuery = useMemoFirebase(() => {
         if (!firestore) return null;
@@ -56,20 +67,22 @@ export default function AdminDashboardPage() {
      const { data: coursesData, isLoading: isCoursesLoading } = useCollection<Course>(coursesQuery);
 
     const usersQuery = useMemoFirebase(() => {
-        if (!firestore) return null;
+        // Only run this query if the user is confirmed to be an admin
+        if (!firestore || !isAdmin) return null;
         return query(collection(firestore, 'users'));
-    }, [firestore]);
+    }, [firestore, isAdmin]);
     const { data: usersData, isLoading: isUsersLoading } = useCollection<User>(usersQuery);
    
 
-    const isLoading = isCoursesLoading || isUsersLoading;
+    const isLoading = isCoursesLoading || isUsersLoading || isUserDocLoading;
 
     if (isLoading) {
         return <AdminDashboardSkeleton />;
     }
 
     const courses = coursesData || [];
-    const users = usersData || [];
+    // If usersData is null (because the query didn't run), default to an empty array.
+    const users = usersData || []; 
     const recentCourses = courses.slice(0, 4);
 
     return (
