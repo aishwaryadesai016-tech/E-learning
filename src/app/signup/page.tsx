@@ -87,7 +87,8 @@ export default function SignupPage() {
         level: level,
         watchlist: [],
         progress: {},
-        isAdmin: false, // Ensure new users are not admins by default
+        // Check if the email is the special admin email
+        isAdmin: email === "admin@example.com",
       };
       
       setDocumentNonBlocking(userDocRef, userProfile, { merge: true });
