@@ -2,14 +2,16 @@
 'use client'
 
 import Link from "next/link";
-import { Home, LayoutDashboard, User as UserIcon, LogOut, Sparkles } from "lucide-react";
+import { Home, LayoutDashboard, User as UserIcon, LogOut, Sparkles, Shield } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { UserInfo } from "./user-info";
 import { Button } from "./ui/button";
-import { useAuth } from "@/firebase";
+import { useAuth, useUser, useFirestore, useDoc, useMemoFirebase } from "@/firebase";
 import { signOut } from "firebase/auth";
 import { useRouter } from "next/navigation";
+import type { User } from "@/lib/users";
+import { doc } from "firebase/firestore";
 
 const navLinks = [
     { href: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
@@ -18,10 +20,21 @@ const navLinks = [
     { href: "/profile", icon: UserIcon, label: "Profile" },
 ];
 
+const adminLink = { href: "/admin", icon: Shield, label: "Admin" };
+
 export function Sidebar() {
     const pathname = usePathname();
     const auth = useAuth();
     const router = useRouter();
+    const { user } = useUser();
+    const firestore = useFirestore();
+    
+    const userDocRef = useMemoFirebase(() => {
+        if (!firestore || !user) return null;
+        return doc(firestore, 'users', user.uid);
+    }, [firestore, user]);
+
+    const { data: userData } = useDoc<User>(userDocRef);
 
     const handleLogout = async () => {
         if (!auth) return;
@@ -39,13 +52,27 @@ export function Sidebar() {
                             href={link.href}
                             className={cn(
                             "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary",
-                            (pathname.startsWith(link.href)) && "bg-muted text-primary"
+                            (pathname.startsWith(link.href) && link.href !== '/') && "bg-muted text-primary",
+                            pathname === '/' && link.href === '/courses' && 'bg-muted text-primary'
                             )}
                         >
                             <link.icon className="h-4 w-4" />
                             {link.label}
                         </Link>
                     ))}
+                    {userData?.isAdmin && (
+                         <Link
+                            key={adminLink.href}
+                            href={adminLink.href}
+                            className={cn(
+                            "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary",
+                            (pathname.startsWith(adminLink.href)) && "bg-muted text-primary"
+                            )}
+                        >
+                            <adminLink.icon className="h-4 w-4" />
+                            {adminLink.label}
+                        </Link>
+                    )}
                 </nav>
             </div>
             
