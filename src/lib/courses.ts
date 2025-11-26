@@ -1,4 +1,6 @@
 
+import type { DocumentReference } from "firebase/firestore";
+
 export type Course = {
   id: string;
   title: string;
@@ -28,7 +30,7 @@ export type Course = {
   }[];
   certificate_available: boolean;
   course_link: string;
-  image: string; // Added for card view
+  image: string;
 };
 
 export const courses: Course[] = [
