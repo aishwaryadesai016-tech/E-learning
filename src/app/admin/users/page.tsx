@@ -62,6 +62,7 @@ function UserManagementSkeleton() {
                   <TableHead><Skeleton className="h-5 w-32" /></TableHead>
                   <TableHead><Skeleton className="h-5 w-48" /></TableHead>
                   <TableHead><Skeleton className="h-5 w-24" /></TableHead>
+                  <TableHead><Skeleton className="h-5 w-24" /></TableHead>
                   <TableHead className="text-right"><Skeleton className="h-5 w-24" /></TableHead>
                 </TableRow>
               </TableHeader>
@@ -78,6 +79,7 @@ function UserManagementSkeleton() {
                         </div>
                     </TableCell>
                     <TableCell><Skeleton className="h-5 w-20" /></TableCell>
+                    <TableCell><Skeleton className="h-5 w-16" /></TableCell>
                     <TableCell><Skeleton className="h-5 w-16" /></TableCell>
                     <TableCell className="text-right"><Skeleton className="h-8 w-12" /></TableCell>
                   </TableRow>
@@ -177,8 +179,8 @@ export default function UserManagementPage() {
                         <TableHeader>
                             <TableRow>
                                 <TableHead>User</TableHead>
+                                <TableHead>Role</TableHead>
                                 <TableHead>Level</TableHead>
-                                <TableHead>Status</TableHead>
                                 <TableHead>Admin</TableHead>
                                 <TableHead className="text-right">Actions</TableHead>
                             </TableRow>
@@ -199,12 +201,12 @@ export default function UserManagementPage() {
                                         </div>
                                     </TableCell>
                                     <TableCell>
-                                        <Badge variant="outline">{user.level || 'N/A'}</Badge>
-                                    </TableCell>
-                                     <TableCell>
                                         <Badge variant={user.isAdmin ? "default" : "secondary"}>
                                             {user.isAdmin ? 'Admin' : 'User'}
                                         </Badge>
+                                    </TableCell>
+                                    <TableCell>
+                                        <Badge variant="outline">{user.level || 'N/A'}</Badge>
                                     </TableCell>
                                     <TableCell>
                                         <Switch
