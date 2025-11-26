@@ -14,4 +14,5 @@ export type User = {
         };
     };
     watchlist?: number[];
+    isAdmin?: boolean;
 };

@@ -65,10 +65,12 @@ service cloud.firestore {
     }
 
     /**
-     * Enforces immutability of the user 'id' field upon update.
+     * Enforces immutability of the user 'id' and 'isAdmin' fields upon update.
      */
     function isImmutableUserDocument() {
-      return request.resource.data.id == resource.data.id;
+      // Prevent users from changing their own ID or admin status.
+      return request.resource.data.id == resource.data.id &&
+             request.resource.data.isAdmin == resource.data.isAdmin;
     }
 
     //============================================================
