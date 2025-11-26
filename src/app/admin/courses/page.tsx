@@ -11,6 +11,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { MoreHorizontal, PlusCircle } from "lucide-react";
 import type { Course } from "@/lib/courses";
+import { courses as staticCourses } from "@/lib/courses";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -116,7 +117,7 @@ export default function AdminCoursesPage() {
         return <AdminCoursesSkeleton />;
     }
 
-    const courses = coursesData || [];
+    const courses = (coursesData && coursesData.length > 0) ? coursesData : staticCourses;
 
     return (
         <>

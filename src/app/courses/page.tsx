@@ -5,6 +5,7 @@ import { CourseListView } from "@/components/course-list-view";
 import { useCollection, useFirestore, useMemoFirebase } from "@/firebase";
 import { collection, query } from "firebase/firestore";
 import type { Course } from "@/lib/courses";
+import { courses as staticCourses } from "@/lib/courses";
 import CoursesLoading from "./loading";
 
 export default function CoursesPage() {
@@ -15,11 +16,14 @@ export default function CoursesPage() {
     return query(collection(firestore, "courses"));
   }, [firestore]);
 
-  const { data: courses, isLoading } = useCollection<Course>(coursesQuery);
+  const { data: firestoreCourses, isLoading } = useCollection<Course>(coursesQuery);
 
   if (isLoading) {
     return <CoursesLoading />;
   }
+
+  // Use Firestore courses if available, otherwise use static fallback data
+  const courses = (firestoreCourses && firestoreCourses.length > 0) ? firestoreCourses : staticCourses;
 
   return (
     <>
