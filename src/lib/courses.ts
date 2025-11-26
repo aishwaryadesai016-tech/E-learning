@@ -726,6 +726,164 @@ export const courses: Course[] = [
     certificate_available: true,
     course_link: 'https://www.coursera.org/learn/database-design',
     image: 'https://picsum.photos/seed/db-design/600/400'
+  },
+   {
+    id: 'ui-ux-design-fundamentals',
+    title: 'UI/UX Design Fundamentals',
+    category: 'Web Development',
+    rating: 4.8,
+    total_enrollments: '180K+',
+    duration: 'Approx. 5 weeks',
+    level: 'Beginner',
+    language: 'English',
+    platform: 'Skillshare',
+    description: 'A comprehensive introduction to User Interface and User Experience design. Learn the principles of visual design, user research, and prototyping to create intuitive and beautiful digital products.',
+    skills_gained: ['UI Design', 'UX Research', 'Wireframing', 'Prototyping', 'Figma', 'User-Centered Design'],
+    learning_objectives: [
+      'Understand the difference between UI and UX and how they work together.',
+      'Conduct user research and create user personas.',
+      'Design wireframes and high-fidelity prototypes using Figma.',
+      'Apply core principles of visual design, including color theory, typography, and layout.',
+      'Build a portfolio-ready UI/UX project from start to finish.',
+    ],
+    modules: [
+        {
+            title: "Module 1: Introduction to UX (10 Hours)",
+            topics: ["What is UX?", "The User-Centered Design Process", "User Research Methods", "Creating Personas"]
+        },
+        {
+            title: "Module 2: Information Architecture & Wireframing (12 Hours)",
+            topics: ["Site Maps", "User Flows", "Low-Fidelity Wireframing", "Interactive Prototyping"]
+        },
+        {
+            title: "Module 3: UI Design Principles (15 Hours)",
+            topics: ["Color Theory", "Typography", "Layout and Composition", "Design Systems"]
+        },
+        {
+            title: "Module 4: Prototyping in Figma (10 Hours)",
+            topics: ["Figma Basics", "Creating Components", "Advanced Prototyping", "Handing off to Developers"]
+        }
+    ],
+    instructor: {
+        name: 'Elena Vostrova',
+        designation: 'Lead Product Designer, Shopify',
+        profile_image: 'https://picsum.photos/seed/ins15/100/100'
+    },
+    reviews: [
+        {
+            user: 'Samantha G.',
+            rating: 5,
+            comment: 'This course was a fantastic entry point into the world of UI/UX. The Figma lessons were super practical.'
+        }
+    ],
+    certificate_available: false,
+    course_link: '#',
+    image: 'https://picsum.photos/seed/ui-ux/600/400'
+  },
+  {
+    id: 'advanced-algorithms',
+    title: 'Advanced Algorithms & Data Structures',
+    category: 'Programming',
+    rating: 4.9,
+    total_enrollments: '80K+',
+    duration: 'Approx. 8 weeks',
+    level: 'Intermediate',
+    language: 'English',
+    platform: 'edX',
+    description: 'Go beyond the basics with a deep dive into advanced algorithms and data structures critical for competitive programming and technical interviews at top tech companies.',
+    skills_gained: ['Advanced Algorithms', 'Graph Theory', 'Dynamic Programming', 'Complexity Analysis', 'Greedy Algorithms', 'Divide and Conquer'],
+    learning_objectives: [
+      'Master graph traversal algorithms like Dijkstra\'s and A*.',
+      'Solve complex problems using dynamic programming techniques.',
+      'Understand advanced data structures like tries, heaps, and segment trees.',
+      'Analyze algorithmic trade-offs and complexity for challenging problems.',
+    ],
+    modules: [
+        {
+            title: "Module 1: Graph Algorithms (20 Hours)",
+            topics: ["Graph Representations", "Breadth-First & Depth-First Search", "Dijkstra\'s Algorithm", "A* Search", "Minimum Spanning Trees"]
+        },
+        {
+            title: "Module 2: Dynamic Programming (25 Hours)",
+            topics: ["Overlapping Subproblems", "Memoization vs. Tabulation", "Knapsack Problem", "Longest Common Subsequence", "Coin Change Problem"]
+        },
+        {
+            title: "Module 3: Advanced Data Structures (20 Hours)",
+            topics: ["Heaps and Priority Queues", "Tries", "Segment Trees", "Fenwick Trees"]
+        },
+        {
+            title: "Module 4: Algorithmic Paradigms (15 Hours)",
+            topics: ["Greedy Algorithms", "Divide and Conquer", "Backtracking", "String Matching Algorithms"]
+        }
+    ],
+    instructor: {
+        name: 'Dr. Victor Petrov',
+        designation: 'Professor of Algorithms, MIT',
+        profile_image: 'https://picsum.photos/seed/ins16/100/100'
+    },
+    reviews: [
+        {
+            user: 'Raj S.',
+            rating: 5,
+            comment: 'Incredibly challenging but equally rewarding. This prepared me for my interviews at FAANG companies like nothing else.'
+        }
+    ],
+    certificate_available: true,
+    course_link: '#',
+    image: 'https://picsum.photos/seed/adv-algo/600/400'
+  },
+   {
+    id: 'system-design-scale',
+    title: 'System Design for Scale',
+    category: 'Systems',
+    rating: 4.9,
+    total_enrollments: '110K+',
+    duration: 'Approx. 6 weeks',
+    level: 'Advanced',
+    language: 'English',
+    platform: 'Educative.io',
+    description: 'Learn the art and science of designing large-scale, distributed systems. This course covers the architectural patterns and technologies used to build services like Twitter, Netflix, and Dropbox.',
+    skills_gained: ['System Design', 'Distributed Systems', 'Scalability', 'Load Balancing', 'Caching', 'Database Sharding', 'Microservices'],
+    learning_objectives: [
+      'Design scalable and resilient systems for high-traffic applications.',
+      'Understand trade-offs between consistency, availability, and partition tolerance (CAP Theorem).',
+      'Architect systems using load balancers, message queues, and caching layers.',
+      'Learn patterns for data partitioning, sharding, and replication.',
+      'Ace the system design interview by working through real-world examples.',
+    ],
+    modules: [
+        {
+            title: "Module 1: Foundations of Scalability (15 Hours)",
+            topics: ["Vertical vs. Horizontal Scaling", "Load Balancing Strategies", "CAP Theorem", "Consistent Hashing"]
+        },
+        {
+            title: "Module 2: Caching & Data Partitioning (20 Hours)",
+            topics: ["Client-Side vs. Server-Side Caching", "Cache-Aside, Read-Through, Write-Through patterns", "Database Sharding", "Replication and Leader Election"]
+        },
+        {
+            title: "Module 3: Communication Patterns (18 Hours)",
+            topics: ["Synchronous vs. Asynchronous Communication", "Message Queues (RabbitMQ, Kafka)", "REST vs. GraphQL vs. gRPC", "Rate Limiting"]
+        },
+        {
+            title: "Module 4: System Design Case Studies (25 Hours)",
+            topics: ["Design Twitter", "Design a URL Shortener", "Design Netflix", "Design a Web Crawler"]
+        }
+    ],
+    instructor: {
+        name: 'Gaurav Sen',
+        designation: 'Founder, InterviewReady',
+        profile_image: 'https://picsum.photos/seed/ins17/100/100'
+    },
+    reviews: [
+        {
+            user: 'Chen W.',
+            rating: 5,
+            comment: 'The best system design resource available anywhere. The case studies are pure gold.'
+        }
+    ],
+    certificate_available: true,
+    course_link: '#',
+    image: 'https://picsum.photos/seed/sys-design/600/400'
   }
 ];
 

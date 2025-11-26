@@ -1542,5 +1542,263 @@ Cardinality defines the numerical relationship between two entities.
 You will practice creating ERDs for various business scenarios and translating them into \`CREATE TABLE\` SQL statements with appropriate primary and foreign keys.
 `
     }
+  },
+  'ui-ux-design-fundamentals': {
+    modules: {
+        0: `
+### Module 1: Introduction to UX & User-Centered Design
+
+This module unpacks the core philosophy behind User Experience (UX) design. You will learn why understanding your users is the most critical step in building a successful product.
+
+#### What is UX?
+UX design is the process design teams use to create products that provide meaningful and relevant experiences to users. This involves the design of the entire process of acquiring and integrating the product, including aspects of branding, design, usability, and function. It’s not just about how it looks, but how it feels.
+
+#### The User-Centered Design (UCD) Process
+UCD is an iterative design process in which designers focus on the users and their needs in each phase of the design process. The key phases are:
+1. **Understand Context of Use**: Who are the users? What are their goals?
+2. **Specify User Requirements**: What does the user need from the product?
+3. **Design Solutions**: Create wireframes, prototypes, and designs.
+4. **Evaluate Against Requirements**: Test the designs with real users.
+
+#### Conducting User Research
+- **Interviews**: One-on-one conversations to gain deep insights into users' thoughts, feelings, and behaviors.
+- **Surveys**: A way to gather quantitative data from a large number of users.
+- **Personas**: Fictional characters created based upon your research in order to represent the different user types that might use your service, product, site, or brand in a similar way.
+`,
+        1: `
+### Module 2: Information Architecture & Wireframing
+
+Once you understand your users, the next step is to structure your content and layout in a way that feels intuitive. This module covers how to organize information and create the blueprint for your application.
+
+#### Information Architecture (IA)
+IA is the practice of deciding how to arrange the parts of something to be understandable. For a website or app, it’s about creating a clear navigation system.
+- **Sitemaps**: A hierarchical diagram of a website or application's pages.
+- **User Flows**: A diagram that shows the path a user takes through an application to complete a task.
+
+#### Wireframing
+A wireframe is a low-fidelity, simplified outline of your product. It’s a blueprint that defines the structure, content, and functionality.
+- **Low-Fidelity Wireframes**: Basic sketches, often done with pen and paper or simple digital tools. They are quick to create and are used to explore initial ideas.
+- **High-Fidelity Wireframes**: More detailed wireframes that include more specific UI elements, typography choices, and sometimes color. They are closer to the final design.
+
+#### Prototyping
+A prototype is an interactive simulation of the final product. It allows you to test your user flows and gather feedback before any code is written.
+
+\`\`\`
+// This isn't code, but a representation of a wireframe structure.
+
+[Header: Logo, Navigation, Search Bar, Profile Icon]
+  [Hero Section: Large Image, Headline, Call-to-Action Button]
+    [Body Section: 3-column feature list]
+      [Card 1: Icon, Title, Description]
+      [Card 2: Icon, Title, Description]
+      [Card 3: Icon, Title, Description]
+[Footer: Links, Social Media Icons, Copyright]
+\`\`\`
+`,
+        2: `
+### Module 3: UI Design Principles & Design Systems
+
+This module focuses on the "look" of the User Interface (UI). You will learn the fundamental principles of visual design that make an interface beautiful, usable, and consistent.
+
+#### Core Principles of Visual Design
+- **Color Theory**: How to use color to create mood, draw attention, and indicate state. Understanding concepts like hue, saturation, and brightness.
+- **Typography**: The art of arranging text to make it legible, readable, and appealing when displayed. Learn about font pairings, hierarchy, and line length.
+- **Layout and Composition**: How to arrange elements on a screen. Learn about grids, white space, and visual hierarchy to guide the user's eye.
+- **Hierarchy**: Using size, color, and placement to show the relative importance of elements.
+
+#### Design Systems
+A design system is a collection of reusable components, guided by clear standards, that can be assembled together to build any number of applications.
+- **Benefits**: Consistency, efficiency, and scalability.
+- **Components**: Buttons, forms, modals, icons, etc.
+- **Style Guide**: Defines the rules for color, typography, spacing, etc.
+
+By creating a design system, you ensure that as the product grows, the user experience remains consistent and coherent.
+`,
+        3: `
+### Module 4: Prototyping in Figma
+
+Figma is the industry-standard tool for UI/UX design. This module is a hands-on guide to using Figma to turn your wireframes into high-fidelity, interactive prototypes.
+
+#### Figma Basics
+- **The Interface**: Navigating the canvas, layers panel, and properties panel.
+- **Frames and Shapes**: Using frames as containers for your designs and creating basic shapes.
+- **Vector Tools**: Mastering the pen tool to create custom icons and illustrations.
+
+#### Components and Styles
+- **Creating Components**: Turn any element into a reusable component. Changes to the main component will propagate to all its instances.
+- **Variants**: Create different states for a component (e.g., a button in its default, hover, and disabled state) within a single component set.
+- **Styles**: Save and reuse colors, text styles, and effects across your design file.
+
+#### Advanced Prototyping
+- **Interactions**: Link frames together to simulate user flows. Define triggers (like 'On Click' or 'While Hovering') and actions (like 'Navigate To' or 'Open Overlay').
+- **Smart Animate**: Create seamless, magical animations between frames. Figma automatically finds matching layers and animates the differences.
+
+#### Handoff
+Learn how to prepare your designs for developers. Figma's "Inspect" panel provides CSS, iOS, and Android code snippets, making the transition from design to development smoother.
+`
+    }
+  },
+  'advanced-algorithms': {
+    modules: {
+        0: `
+### Module 1: Graph Algorithms in Depth
+
+This module provides a rigorous treatment of graph theory, exploring algorithms that are fundamental to solving problems related to networks, logistics, and relationships.
+
+#### Graph Representations & Traversal
+- **Adjacency List vs. Adjacency Matrix**: Understand the trade-offs in space and time complexity for representing graphs.
+- **Breadth-First Search (BFS)**: Used for finding the shortest path in unweighted graphs. Explore its implementation using a queue.
+- **Depth-First Search (DFS)**: Used for pathfinding, cycle detection, and topological sorting. Explore its recursive and iterative implementations.
+
+#### Shortest Path Algorithms
+- **Dijkstra's Algorithm**: The classic algorithm for finding the shortest path in a weighted graph with non-negative edge weights. Learn its implementation using a priority queue for efficiency (O(E log V)).
+- **A* Search Algorithm**: An extension of Dijkstra's, A* is an informed search algorithm that uses a heuristic to guide its search towards the goal, making it faster for many pathfinding problems (e.g., in maps or games).
+- **Bellman-Ford Algorithm**: Handles graphs with negative edge weights and can detect negative cycles.
+
+#### Minimum Spanning Trees (MST)
+An MST is a subset of the edges of a connected, edge-weighted undirected graph that connects all the vertices together, without any cycles and with the minimum possible total edge weight.
+- **Prim's Algorithm**: A greedy algorithm that grows the MST from a single starting vertex.
+- **Kruskal's Algorithm**: A greedy algorithm that sorts all edges by weight and adds them to the MST if they don't form a cycle.
+`,
+        1: `
+### Module 2: Dynamic Programming
+
+Dynamic Programming (DP) is a powerful technique for solving optimization problems by breaking them down into simpler subproblems. This module teaches you how to identify and solve problems using DP.
+
+#### Identifying DP Problems
+Look for two key properties:
+1.  **Overlapping Subproblems**: The problem can be broken down into subproblems which are reused several times.
+2.  **Optimal Substructure**: The optimal solution to the overall problem can be constructed from the optimal solutions of its subproblems.
+
+#### Memoization vs. Tabulation
+- **Memoization (Top-Down)**: Solve the problem recursively, but cache the results of subproblems. It's often more intuitive to write.
+- **Tabulation (Bottom-Up)**: Solve the problem iteratively, starting with the smallest subproblems and building up to the final solution. It's often more space-efficient.
+
+#### Classic DP Problems
+- **0/1 Knapsack Problem**: Given a set of items, each with a weight and a value, determine the number of each item to include in a collection so that the total weight is less than or equal to a given limit and the total value is as large as possible.
+\`\`\`python
+def knapsack(weights, values, capacity):
+    n = len(values)
+    dp = [[0 for _ in range(capacity + 1)] for _ in range(n + 1)]
+    for i in range(1, n + 1):
+        for w in range(1, capacity + 1):
+            if weights[i-1] <= w:
+                dp[i][w] = max(values[i-1] + dp[i-1][w-weights[i-1]], dp[i-1][w])
+            else:
+                dp[i][w] = dp[i-1][w]
+    return dp[n][capacity]
+\`\`\`
+- **Longest Common Subsequence (LCS)**: Find the longest subsequence common to all sequences in a set of sequences.
+- **Coin Change Problem**: Find the number of ways to make change for a particular amount using a given set of coin denominations.
+`,
+        2: `
+### Module 3: Advanced Data Structures
+
+Go beyond arrays and hashmaps. This module introduces specialized data structures that are optimized for specific types of problems.
+
+#### Heaps and Priority Queues
+A heap is a tree-based data structure that satisfies the heap property. A **min-heap** has the smallest element at the root, while a **max-heap** has the largest. Heaps are commonly used to implement priority queues, which are essential for algorithms like Dijkstra's.
+
+#### Tries (Prefix Trees)
+A trie is a tree-like data structure that is highly efficient for storing and retrieving strings. It's commonly used for implementing autocomplete features and spell checkers. Each node represents a character, and paths from the root to a node represent a prefix.
+
+#### Segment Trees
+A segment tree is a data structure used for storing information about intervals or segments. It allows for efficient querying of range-based queries (e.g., find the sum, minimum, or maximum in a range of an array). Updates and queries can be done in O(log n) time.
+
+#### Fenwick Trees (Binary Indexed Trees)
+A Fenwick tree is another data structure that can efficiently update elements and calculate prefix sums in an array of numbers. It's often simpler to code and more space-efficient than a segment tree, but it's less flexible.
+`
+    }
+  },
+'system-design-scale': {
+    modules: {
+        0: `
+### Module 1: Foundations of Scalability
+
+This module introduces the core building blocks and principles for designing systems that can handle millions of users.
+
+#### Vertical vs. Horizontal Scaling
+- **Vertical Scaling (Scaling Up)**: Increasing the resources of a single server (e.g., adding more CPU, RAM, or storage). It's simple but has a hard limit and can be expensive.
+- **Horizontal Scaling (Scaling Out)**: Adding more servers to your pool of resources. This is the foundation of modern, large-scale systems.
+
+#### Load Balancing
+A load balancer distributes incoming network traffic across multiple servers. This ensures no single server becomes a bottleneck and improves availability and responsiveness.
+- **Strategies**: Round Robin, Least Connections, IP Hash.
+- **Levels**: L4 (Transport Layer) vs. L7 (Application Layer) load balancers.
+
+#### The CAP Theorem
+In a distributed computer system, you can only have two of the following three guarantees:
+- **Consistency**: Every read receives the most recent write or an error.
+- **Availability**: Every request receives a (non-error) response, without the guarantee that it contains the most recent write.
+- **Partition Tolerance**: The system continues to operate despite an arbitrary number of messages being dropped (or delayed) by the network between nodes.
+Since network partitions are inevitable, a distributed system must choose between consistency and availability.
+
+#### Consistent Hashing
+A technique used to distribute data across multiple servers in a way that minimizes data re-shuffling when servers are added or removed. It's crucial for services like distributed caches (e.g., Memcached) and databases (e.g., DynamoDB).
+`,
+        1: `
+### Module 2: Caching & Data Partitioning
+
+Learn how to reduce latency and handle massive datasets by implementing effective caching strategies and partitioning your data across multiple machines.
+
+#### Caching
+Caching is the process of storing copies of files or data in a temporary storage location (a cache) so that they can be accessed more quickly.
+- **Client-Side vs. Server-Side Caching**: Caching in the browser vs. caching on the server.
+- **CDN (Content Delivery Network)**: A geographically distributed network of proxy servers and their data centers used to provide high availability and performance by distributing the service spatially relative to end-users.
+- **Cache Invalidation Strategies**: Write-through, write-back, and write-around.
+- **Cache Eviction Policies**: How to decide which items to discard when the cache is full (e.g., LRU - Least Recently Used, LFU - Least Frequently Used, FIFO - First-In-First-Out).
+
+#### Data Partitioning (Sharding)
+Sharding is the process of breaking up a large database into smaller, faster, more manageable parts called data shards.
+- **Partitioning Methods**:
+  - **Horizontal Partitioning (Sharding)**: Putting different rows into different tables.
+  - **Vertical Partitioning**: Dividing a table into smaller tables that contain fewer columns.
+- **Sharding Keys**: Choosing a good sharding key (e.g., \`userId\`, \`zipcode\`) is critical to ensure an even distribution of data and queries.
+- **Challenges**: Rebalancing shards, handling hot spots (uneven distribution), and cross-shard queries.
+`,
+        2: `
+### Module 3: Communication Patterns in Distributed Systems
+
+This module explores how different parts of a distributed system talk to each other, covering synchronous and asynchronous patterns.
+
+#### Synchronous vs. Asynchronous Communication
+- **Synchronous**: The client sends a request and waits for a response. This is simple but can lead to tight coupling and poor fault tolerance.
+- **Asynchronous**: The client sends a request and does not wait for a response. This is achieved using message queues and is key to building decoupled, resilient microservices.
+
+#### Message Queues
+A message queue is a component that allows different parts of a system to communicate and process operations asynchronously.
+- **Benefits**: Decoupling, scalability, and resilience to failure.
+- **Examples**: RabbitMQ, Apache Kafka, AWS SQS.
+- **Use Cases**: Background jobs (e.g., sending an email confirmation), data streaming, and inter-service communication.
+
+#### API Design
+- **REST (Representational State Transfer)**: The standard for building web APIs, based on HTTP methods.
+- **GraphQL**: A query language for APIs that allows clients to request exactly the data they need and nothing more.
+- **gRPC (Google Remote Procedure Call)**: A high-performance, open-source universal RPC framework, often used for communication between internal microservices.
+
+#### Rate Limiting
+A crucial technique to prevent abuse (both intentional and unintentional) of your services.
+- **Algorithms**: Token Bucket, Leaky Bucket.
+- **Purpose**: Protect your backend services from being overwhelmed and ensure fair usage among users.
+`,
+        3: `
+### Module 4: System Design Case Studies
+
+Apply all the concepts learned to solve real-world system design interview problems. This module walks through the design of several well-known large-scale systems.
+
+#### The System Design Interview Framework
+1.  **Clarify Requirements**: Understand the functional and non-functional requirements (e.g., "must handle 1 million daily active users", "latency should be under 200ms").
+2.  **Back-of-the-envelope Estimation**: Estimate the scale of the system (e.g., storage needs, bandwidth, requests per second).
+3.  **High-Level Design**: Draw a high-level architecture diagram with the main components (e.g., clients, load balancers, web servers, application servers, databases).
+4.  **Deep Dive**: Go into detail on specific components. Justify your choices. Discuss bottlenecks and trade-offs.
+5.  **Identify and Resolve Bottlenecks**: Discuss potential scaling issues and how you would address them (e.g., adding a cache, sharding the database, using a CDN).
+
+#### Case Studies
+- **Design Twitter/Facebook News Feed**: How to design a system that can generate and display a personalized news feed for millions of users.
+- **Design a URL Shortener (like TinyURL)**: How to generate unique short URLs and handle billions of redirects.
+- **Design Netflix/YouTube**: How to design a video streaming service, considering storage, encoding, and content delivery.
+- **Design a Web Crawler**: How to design a system that can crawl the entire web, store the content, and build an index for a search engine.
+`
+    }
   }
 };
