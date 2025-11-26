@@ -1,4 +1,5 @@
 
+
 "use client";
 
 import { useState, useEffect } from "react";
@@ -22,6 +23,9 @@ import { updateDocumentNonBlocking } from "@/firebase/non-blocking-updates";
 import { useToast } from "@/hooks/use-toast";
 import type { User, Course } from "@/lib/users";
 import { useMemo } from "react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Users, Home, ArrowRight } from "lucide-react";
+import Link from "next/link";
 
 export default function ProfilePage() {
   const { user, isUserLoading } = useUser();
@@ -40,7 +44,13 @@ export default function ProfilePage() {
     if (!firestore) return null;
     return query(collection(firestore, 'courses'));
   }, [firestore]);
-  const { data: courses, isLoading: areCoursesLoading } = useCollection<Course>(coursesQuery);
+  const { data: coursesData, isLoading: areCoursesLoading } = useCollection<Course>(coursesQuery);
+
+  const usersQuery = useMemoFirebase(() => {
+    if (!firestore || !userData?.isAdmin) return null;
+    return query(collection(firestore, 'users'));
+  }, [firestore, userData?.isAdmin]);
+  const { data: usersData, isLoading: areUsersLoading } = useCollection<User>(usersQuery);
 
   const [selectedInterests, setSelectedInterests] = useState<string[]>([]);
 
@@ -68,35 +78,89 @@ export default function ProfilePage() {
     }
   };
   
-  const isLoading = isUserLoading || isUserDocLoading || isProgressLoading || areCoursesLoading;
+  const isLoading = isUserLoading || isUserDocLoading || isProgressLoading || areCoursesLoading || areUsersLoading;
 
   const completedCourses = useMemo(() => {
-    if (!courses || !progress) return [];
-    return courses.filter(
+    if (!coursesData || !progress) return [];
+    return coursesData.filter(
       (course) => {
         const courseProgress = progress[course.id];
         return courseProgress && courseProgress.progressPercentage === 100
       }
     );
-  }, [courses, progress]);
+  }, [coursesData, progress]);
 
   const isAdmin = userData?.isAdmin;
+  const courses = coursesData || [];
+  const users = usersData || [];
 
   return (
     <div className="space-y-6">
       <h1 className="text-2xl md:text-3xl font-headline font-semibold">Profile</h1>
       {isAdmin ? (
-          <Card>
-            <CardHeader>
-                <CardTitle>Admin Profile</CardTitle>
-                <CardDescription>
-                    You are currently logged in as an administrator.
-                </CardDescription>
-            </CardHeader>
-            <CardContent>
-                <p className="text-sm text-muted-foreground">Admin-specific profile settings and information can be displayed here. User-related sections like 'Interests' and 'Completed Courses' are hidden.</p>
-            </CardContent>
-          </Card>
+          <div className="space-y-6">
+            <Card>
+                <CardHeader>
+                    <CardTitle>Admin Information</CardTitle>
+                    <CardDescription>Your administrator account details.</CardDescription>
+                </CardHeader>
+                <CardContent className="flex items-center gap-4">
+                    <Avatar className="h-16 w-16 border">
+                        <AvatarImage src={user?.photoURL || `https://avatar.vercel.sh/${user?.uid}.png`} />
+                        <AvatarFallback>{userData?.name?.charAt(0) || 'A'}</AvatarFallback>
+                    </Avatar>
+                    <div className="space-y-1">
+                        <p className="text-xl font-semibold">{userData?.name}</p>
+                        <p className="text-muted-foreground">{userData?.email}</p>
+                    </div>
+                </CardContent>
+            </Card>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <Card>
+                    <CardHeader>
+                        <CardTitle>Platform Overview</CardTitle>
+                        <CardDescription>High-level statistics for the platform.</CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                        <div className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
+                            <div className="flex items-center gap-3">
+                                <Users className="h-5 w-5 text-muted-foreground" />
+                                <span className="font-medium">Total Users</span>
+                            </div>
+                            <span className="font-bold text-lg">{users.length}</span>
+                        </div>
+                        <div className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
+                             <div className="flex items-center gap-3">
+                                <Home className="h-5 w-5 text-muted-foreground" />
+                                <span className="font-medium">Total Courses</span>
+                            </div>
+                            <span className="font-bold text-lg">{courses.length}</span>
+                        </div>
+                    </CardContent>
+                </Card>
+                 <Card>
+                    <CardHeader>
+                        <CardTitle>Quick Actions</CardTitle>
+                        <CardDescription>Navigate to admin sections.</CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-3">
+                        <Button asChild className="w-full justify-between">
+                            <Link href="/admin/courses">
+                                <span>Manage Courses</span>
+                                <ArrowRight />
+                            </Link>
+                        </Button>
+                         <Button asChild className="w-full justify-between">
+                            <Link href="/admin/users">
+                                <span>Manage Users</span>
+                                <ArrowRight />
+                            </Link>
+                        </Button>
+                    </CardContent>
+                </Card>
+            </div>
+          </div>
       ) : (
         <Tabs defaultValue="settings" className="w-full">
             <TabsList className="grid w-full grid-cols-2 max-w-md">
