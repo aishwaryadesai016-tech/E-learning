@@ -2,30 +2,22 @@
 /**
  * This ruleset enforces a security model for an E-Learning Recommendation System.
  *
- * Core Philosophy: The security model is based on strict user ownership. All user-specific
- * data, such as profiles and course ratings, is private and can only be accessed by the
- * authenticated owner. Publicly accessible data, like the course catalog, is segregated
- * into its own top-level collection and is read-only for clients.
+ * Core Philosophy: The security model is based on strict user ownership and roles. Most
+ * user-specific data is private. An 'admin' role is introduced for content management.
+ * Publicly accessible data, like the course catalog, is read-only for clients, but
+ * writable by admins.
  *
  * Data Structure:
- * - /users/{userId}: Contains private user profile data. Each document is owned by the
- *   user corresponding to the {userId}.
- * - /ratings/{ratingId}: A top-level collection containing individual user ratings.
- *   This structure facilitates backend aggregation without exposing user data.
- * - /courses/{courseId}: A top-level collection of all available courses, intended for
- *   public read access.
+ * - /users/{userId}: Contains private user profile data. Can contain an 'isAdmin' flag.
+ * - /ratings/{ratingId}: Contains individual user ratings.
+ * - /courses/{courseId}: The public course catalog. Writable only by admins.
  *
  * Key Security Decisions:
+ * - Admin Role: A user document with `isAdmin: true` grants write access to the /courses collection.
+ *   This is checked using `get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true`.
  * - User Isolation: Users can only interact with their own data tree under /users/{userId}.
- *   They cannot read, list, or modify any other user's information.
- * - No User Listing: Listing all documents in the top-level /users collection is explicitly
- *   disallowed to protect user privacy.
- * - Public Read-Only Catalog: The /courses collection is publicly readable by anyone,
- *   including unauthenticated users, to allow browsing.
- * - Client-Side Rating Submission: Authenticated users can create ratings in the /ratings
- *   collection, but cannot read the entire collection or modify existing ratings.
- * - Path-Based Security: Ownership is determined by the {userId} in the document path or
- *   document data, which provides a fast and secure way to grant access.
+ * - No User Listing: Listing all documents in the top-level /users collection is disallowed.
+ * - Public Read-Only Catalog: The /courses collection is publicly readable by anyone.
  */
 rules_version = '2';
 service cloud.firestore {
@@ -44,31 +36,36 @@ service cloud.firestore {
 
     /**
      * Checks if the authenticated user's UID matches the provided userId.
-     * This is the primary function for establishing document ownership.
      */
     function isOwner(userId) {
       return isSignedIn() && request.auth.uid == userId;
     }
 
     /**
-     * Checks for ownership on an existing document. Used for update and delete
-     * operations to prevent acting on non-existent data.
+     * Checks if the current user has the 'isAdmin' flag set to true
+     * in their user profile document.
+     */
+    function isAdmin() {
+      // Use get() to read the user's profile from the /users collection
+      return isSignedIn() && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true;
+    }
+
+    /**
+     * Checks for ownership on an existing document.
      */
     function isExistingOwner(userId) {
       return isOwner(userId) && resource != null;
     }
     
     /**
-     * Validates that a new user document has its 'id' field set correctly,
-     * linking the document data to the authenticated user creating it.
+     * Validates that a new user document has its 'id' field set correctly.
      */
     function isValidNewUserDocument(userId) {
       return request.resource.data.id == userId;
     }
 
     /**
-     * Enforces immutability of the user 'id' field upon update, preventing
-     * the ownership link from ever being changed.
+     * Enforces immutability of the user 'id' field upon update.
      */
     function isImmutableUserDocument() {
       return request.resource.data.id == resource.data.id;
@@ -80,6 +77,7 @@ service cloud.firestore {
 
     /**
      * @description Manages user profiles. Only the authenticated owner can access their own document.
+     *              Admins cannot write to other user profiles to prevent privilege escalation.
      * @path /users/{userId}
      */
     match /users/{userId} {
@@ -91,17 +89,12 @@ service cloud.firestore {
 
     /**
      * @description Stores the public catalog of courses. Readable by anyone.
-     *              Client-side writes are limited to prevent tampering.
+     *              Client-side writes are restricted to authenticated admins.
      * @path /courses/{courseId}
      */
     match /courses/{courseId} {
       allow get, list: if true;
-      // Allow updates only by a backend process (simulated). 
-      // In a real app, this would be restricted to a service account.
-      // For now, we allow any authenticated user to update rating fields,
-      // but in a production app this should be locked down.
-      allow update: if isSignedIn();
-      allow create, delete: if false; 
+      allow create, update, delete: if isAdmin(); 
     }
       
     /**

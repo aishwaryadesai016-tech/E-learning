@@ -70,6 +70,10 @@
                     }
                 }
             }
+        },
+        "isAdmin": {
+          "type": "boolean",
+          "description": "Indicates if the user has administrative privileges."
         }
       },
       "required": [
