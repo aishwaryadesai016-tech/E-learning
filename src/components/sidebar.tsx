@@ -1,8 +1,7 @@
-
 'use client'
 
 import Link from "next/link";
-import { Home, LayoutDashboard, User as UserIcon, LogOut, Sparkles, Shield } from "lucide-react";
+import { Home, LayoutDashboard, User as UserIcon, LogOut, Sparkles, Shield, Users } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { UserInfo } from "./user-info";
@@ -13,14 +12,20 @@ import { useRouter } from "next/navigation";
 import type { User } from "@/lib/users";
 import { doc } from "firebase/firestore";
 
-const navLinks = [
+const userNavLinks = [
     { href: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
     { href: "/recommendations", icon: Sparkles, label: "For You" },
     { href: "/courses", icon: Home, label: "All Courses" },
     { href: "/profile", icon: UserIcon, label: "Profile" },
 ];
 
-const adminLink = { href: "/admin", icon: Shield, label: "Admin" };
+const adminNavLinks = [
+    { href: "/admin", icon: LayoutDashboard, label: "Dashboard", exact: true },
+    { href: "/admin/courses", icon: Home, label: "Manage Courses" },
+    { href: "/admin/users", icon: Users, label: "Manage Users" },
+    { href: "/profile", icon: UserIcon, label: "Profile" },
+];
+
 
 export function Sidebar() {
     const pathname = usePathname();
@@ -42,37 +47,33 @@ export function Sidebar() {
         router.push('/login');
     };
 
+    const isAdmin = userData?.isAdmin;
+    const navLinks = isAdmin ? adminNavLinks : userNavLinks;
+
+
     return (
         <div className="h-full flex flex-col bg-card text-card-foreground border-r">
             <div className="flex-1 overflow-y-auto pt-4">
                 <nav className="grid items-start px-2 text-sm font-medium lg:px-4 gap-2">
-                    {navLinks.map((link) => (
-                        <Link
-                            key={link.href}
-                            href={link.href}
-                            className={cn(
-                            "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary",
-                            (pathname.startsWith(link.href) && link.href !== '/') && "bg-muted text-primary",
-                            pathname === '/' && link.href === '/courses' && 'bg-muted text-primary'
-                            )}
-                        >
-                            <link.icon className="h-4 w-4" />
-                            {link.label}
-                        </Link>
-                    ))}
-                    {userData?.isAdmin && (
-                         <Link
-                            key={adminLink.href}
-                            href={adminLink.href}
-                            className={cn(
-                            "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary",
-                            (pathname.startsWith(adminLink.href)) && "bg-muted text-primary"
-                            )}
-                        >
-                            <adminLink.icon className="h-4 w-4" />
-                            {adminLink.label}
-                        </Link>
-                    )}
+                    {navLinks.map((link) => {
+                        const isActive = link.exact 
+                            ? pathname === link.href 
+                            : pathname.startsWith(link.href);
+                        
+                        return (
+                            <Link
+                                key={link.href}
+                                href={link.href}
+                                className={cn(
+                                "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary",
+                                isActive && "bg-muted text-primary"
+                                )}
+                            >
+                                <link.icon className="h-4 w-4" />
+                                {link.label}
+                            </Link>
+                        )
+                    })}
                 </nav>
             </div>
             

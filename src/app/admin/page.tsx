@@ -1,4 +1,3 @@
-
 "use client";
 
 import {
@@ -9,95 +8,39 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { MoreHorizontal, PlusCircle } from "lucide-react";
+import { Home, PlusCircle, Users } from "lucide-react";
 import type { Course } from "@/lib/courses";
-import Image from "next/image";
-import { Badge } from "@/components/ui/badge";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
+import type { User } from "@/lib/users";
 import Link from "next/link";
 import { useCollection, useFirestore, useMemoFirebase } from "@/firebase";
-import { collection, query, orderBy } from "firebase/firestore";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { DeleteCourseDialog } from "@/components/delete-course-dialog";
-import { useState } from "react";
+import { collection, query } from "firebase/firestore";
 import { Skeleton } from "@/components/ui/skeleton";
+import { CourseCard } from "@/components/course-card";
 
 function AdminDashboardSkeleton() {
     return (
         <div className="flex flex-col gap-6">
              <div className="flex items-center justify-between">
                 <div>
-                    <h1 className="text-2xl font-semibold md:text-3xl font-headline">
-                        Admin Dashboard
-                    </h1>
-                    <p className="text-muted-foreground">Manage courses and platform content.</p>
+                    <Skeleton className="h-8 w-64 mb-2" />
+                    <Skeleton className="h-5 w-80" />
                 </div>
-                 <Button disabled>
-                    <PlusCircle className="mr-2 h-4 w-4" />
-                    Add New Course
-                </Button>
             </div>
-            <Card>
-                <CardHeader>
-                    <CardTitle>Manage Courses</CardTitle>
-                    <CardDescription>
-                        Here you can view, edit, or delete existing courses.
-                    </CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <Table>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead className="hidden w-[100px] sm:table-cell">
-                                    <span className="sr-only">Image</span>
-                                </TableHead>
-                                <TableHead>Title</TableHead>
-                                <TableHead>Category</TableHead>
-                                <TableHead className="hidden md:table-cell">
-                                    Rating
-                                </TableHead>
-                                <TableHead>
-                                    <span className="sr-only">Actions</span>
-                                </TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {[...Array(5)].map((_, i) => (
-                                <TableRow key={i}>
-                                    <TableCell className="hidden sm:table-cell">
-                                        <Skeleton className="h-16 w-16 rounded-md" />
-                                    </TableCell>
-                                    <TableCell>
-                                        <Skeleton className="h-5 w-48" />
-                                    </TableCell>
-                                    <TableCell>
-                                        <Skeleton className="h-5 w-24" />
-                                    </TableCell>
-                                    <TableCell className="hidden md:table-cell">
-                                        <Skeleton className="h-5 w-12" />
-                                    </TableCell>
-                                    <TableCell>
-                                        <Skeleton className="h-8 w-8 rounded-md" />
-                                    </TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </CardContent>
-            </Card>
+             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                <Skeleton className="h-28 w-full" />
+                <Skeleton className="h-28 w-full" />
+                <Skeleton className="h-28 w-full" />
+            </div>
+
+            <div className="flex items-center justify-between mt-4">
+                <Skeleton className="h-8 w-48" />
+                <Skeleton className="h-10 w-36" />
+            </div>
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                <Skeleton className="h-96 w-full" />
+                <Skeleton className="h-96 w-full" />
+                <Skeleton className="h-96 w-full" />
+            </div>
         </div>
     )
 }
@@ -105,124 +48,90 @@ function AdminDashboardSkeleton() {
 
 export default function AdminDashboardPage() {
     const firestore = useFirestore();
-    const [courseToDelete, setCourseToDelete] = useState<Course | null>(null);
 
     const coursesQuery = useMemoFirebase(() => {
         if (!firestore) return null;
-        return query(collection(firestore, 'courses'), orderBy('title'));
+        return query(collection(firestore, 'courses'));
     }, [firestore]);
+     const { data: coursesData, isLoading: isCoursesLoading } = useCollection<Course>(coursesQuery);
 
-    const { data: coursesData, isLoading } = useCollection<Course>(coursesQuery);
+    const usersQuery = useMemoFirebase(() => {
+        if (!firestore) return null;
+        return query(collection(firestore, 'users'));
+    }, [firestore]);
+    const { data: usersData, isLoading: isUsersLoading } = useCollection<User>(usersQuery);
+   
+
+    const isLoading = isCoursesLoading || isUsersLoading;
 
     if (isLoading) {
         return <AdminDashboardSkeleton />;
     }
 
     const courses = coursesData || [];
+    const users = usersData || [];
+    const recentCourses = courses.slice(0, 4);
 
     return (
-        <>
-            <div className="flex flex-col gap-6">
-                <div className="flex items-center justify-between">
-                    <div>
-                        <h1 className="text-2xl font-semibold md:text-3xl font-headline">
-                            Admin Dashboard
-                        </h1>
-                        <p className="text-muted-foreground">Manage courses and platform content.</p>
-                    </div>
-                    <Button asChild>
-                        <Link href="/admin/courses/new">
-                            <PlusCircle className="mr-2 h-4 w-4" />
-                            Add New Course
-                        </Link>
-                    </Button>
-                </div>
-                
+        <div className="flex flex-col gap-6">
+            <div>
+                <h1 className="text-2xl font-semibold md:text-3xl font-headline">
+                    Admin Dashboard
+                </h1>
+                <p className="text-muted-foreground">Welcome! Here's an overview of your platform.</p>
+            </div>
+
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                 <Card>
-                    <CardHeader>
-                        <CardTitle>Manage Courses</CardTitle>
-                        <CardDescription>
-                            Here you can view, edit, or delete existing courses.
-                        </CardDescription>
+                    <CardHeader className="flex flex-row items-center justify-between pb-2">
+                        <CardTitle className="text-sm font-medium">Total Courses</CardTitle>
+                        <Home className="h-4 w-4 text-muted-foreground" />
                     </CardHeader>
                     <CardContent>
-                        <Table>
-                            <TableHeader>
-                                <TableRow>
-                                <TableHead className="hidden w-[100px] sm:table-cell">
-                                    <span className="sr-only">Image</span>
-                                </TableHead>
-                                <TableHead>Title</TableHead>
-                                <TableHead>Category</TableHead>
-                                <TableHead className="hidden md:table-cell">
-                                    Rating
-                                </TableHead>
-                                <TableHead>
-                                    <span className="sr-only">Actions</span>
-                                </TableHead>
-                                </TableRow>
-                            </TableHeader>
-                            <TableBody>
-                            {courses.map(course => (
-                                <TableRow key={course.id}>
-                                    <TableCell className="hidden sm:table-cell">
-                                        <Image
-                                            alt={course.title}
-                                            className="aspect-square rounded-md object-cover"
-                                            height="64"
-                                            src={course.image || 'https://picsum.photos/seed/placeholder/64/64'}
-                                            width="64"
-                                        />
-                                    </TableCell>
-                                    <TableCell className="font-medium">
-                                        {course.title}
-                                    </TableCell>
-                                    <TableCell>
-                                        <Badge variant="outline">{course.category}</Badge>
-                                    </TableCell>
-                                    <TableCell className="hidden md:table-cell">
-                                        {course.rating.toFixed(1)}
-                                    </TableCell>
-                                    <TableCell>
-                                        <DropdownMenu>
-                                            <DropdownMenuTrigger asChild>
-                                            <Button
-                                                aria-haspopup="true"
-                                                size="icon"
-                                                variant="ghost"
-                                            >
-                                                <MoreHorizontal className="h-4 w-4" />
-                                                <span className="sr-only">Toggle menu</span>
-                                            </Button>
-                                            </DropdownMenuTrigger>
-                                            <DropdownMenuContent align="end">
-                                            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                                            <DropdownMenuItem asChild>
-                                                <Link href={`/admin/courses/${course.id}/edit`}>Edit</Link>
-                                            </DropdownMenuItem>
-                                            <DropdownMenuItem
-                                                className="text-destructive"
-                                                onClick={() => setCourseToDelete(course)}
-                                            >
-                                                Delete
-                                            </DropdownMenuItem>
-                                            </DropdownMenuContent>
-                                        </DropdownMenu>
-                                    </TableCell>
-                                </TableRow>
-                            ))}
-                            </TableBody>
-                        </Table>
+                        <div className="text-2xl font-bold">{courses.length}</div>
                     </CardContent>
                 </Card>
-
+                 <Card>
+                    <CardHeader className="flex flex-row items-center justify-between pb-2">
+                        <CardTitle className="text-sm font-medium">Total Users</CardTitle>
+                        <Users className="h-4 w-4 text-muted-foreground" />
+                    </CardHeader>
+                    <CardContent>
+                        <div className="text-2xl font-bold">{users.length}</div>
+                    </CardContent>
+                </Card>
+                 <Card>
+                    <CardHeader className="flex flex-row items-center justify-between pb-2">
+                        <CardTitle className="text-sm font-medium">New Course</CardTitle>
+                         <PlusCircle className="h-4 w-4 text-muted-foreground" />
+                    </CardHeader>
+                    <CardContent>
+                        <Button size="sm" className="w-full" asChild>
+                           <Link href="/admin/courses/new">
+                                Add New Course
+                           </Link>
+                        </Button>
+                    </CardContent>
+                </Card>
             </div>
-            {courseToDelete && (
-                <DeleteCourseDialog
-                    course={courseToDelete}
-                    onOpenChange={(isOpen) => !isOpen && setCourseToDelete(null)}
-                />
-            )}
-        </>
+
+            <div>
+                <div className="flex items-center justify-between mb-4 mt-4">
+                    <h2 className="text-xl font-semibold font-headline">Recently Added Courses</h2>
+                    <Button variant="outline" asChild>
+                        <Link href="/admin/courses">View All Courses</Link>
+                    </Button>
+                </div>
+                {recentCourses.length > 0 ? (
+                    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                        {recentCourses.map((course) => (
+                        <CourseCard key={course.id} course={course} />
+                        ))}
+                    </div>
+                ) : (
+                    <p className="text-muted-foreground text-center py-8">No courses have been added yet.</p>
+                )}
+            </div>
+        </div>
     )
 }
